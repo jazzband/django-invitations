@@ -1,0 +1,4 @@
+{% load i18n %}
+{% autoescape off %}
+{% blocktrans %}Invitation to - {{ email }} - has been accepted{% endblocktrans %}
+{% endautoescape %}
