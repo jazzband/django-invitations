@@ -73,7 +73,7 @@ class Invitation(models.Model):
         return u"Invite: {}".format(self.email)
 
 
-class DjangvitationAdapter(DefaultAccountAdapter):
+class InvitationsAdapter(DefaultAccountAdapter):
 
     def is_open_for_signup(self, request):
         if request.session.get('account_verified_email'):

@@ -21,7 +21,7 @@ pip install django-invitations
 'invitations',
 
 # Add to settings.py, django-allauth setting
-ACCOUNT_ADAPTER = 'invitations.models.DjangvitationAdapter'
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 # Append to urls.py
 url(r'^invitations/', include('invitations.urls', namespace='invitations')),
