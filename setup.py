@@ -1,9 +1,9 @@
 from distutils.core import setup
-from setuptools import setup, find_packages
+from setuptools import setup
 
 setup(
   name = 'django-invitations',
-  packages=find_packages(),
+  packages=['invitations'],
   include_package_data=True,
   package_data={'invitations': ['templates/invitations/*.*']},
   zip_safe=False,

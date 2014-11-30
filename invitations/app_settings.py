@@ -9,7 +9,7 @@ class AppSettings(object):
 
     @property
     def ALLOWED_GROUPS(self):
-        """ Users in this group can send tweets """
+        """ Users in this group can send invites """
         return self._setting('ALLOWED_GROUPS', None)
 
     @property
