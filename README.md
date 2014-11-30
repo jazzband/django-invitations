@@ -17,7 +17,7 @@ Invitation flow:
 ```
 pip install django-invitations
 
-# Add to settings.py, INSTALLED_APPS
+# Add to settings.py (after all-auth), INSTALLED_APPS
 'invitations',
 
 # Add to settings.py, django-allauth setting

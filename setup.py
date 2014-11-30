@@ -5,7 +5,7 @@ setup(
   name = 'django-invitations',
   packages=find_packages(),
   include_package_data=True,
-  package_data={'invitations': ['templates/*.*']},
+  package_data={'invitations': ['templates/invitations/*.*']},
   zip_safe=False,
   version = '0.1',
   description = 'Django invitation integration for django-allauth',
@@ -17,6 +17,6 @@ setup(
   classifiers = [],
   install_requires=[
     'django-allauth>=0.18.0',
-    'django-braces==1.4.0',
+    'django-braces>=1.4.0',
   ],
 )
