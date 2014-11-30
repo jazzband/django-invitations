@@ -1,7 +1,9 @@
 from distutils.core import setup
+from setuptools import setup, find_packages
+
 setup(
   name = 'django-invitations',
-  packages = ['django-invitations'],
+  packages=find_packages(),
   version = '0.1',
   description = 'Django invitation integration for django-allauth',
   author = 'https://github.com/bee-keeper',
