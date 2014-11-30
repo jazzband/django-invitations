@@ -4,8 +4,8 @@ from setuptools import setup
 setup(
   name = 'django-invitations',
   packages=['invitations'],
+  package_data={'invitations': ['templates/*.*']},
   include_package_data=True,
-  package_data={'invitations': ['templates/invitations/*.*']},
   zip_safe=False,
   version = '0.1',
   description = 'Django invitation integration for django-allauth',

@@ -57,7 +57,7 @@ class Invitation(models.Model):
             'key': self.key,
         }
 
-        email_template = 'email/email_invite'
+        email_template = 'invitations/email/email_invite'
 
         get_adapter().send_mail(email_template,
                                 self.email,

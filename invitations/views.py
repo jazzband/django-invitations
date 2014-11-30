@@ -13,7 +13,7 @@ from . import app_settings, signals
 
 
 class SendInvite(LoginRequiredMixin, GroupRequiredMixin, FormView):
-    template_name = 'forms/_invite.html'
+    template_name = 'invitations/forms/_invite.html'
     form_class = InviteForm
 
     if app_settings.ALLOWED_GROUPS:
@@ -57,7 +57,7 @@ class AcceptInvite(SingleObjectMixin, View):
 
         get_adapter().add_message(self.request,
                                   messages.SUCCESS,
-                                  'messages/invite_accepted.txt',
+                                  'invitations/messages/invite_accepted.txt',
                                   {'email': invitation.email})
 
         return redirect(app_settings.SIGNUP_REDIRECT)
