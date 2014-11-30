@@ -11,4 +11,4 @@ invitations/signals.py
 invitations/tests.py
 invitations/urls.py
 invitations/views.py
-recursive-include invitations/templates/*
+recursive-include invitations/templates *
