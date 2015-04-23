@@ -27,6 +27,9 @@ ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 url(r'^invitations/', include('invitations.urls', namespace='invitations')),
 ```
 
+###Testing
+
+`python manage.py test`
 
 ###Additional Configuration
 

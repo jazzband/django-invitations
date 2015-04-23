@@ -1,0 +1,2 @@
+Django>=1.6
+django-allauth>=0.19.1
