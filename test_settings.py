@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-
 SECRET_KEY = 'not_empty'
 SITE_ID = 1
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 DATABASES = {
     'default': {
@@ -34,6 +34,7 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -49,6 +50,7 @@ INSTALLED_APPS = (
     'allauth',
     'allauth.account',
     'invitations',
+    'django_nose',
 )
 
 AUTHENTICATION_BACKENDS = (
@@ -56,7 +58,7 @@ AUTHENTICATION_BACKENDS = (
     'allauth.account.auth_backends.AuthenticationBackend',
 )
 
-ACCOUNT_ADAPTER = 'invitations.model.InvitationsAdapter'
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 
 #STATIC_ROOT = '/tmp/'  # Dummy

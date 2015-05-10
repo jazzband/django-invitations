@@ -1,16 +1,17 @@
 import datetime
 
 from django.test import TestCase
+from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.utils import timezone
+from django.core.urlresolvers import reverse
 
-from models import Invitation
+from allauth.account.adapter import get_adapter
+
+from models import Invitation, InvitationsAdapter
 from . import app_settings
 
 
-@override_settings(
-    INVITATIONS_INVITATION_ONLY=True
-)
 class InvitationModelTests(TestCase):
 
     def setUp(self):
@@ -30,4 +31,20 @@ class InvitationModelTests(TestCase):
 
 
 class InvitationsAdapterTests(TestCase):
-    pass
+
+    def setUp(self):
+        self.adapter = get_adapter()
+        self.signup_request = RequestFactory().get(reverse(
+            'account_signup', urlconf='allauth.account.urls'))
+
+    def test_fetch_adapter(self):
+        assert isinstance(self.adapter, InvitationsAdapter)
+
+    def test_adapter_default_signup(self):
+        assert self.adapter.is_open_for_signup(self.signup_request) is True
+
+    @override_settings(
+        INVITATIONS_INVITATION_ONLY=True
+    )
+    def test_adapter_invitations_only(self):
+        assert self.adapter.is_open_for_signup(self.signup_request) is False

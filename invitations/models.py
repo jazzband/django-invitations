@@ -41,7 +41,6 @@ class Invitation(models.Model):
             self.sent + datetime.timedelta(
                 days=app_settings.INVITATION_EXPIRY))
         return expiration_date <= timezone.now()
-    #  key_expired.boolean = True
 
     def send_invitation(self, request, **kwargs):
         current_site = (kwargs['site'] if 'site' in kwargs
@@ -76,8 +75,7 @@ class Invitation(models.Model):
 class InvitationsAdapter(DefaultAccountAdapter):
 
     def is_open_for_signup(self, request):
-        if request.session.get('account_verified_email'):
-            #  mail = request.session.get('account_verified_email')
+        if hasattr(request, 'session') and request.session.get('account_verified_email'):
             return True
         elif app_settings.INVITATION_ONLY is True:
             # Site is ONLY open for invites
