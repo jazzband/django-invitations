@@ -10,4 +10,4 @@ install:
 branches:
  only:
   - devel 
-script: cd invitations && manage.py test
+script: invitations/manage.py test
