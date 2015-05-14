@@ -3,9 +3,18 @@ class AppSettings(object):
     def __init__(self, prefix):
         self.prefix = prefix
 
+    """
     def _setting(self, name, dflt):
         from django.conf import settings
         return getattr(settings, self.prefix + name, dflt)
+    """
+
+    def _setting(self, name, dflt):
+        from django.conf import settings
+        getter = getattr(settings,
+                         'INVITATIONS_SETTING_GETTER',
+                         lambda name, dflt: getattr(settings, name, dflt))
+        return getter(self.prefix + name, dflt)
 
     @property
     def ALLOWED_GROUPS(self):
@@ -16,7 +25,7 @@ class AppSettings(object):
     def INVITATION_EXPIRY(self):
         """ How long before the invitation expires """
         return self._setting('INVITATION_EXPIRY', 3)
-    
+
     @property
     def INVITATION_ONLY(self):
         """ Signup is invite only """
