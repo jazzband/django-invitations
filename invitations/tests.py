@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from allauth.account.adapter import get_adapter
 
 from .models import Invitation, InvitationsAdapter
-from . import app_settings as inv_app_settings
+from . import app_settings
 
 
 class InvitationModelTests(TestCase):
@@ -23,10 +23,10 @@ class InvitationModelTests(TestCase):
 
     def test_invitation_key_expiry(self):
         self.invitation.sent = timezone.now() - datetime.timedelta(
-            days=inv_app_settings.INVITATION_EXPIRY, minutes=1)
+            days=app_settings.INVITATION_EXPIRY, minutes=1)
         assert self.invitation.key_expired() is True
         self.invitation.sent = timezone.now() - datetime.timedelta(
-            days=inv_app_settings.INVITATION_EXPIRY, minutes=-1)
+            days=app_settings.INVITATION_EXPIRY, minutes=-1)
         assert self.invitation.key_expired() is False
 
 
