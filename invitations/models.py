@@ -69,7 +69,7 @@ class Invitation(models.Model):
             invite_url_sent=invite_url)
 
     def __str__(self):
-        return u"Invite: {0}".format(self.email)
+        return "Invite: {0}".format(self.email).encode('utf8')
 
 
 class InvitationsAdapter(DefaultAccountAdapter):
