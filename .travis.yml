@@ -10,4 +10,4 @@ install:
 branches:
  only:
   - devel 
-script: sh -c 'cd invitations && python manage.py test'
+script: python manage.py test
