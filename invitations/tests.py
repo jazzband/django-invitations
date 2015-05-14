@@ -9,7 +9,7 @@ from django.core.urlresolvers import reverse
 from allauth.account.adapter import get_adapter
 
 from .models import Invitation, InvitationsAdapter
-from .app_settings import app_settings as inv_app_settings
+from . import app_settings as inv_app_settings
 
 
 class InvitationModelTests(TestCase):
