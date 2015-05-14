@@ -8,7 +8,7 @@ from django.core.urlresolvers import reverse
 
 from allauth.account.adapter import get_adapter
 
-from models import Invitation, InvitationsAdapter
+from .models import Invitation, InvitationsAdapter
 from . import app_settings
 
 
