@@ -3,18 +3,9 @@ class AppSettings(object):
     def __init__(self, prefix):
         self.prefix = prefix
 
-    """
     def _setting(self, name, dflt):
         from django.conf import settings
         return getattr(settings, self.prefix + name, dflt)
-    """
-
-    def _setting(self, name, dflt):
-        from django.conf import settings
-        getter = getattr(settings,
-                         'INVITATIONS_SETTING_GETTER',
-                         lambda name, dflt: getattr(settings, name, dflt))
-        return getter(self.prefix + name, dflt)
 
     @property
     def ALLOWED_GROUPS(self):
@@ -41,8 +32,8 @@ class AppSettings(object):
         """ Where to redirect on email confirm of invite """
         return self._setting('SIGNUP_REDIRECT', 'account_signup')
 
-
-import sys
 app_settings = AppSettings('INVITATIONS_')
-app_settings.__name__ = __name__
-sys.modules[__name__] = app_settings
+
+
+def get_app_settings():
+    return app_settings
