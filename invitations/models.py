@@ -56,6 +56,9 @@ class Invitation(models.Model):
             'email': self.email,
             'key': self.key,
         }
+        extra_email_context = kwargs.get('extra_email_context', {})
+        if extra_email_context and isinstance(extra_email_context, dict):
+            ctx.update(extra_email_context)
 
         email_template = 'invitations/email/email_invite'
 
