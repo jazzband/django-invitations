@@ -16,8 +16,7 @@ class InviteForm(AddEmailForm):
                                  " invited."),
         }
 
-        if Invitation.objects.filter(email__iexact=value,
-                                     accepted=False):
+        if Invitation.objects.filter(email__iexact=value).exists():
             raise forms.ValidationError(errors["already_invited"])
 
         return value
