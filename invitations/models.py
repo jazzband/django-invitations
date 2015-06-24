@@ -63,10 +63,12 @@ class Invitation(models.Model):
                                 ctx)
         self.sent = timezone.now()
         self.save()
+
         signals.invite_url_sent.send(
             sender=self.__class__,
             instance=self,
-            invite_url_sent=invite_url)
+            invite_url_sent=invite_url,
+            inviter=request.user)
 
     def __str__(self):
         return "Invite: {0}".format(self.email).encode('utf8')
