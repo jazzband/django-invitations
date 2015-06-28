@@ -22,4 +22,4 @@ script: python manage.py test
 matrix:
   exclude:
     - python: "2.6"
-      env: DJANGO=Django>1.7
+      env: DJANGO=Django<1.7
