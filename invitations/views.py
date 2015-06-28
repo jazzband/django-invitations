@@ -9,7 +9,8 @@ from allauth.account.adapter import get_adapter
 
 from .forms import InviteForm
 from .models import Invitation
-from . import app_settings, signals
+from . import signals
+from app_settings import app_settings
 
 
 class SendInvite(LoginRequiredMixin, GroupRequiredMixin, FormView):
@@ -50,7 +51,7 @@ class AcceptInvite(SingleObjectMixin, View):
         invitation.accepted = True
         invitation.save()
         get_adapter().stash_verified_email(self.request, invitation.email)
-        
+
         signals.invite_accepted.send(sender=self.request.user.__class__,
                                      request=self.request,
                                      email=invitation.email)

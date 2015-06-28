@@ -33,7 +33,3 @@ class AppSettings(object):
         return self._setting('SIGNUP_REDIRECT', 'account_signup')
 
 app_settings = AppSettings('INVITATIONS_')
-
-
-def get_app_settings():
-    return app_settings

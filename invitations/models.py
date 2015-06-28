@@ -12,7 +12,7 @@ from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.adapter import get_adapter
 
 from .managers import InvitationManager
-from .app_settings import get_app_settings
+from .app_settings import app_settings
 from . import signals
 
 
@@ -39,7 +39,7 @@ class Invitation(models.Model):
     def key_expired(self):
         expiration_date = (
             self.sent + datetime.timedelta(
-                days=get_app_settings().INVITATION_EXPIRY))
+                days=app_settings.INVITATION_EXPIRY))
         return expiration_date <= timezone.now()
 
     def send_invitation(self, request, **kwargs):
@@ -79,7 +79,7 @@ class InvitationsAdapter(DefaultAccountAdapter):
     def is_open_for_signup(self, request):
         if hasattr(request, 'session') and request.session.get('account_verified_email'):
             return True
-        elif get_app_settings().INVITATION_ONLY is True:
+        elif app_settings.INVITATION_ONLY is True:
             # Site is ONLY open for invites
             return False
         else:
