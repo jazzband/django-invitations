@@ -10,7 +10,7 @@ from allauth.account.adapter import get_adapter
 from .forms import InviteForm
 from .models import Invitation
 from . import signals
-from app_settings import app_settings
+from .app_settings import app_settings
 
 
 class SendInvite(LoginRequiredMixin, GroupRequiredMixin, FormView):
