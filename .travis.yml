@@ -16,7 +16,6 @@ install:
  - pip install -r requirements.txt
 branches:
  only:
-  - devel
   - master
 script: python manage.py test
 matrix:
