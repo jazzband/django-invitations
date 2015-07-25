@@ -8,11 +8,6 @@ class AppSettings(object):
         return getattr(settings, self.prefix + name, dflt)
 
     @property
-    def ALLOWED_GROUPS(self):
-        """ Users in this group can send invites """
-        return self._setting('ALLOWED_GROUPS', None)
-
-    @property
     def INVITATION_EXPIRY(self):
         """ How long before the invitation expires """
         return self._setting('INVITATION_EXPIRY', 3)

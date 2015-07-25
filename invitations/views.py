@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect
 
-from braces.views import LoginRequiredMixin, GroupRequiredMixin
+from braces.views import LoginRequiredMixin
 from allauth.account.adapter import get_adapter
 
 from .forms import InviteForm
@@ -13,12 +13,9 @@ from . import signals
 from .app_settings import app_settings
 
 
-class SendInvite(LoginRequiredMixin, GroupRequiredMixin, FormView):
+class SendInvite(LoginRequiredMixin, FormView):
     template_name = 'invitations/forms/_invite.html'
     form_class = InviteForm
-
-    if app_settings.ALLOWED_GROUPS:
-        group_required = app_settings.ALLOWED_GROUPS
 
     def form_valid(self, form):
         email = form.cleaned_data["email"]

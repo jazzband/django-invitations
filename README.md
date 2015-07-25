@@ -34,10 +34,6 @@ url(r'^invitations/', include('invitations.urls', namespace='invitations')),
 
 ###Additional Configuration
 
-**INVITATIONS_ALLOWED_GROUPS** (default=None)
-
-List, tuple or string.  Users in this group will be allowed to send invites.
-
 **INVITATIONS_INVITATION_EXPIRY** (default=3)
 
 Integer.  How many days before the invitation expires.
