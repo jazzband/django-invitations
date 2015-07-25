@@ -6,13 +6,11 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
-from django.conf.urls import patterns, url, include
 
 from allauth.account.adapter import get_adapter
 
 from .models import Invitation, InvitationsAdapter
 from .app_settings import app_settings
-#import invitations.urls
 
 
 class InvitationModelTests(TestCase):
