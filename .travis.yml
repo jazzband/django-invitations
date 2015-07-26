@@ -8,10 +8,12 @@ env:
   matrix:
    - DJANGO="Django<1.7"
    - DJANGO="Django<1.8"
+   - DJANGO="Django<1.9"
 install:
  - pip install $DJANGO
  - pip install -r requirements.txt
 branches:
  only:
+  - devel
   - master
 script: python manage.py test
