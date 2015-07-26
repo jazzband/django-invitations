@@ -1,4 +1,5 @@
 django-allauth>=0.19.1
+django<1.8
 pytest>=2.7
 django-nose>=1.4
 nose>=1.3
