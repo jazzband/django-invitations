@@ -1,16 +1,19 @@
 from django.contrib import admin
 
 from .models import Invitation
-from .forms import InviteModelForm
+from .forms import InvitationAdminAddForm, InvitationAdminChangeForm
+
 
 class InvitationAdmin(admin.ModelAdmin):
     list_display = ('email', 'sent', 'accepted')
-    form = InviteModelForm
 
     def get_form(self, request, obj=None, **kwargs):
-		form = super(InvitationAdmin, self).get_form(request, **kwargs)
-		form.user = request.user
-		form.request = request
-		return form
+        if obj:
+            kwargs['form'] = InvitationAdminChangeForm
+        else:
+            kwargs['form'] = InvitationAdminAddForm
+            kwargs['form'].user = request.user
+            kwargs['form'].request = request
+        return super(InvitationAdmin, self).get_form(request, obj, **kwargs)
 
 admin.site.register(Invitation, InvitationAdmin)
