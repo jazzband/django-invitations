@@ -7,7 +7,7 @@ A Django invite app for the excellent [django-allauth](https://github.com/penner
 
 Invitation flow:
 
-* Priviledged user invites prospective user by email
+* Priviledged user invites prospective user by email (either via Django admin or via dedicated form post)
 * User receives invitation email with confirmation link
 * User clicks link, their email is confirmed and they are redirected to signup
 * Confirmed email is prefilled, and upon signing up with their password they are logged into the site
