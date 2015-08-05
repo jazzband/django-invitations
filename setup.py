@@ -6,7 +6,7 @@ setup(
     package_data={'invitations': ['templates/*.*']},
     include_package_data=True,
     zip_safe=False,
-    version='1.0',
+    version='1.1',
     description='Django invitation integration for django-allauth',
     author='https://github.com/bee-keeper',
     author_email='none@none.com',
