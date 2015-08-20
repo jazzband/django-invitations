@@ -1,8 +1,8 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans with current_site.name as site_name %}
+{% blocktrans %}
 
-Hello, 
+Hello,
 
 You ({{ email }}) have been invited to join {{ site_name }}
 

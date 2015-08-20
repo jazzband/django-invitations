@@ -62,9 +62,12 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'allauth',
     'allauth.account',
+    'allauth.socialaccount',
     'invitations',
     'django_nose',
 )
+
+EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',

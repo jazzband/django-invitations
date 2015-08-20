@@ -1,6 +1,8 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+
 from allauth.account.adapter import get_adapter
+
 from .models import Invitation
 
 
@@ -13,8 +15,8 @@ class CleanEmailMixin(object):
             "already_invited": _("This e-mail address has already been"
                                  " invited."),
         }
-        if Invitation.objects.filter(email__iexact=value,
-                                     accepted=False):
+
+        if Invitation.objects.filter(email__iexact=value, accepted=False):
             raise forms.ValidationError(errors["already_invited"])
 
         return value

@@ -51,16 +51,17 @@ class Invitation(models.Model):
 
         ctx = {
             'invite_url': invite_url,
-            'current_site': current_site,
+            'site_name': current_site.name,
             'email': self.email,
             'key': self.key,
         }
 
         email_template = 'invitations/email/email_invite'
 
-        get_adapter().send_mail(email_template,
-                                self.email,
-                                ctx)
+        get_adapter().send_mail(
+            email_template,
+            self.email,
+            ctx)
         self.sent = timezone.now()
         self.save()
 

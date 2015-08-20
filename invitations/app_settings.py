@@ -20,7 +20,7 @@ class AppSettings(object):
     @property
     def CONFIRM_INVITE_ON_GET(self):
         """ Simple get request confirms invite """
-        return self._setting('CONFIRM_EMAIL_ON_GET', True)
+        return self._setting('CONFIRM_INVITE_ON_GET', True)
 
     @property
     def SIGNUP_REDIRECT(self):
