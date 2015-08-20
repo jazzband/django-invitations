@@ -169,8 +169,8 @@ class InvitationsAcceptViewTests(TestCase):
         form = resp.context_data['form']
         assert 'email@example.com' == form.fields['email'].initial
         messages = resp.context['messages']
-        assert ([message.message for message in messages]
-                == [u'Invitation to - email@example.com - has been accepted'])
+        message_text = [message.message for message in messages]
+        assert message_text == [u'Invitation to - email@example.com - has been accepted']
 
         resp = self.client.post(
             reverse('account_signup'),
