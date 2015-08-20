@@ -1,4 +1,4 @@
-##Django-invitations - Django invitation integration for django-allauth
+##Django-invitations - Invitation integration for django-allauth
 
 [![Build Status](https://travis-ci.org/bee-keeper/django-invitations.svg?branch=devel)](https://travis-ci.org/bee-keeper/django-invitations)
 
