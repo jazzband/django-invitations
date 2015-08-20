@@ -102,11 +102,8 @@ class InvitationsSendViewTests(TestCase):
         resp = self.client.post(
             reverse('invitations:send-invite'), {'email': email})
 
-        if error:
-            form = resp.context_data['form']
-            assert error in form.errors['email'][0]
-        else:
-            print Invitation.objects.all()
+        form = resp.context_data['form']
+        assert error in form.errors['email'][0]
 
     @freeze_time('2015-07-30 12:00:06')
     def test_valid_form_submission(self):
