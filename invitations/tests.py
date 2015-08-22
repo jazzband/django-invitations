@@ -70,6 +70,9 @@ class InvitationsAdapterTests(TestCase):
     )
     def test_adapter_invitations_only(self):
         assert self.adapter.is_open_for_signup(self.signup_request) is False
+        response = self.client.get(
+            reverse('account_signup'))
+        assert 'Sign Up Closed' in response.content
 
 
 class InvitationsSendViewTests(TestCase):
@@ -160,8 +163,8 @@ class InvitationsAcceptViewTests(TestCase):
     def test_accept_invite(self, method):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite', kwargs={'key': self.invitation.key}),
-            follow=True)
+            reverse('invitations:accept-invite',
+                    kwargs={'key': self.invitation.key}), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
         assert invite.accepted is True
         assert resp.request['PATH_INFO'] == reverse('account_signup')
@@ -182,3 +185,14 @@ class InvitationsAcceptViewTests(TestCase):
 
         allauth_email_obj = EmailAddress.objects.get(email='email@example.com')
         assert allauth_email_obj.verified is True
+
+    @override_settings(
+        INVITATIONS_SIGNUP_REDIRECT='/non-existent-url/'
+    )
+    def test_signup_redirect(self):
+        resp = self.client.post(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': self.invitation.key}), follow=True)
+        invite = Invitation.objects.get(email='email@example.com')
+        assert invite.accepted is True
+        assert resp.request['PATH_INFO'] == '/non-existent-url/'
