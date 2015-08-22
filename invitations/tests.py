@@ -72,7 +72,7 @@ class InvitationsAdapterTests(TestCase):
         assert self.adapter.is_open_for_signup(self.signup_request) is False
         response = self.client.get(
             reverse('account_signup'))
-        assert 'Sign Up Closed' in response.content
+        assert 'Sign Up Closed' in response.content.decode('utf8')
 
 
 class InvitationsSendViewTests(TestCase):
