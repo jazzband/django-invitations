@@ -1,4 +1,5 @@
 .DS_Store
 *.pyc
-dist
+.tox/
+dist/
 django_invitations.egg-info/
