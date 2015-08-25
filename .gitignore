@@ -2,4 +2,5 @@
 *.pyc
 .tox/
 dist/
+.coverage/
 django_invitations.egg-info/
