@@ -30,7 +30,7 @@ url(r'^invitations/', include('invitations.urls', namespace='invitations')),
 
 ###Testing
 
-`python manage.py test`
+`python manage.py test` or `tox`
 
 ###Additional Configuration
 
