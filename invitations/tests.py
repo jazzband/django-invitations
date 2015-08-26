@@ -1,5 +1,6 @@
 import datetime
 import re
+from mock import patch
 
 from django.test import TestCase
 from django.test.client import RequestFactory
@@ -7,6 +8,7 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 
 from allauth.account.adapter import get_adapter
@@ -196,3 +198,48 @@ class InvitationsAcceptViewTests(TestCase):
         invite = Invitation.objects.get(email='email@example.com')
         assert invite.accepted is True
         assert resp.request['PATH_INFO'] == '/non-existent-url/'
+
+
+class InvitationsSignalTests(TestCase):
+
+    @patch('invitations.signals.invite_url_sent.send')
+    def test_invite_url_sent_triggered_correctly(self, mock_signal):
+        invite = Invitation.create('email@example.com')
+        invite_url = reverse('invitations:accept-invite', args=[invite.key])
+
+        request = RequestFactory().get('/')
+        request.user = 'monkey'
+        invite_url = request.build_absolute_uri(invite_url)
+
+        invite.send_invitation(request)
+
+        assert mock_signal.called is True
+        assert mock_signal.call_count == 1
+
+        mock_signal.assert_called_with(
+            instance=invite,
+            invite_url_sent=invite_url,
+            inviter='monkey',
+            sender=Invitation,
+        )
+
+        invite.delete()
+
+    @patch('invitations.signals.invite_accepted.send')
+    def test_invite_invite_accepted_triggered_correctly(self, mock_signal):
+        invite = Invitation.create('email@example.com')
+        request = RequestFactory().get('/')
+        request.user = 'monkey'
+        invite.send_invitation(request)
+
+        self.client.post(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': invite.key}), follow=True)
+
+        self.assertTrue(mock_signal.called)
+        self.assertEqual(mock_signal.call_count, 1)
+
+        assert mock_signal.call_args[1]['email'] == 'email@example.com'
+        assert mock_signal.call_args[1]['sender'] == AnonymousUser
+
+        invite.delete()
