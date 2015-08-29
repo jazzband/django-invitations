@@ -1,0 +1,134 @@
+Changelog
+=========
+
+%%version%% (unreleased)
+------------------------
+
+- Dropping support for python 3.2. [bee_keeper]
+
+- site_name passed to tpl rather than current_site obj
+
+- Accepted signal sender is now invitations view
+
+- Signal test coverage [bee_keeper]
+
+- Tox+travis. [bee-keeper]
+
+- Test for signup redirect. [bee_keeper]
+
+- More Tests and bug fixes. [bee-keeper]
+
+1.1 (2015-08-05)
+----------------
+
+- V 1.1. [bee_keeper]
+
+- Readme. [bee_keeper]
+
+- Modified PR (15) + editorconfig. [bee_keeper]
+
+- Merge branch 'nwaxiomatic-master' [bee_keeper]
+
+- Admin invitations. [Nic]
+
+  sends invitations from admin on save
+
+1.0 (2015-07-26)
+----------------
+
+- Release 1.0. [bee_keeper]
+
+- Requirements. [bee_keeper]
+
+- Changing travis supported versions. [bee_keeper]
+
+- Remove 2.6 from testing. [bee_keeper]
+
+- Test settings. [bee_keeper]
+
+- Requirements.txt. [bee_keeper]
+
+- Travis. [bee_keeper]
+
+- Removing uneeded imports. [bee_keeper]
+
+- Removed ALLOWED_GROUPS setting. [bee_keeper]
+
+- Merge pull request #12 from tbarbugli/patch-1. [bee-keeper]
+
+  fix invite form
+
+- Fix invite form. [Tommaso Barbugli]
+
+- Update views.py. [bee-keeper]
+
+- App settings. [bee_keeper]
+
+- Merge pull request #6 from simonv3/master. [bee-keeper]
+
+  # Redo pull request of adding inviter to signal.
+
+- Add reference to inviter in signal. [Simon]
+
+- .travis.yml. [bee_keeper]
+
+- .travis.yml. [bee_keeper]
+
+- Readme. [bee_keeper]
+
+- Fixing py3.2 import issues. [bee_keeper]
+
+- Invitations/app_settings.py. [bee_keeper]
+
+- Py3.2 issue. [bee_keeper]
+
+- Typo with import. [bee_keeper]
+
+- Module object has no attribute issue with 3.2. [bee_keeper]
+
+- Fixes import issue. [bee_keeper]
+
+- Py 3.2 unicode issue. [bee_keeper]
+
+- Travis. [bee_keeper]
+
+- Travis config. [bee_keeper]
+
+- Py3.2 format. [bee_keeper]
+
+- Test settings and more test coverage. [bee_keeper]
+
+- Tests and refactoring. [bee_keeper]
+
+- New style migrations. [bee_keeper]
+
+0.12 (2014-11-30)
+-----------------
+
+- Release. [bee_keeper]
+
+0.11 (2014-11-30)
+-----------------
+
+- Template paths. [bee_keeper]
+
+- Setup.py. [bee_keeper]
+
+- Packaging. [bee_keeper]
+
+- Versions. [bee_keeper]
+
+0.1 (2014-11-30)
+----------------
+
+- Packaging. [bee_keeper]
+
+- Include templates in package. [bee_keeper]
+
+- Packaging. [bee_keeper]
+
+- Template path. [bee_keeper]
+
+- Name changes. [bee_keeper]
+
+

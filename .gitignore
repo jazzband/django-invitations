@@ -4,3 +4,6 @@
 dist/
 .coverage/
 django_invitations.egg-info/
+.gitchangelog.rc
+.python-version
+

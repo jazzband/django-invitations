@@ -8,7 +8,6 @@ from django.test.utils import override_settings
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
-from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 
 from allauth.account.adapter import get_adapter
@@ -18,6 +17,7 @@ from nose_parameterized import parameterized
 
 from .models import Invitation, InvitationsAdapter
 from .app_settings import app_settings
+from .views import AcceptInvite
 
 
 class InvitationModelTests(TestCase):
@@ -35,18 +35,18 @@ class InvitationModelTests(TestCase):
 
     @freeze_time('2015-07-30 12:00:06')
     def test_create_invitation(self):
-        assert self.invitation.email == 'email@example.com'
-        assert self.invitation.key is not None
-        assert self.invitation.accepted is False
-        assert self.invitation.created == datetime.datetime.now()
+        self.assertEqual(self.invitation.email, 'email@example.com')
+        self.assertIsNotNone(self.invitation.key)
+        self.assertFalse(self.invitation.accepted)
+        self.assertEqual(self.invitation.created, datetime.datetime.now())
 
     def test_invitation_key_expiry(self):
         self.invitation.sent = timezone.now() - datetime.timedelta(
             days=app_settings.INVITATION_EXPIRY, minutes=1)
-        assert self.invitation.key_expired() is True
+        self.assertTrue(self.invitation.key_expired())
         self.invitation.sent = timezone.now() - datetime.timedelta(
             days=app_settings.INVITATION_EXPIRY, minutes=-1)
-        assert self.invitation.key_expired() is False
+        self.assertFalse(self.invitation.key_expired())
 
 
 class InvitationsAdapterTests(TestCase):
@@ -62,19 +62,19 @@ class InvitationsAdapterTests(TestCase):
         del cls.adapter
 
     def test_fetch_adapter(self):
-        assert isinstance(self.adapter, InvitationsAdapter)
+        self.assertIsInstance(self.adapter, InvitationsAdapter)
 
     def test_adapter_default_signup(self):
-        assert self.adapter.is_open_for_signup(self.signup_request) is True
+        self.assertTrue(self.adapter.is_open_for_signup(self.signup_request))
 
     @override_settings(
         INVITATIONS_INVITATION_ONLY=True
     )
     def test_adapter_invitations_only(self):
-        assert self.adapter.is_open_for_signup(self.signup_request) is False
+        self.assertFalse(self.adapter.is_open_for_signup(self.signup_request))
         response = self.client.get(
             reverse('account_signup'))
-        assert 'Sign Up Closed' in response.content.decode('utf8')
+        self.assertIn('Sign Up Closed', response.content.decode('utf8'))
 
 
 class InvitationsSendViewTests(TestCase):
@@ -95,8 +95,8 @@ class InvitationsSendViewTests(TestCase):
         response = self.client.post(
             reverse('invitations:send-invite'), {'email': 'valid@example.com'},
             follow=True)
-        assert response.status_code == 200
-        assert response.template_name == ['account/login.html']
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.template_name, ['account/login.html'])
 
     @parameterized.expand([
         ('invalid@example', 'Enter a valid email address'),
@@ -108,7 +108,7 @@ class InvitationsSendViewTests(TestCase):
             reverse('invitations:send-invite'), {'email': email})
 
         form = resp.context_data['form']
-        assert error in form.errors['email'][0]
+        self.assertIn(error, form.errors['email'][0])
 
     @freeze_time('2015-07-30 12:00:06')
     def test_valid_form_submission(self):
@@ -117,15 +117,17 @@ class InvitationsSendViewTests(TestCase):
             reverse('invitations:send-invite'), {'email': 'email@example.com'})
         invitation = Invitation.objects.get(email='email@example.com')
 
-        assert resp.status_code == 200
-        assert 'success_message' in resp.context_data.keys()
+        self.assertEqual(resp.status_code, 200)
+        self.assertIn('success_message', resp.context_data.keys())
 
-        assert invitation.sent == datetime.datetime.now()
-        assert len(mail.outbox) == 1
-        assert mail.outbox[0].to[0] == 'email@example.com'
-        assert 'Invitation to join example.com' in mail.outbox[0].subject
-        url = re.search("(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
-        assert url == reverse('invitations:accept-invite', kwargs={'key': invitation.key})
+        self.assertEqual(invitation.sent, datetime.datetime.now())
+        self.assertEqual(len(mail.outbox), 1)
+        self.assertEqual(mail.outbox[0].to[0], 'email@example.com')
+        self.assertIn('Invitation to join example.com', mail.outbox[0].subject)
+        url = re.search(
+            "(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
+        self.assertEqual(url, reverse(
+            'invitations:accept-invite', kwargs={'key': invitation.key}))
 
 
 class InvitationsAcceptViewTests(TestCase):
@@ -143,9 +145,10 @@ class InvitationsAcceptViewTests(TestCase):
     )
     def test_accept_invite_get_disabled(self):
         resp = self.client.get(
-            reverse('invitations:accept-invite', kwargs={'key': self.invitation.key}),
+            reverse(
+                'invitations:accept-invite', kwargs={'key': self.invitation.key}),
             follow=True)
-        assert resp.status_code == 404
+        self.assertEqual(resp.status_code, 404)
 
     @parameterized.expand([
         ('get'),
@@ -156,7 +159,7 @@ class InvitationsAcceptViewTests(TestCase):
         resp = client_with_method(
             reverse('invitations:accept-invite', kwargs={'key': 'invalidKey'}),
             follow=True)
-        assert resp.status_code == 404
+        self.assertEqual(resp.status_code, 404)
 
     @parameterized.expand([
         ('get'),
@@ -168,14 +171,14 @@ class InvitationsAcceptViewTests(TestCase):
             reverse('invitations:accept-invite',
                     kwargs={'key': self.invitation.key}), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
-        assert invite.accepted is True
-        assert resp.request['PATH_INFO'] == reverse('account_signup')
+        self.assertTrue(invite.accepted)
+        self.assertEqual(resp.request['PATH_INFO'], reverse('account_signup'))
 
         form = resp.context_data['form']
-        assert 'email@example.com' == form.fields['email'].initial
+        self.assertEqual('email@example.com', form.fields['email'].initial)
         messages = resp.context['messages']
         message_text = [message.message for message in messages]
-        assert message_text == ['Invitation to - email@example.com - has been accepted']
+        self.assertEqual(message_text, ['Invitation to - email@example.com - has been accepted'])
 
         resp = self.client.post(
             reverse('account_signup'),
@@ -186,7 +189,7 @@ class InvitationsAcceptViewTests(TestCase):
              })
 
         allauth_email_obj = EmailAddress.objects.get(email='email@example.com')
-        assert allauth_email_obj.verified is True
+        self.assertTrue(allauth_email_obj.verified)
 
     @override_settings(
         INVITATIONS_SIGNUP_REDIRECT='/non-existent-url/'
@@ -196,8 +199,8 @@ class InvitationsAcceptViewTests(TestCase):
             reverse('invitations:accept-invite',
                     kwargs={'key': self.invitation.key}), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
-        assert invite.accepted is True
-        assert resp.request['PATH_INFO'] == '/non-existent-url/'
+        self.assertTrue(invite.accepted)
+        self.assertEqual(resp.request['PATH_INFO'], '/non-existent-url/')
 
 
 class InvitationsSignalTests(TestCase):
@@ -213,8 +216,8 @@ class InvitationsSignalTests(TestCase):
 
         invite.send_invitation(request)
 
-        assert mock_signal.called is True
-        assert mock_signal.call_count == 1
+        self.assertTrue(mock_signal.called)
+        self.assertEqual(mock_signal.call_count, 1)
 
         mock_signal.assert_called_with(
             instance=invite,
@@ -239,7 +242,38 @@ class InvitationsSignalTests(TestCase):
         self.assertTrue(mock_signal.called)
         self.assertEqual(mock_signal.call_count, 1)
 
-        assert mock_signal.call_args[1]['email'] == 'email@example.com'
-        assert mock_signal.call_args[1]['sender'] == AnonymousUser
+        self.assertEqual(mock_signal.call_args[1]['email'], 'email@example.com')
+        self.assertEqual(
+            mock_signal.call_args[1]['sender'], AcceptInvite)
 
         invite.delete()
+
+
+class InvitationsManagerTests(TestCase):
+
+    @classmethod
+    def setUpClass(cls):
+        cls.invitation1 = Invitation.create('email1@example.com')
+        cls.invitation2 = Invitation.create('email2@example.com')
+        cls.invitation3 = Invitation.create('email3@example.com')
+        cls.invitation4 = Invitation.create('email4@example.com')
+        cls.invitation1.accepted = True
+        cls.invitation1.save()
+        cls.invitation2.sent = timezone.now() - datetime.timedelta(
+            days=app_settings.INVITATION_EXPIRY + 1)
+        cls.invitation2.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        Invitation.objects.all().delete()
+
+    def test_managers(self):
+        valid = Invitation.objects.all_valid().values_list(
+            'email', flat=True)
+        expired = Invitation.objects.all_expired().values_list(
+            'email', flat=True)
+        expected_valid = ['email3@example.com', 'email4@example.com']
+        expected_expired = ['email1@example.com', 'email2@example.com']
+
+        self.assertEqual(sorted(valid), sorted(expected_valid))
+        self.assertEqual(sorted(expired), sorted(expected_expired))
