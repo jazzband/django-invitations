@@ -60,3 +60,9 @@ Expired and accepted invites can be cleared as so:
 
 `python manage.py clear_expired_invitations`
 
+
+###Roadmap
+
+* Add json endpoints
+* Add more error messages when sending invitations
+* Refactor to make an generic invitations app with pluggable backends
