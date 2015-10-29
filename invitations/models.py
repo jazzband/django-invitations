@@ -72,7 +72,7 @@ class Invitation(models.Model):
             inviter=request.user)
 
     def __str__(self):
-        return "Invite: {0}".format(self.email).encode('utf8')
+        return "Invite: {0}".format(self.email)
 
 
 class InvitationsAdapter(DefaultAccountAdapter):
