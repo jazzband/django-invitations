@@ -16,7 +16,8 @@ class InvitationManager(models.Manager):
         return self.exclude(self.expired_q())
 
     def expired_q(self):
-        sent_threshold = timezone.now() - timedelta(days=app_settings.INVITATION_EXPIRY)
+        sent_threshold = timezone.now() - timedelta(
+            days=app_settings.INVITATION_EXPIRY)
         q = Q(accepted=True) | Q(sent__lt=sent_threshold)
         return q
 
