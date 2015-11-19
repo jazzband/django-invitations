@@ -23,7 +23,7 @@ class SendInvite(LoginRequiredMixin, FormView):
         try:
             invite = form.save(email)
             invite.send_invitation(self.request)
-        except Exception as e:
+        except Exception:
             return self.form_invalid(form)
 
         return self.render_to_response(

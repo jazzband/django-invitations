@@ -146,7 +146,8 @@ class InvitationsAcceptViewTests(TestCase):
     def test_accept_invite_get_disabled(self):
         resp = self.client.get(
             reverse(
-                'invitations:accept-invite', kwargs={'key': self.invitation.key}),
+                'invitations:accept-invite',
+                kwargs={'key': self.invitation.key}),
             follow=True)
         self.assertEqual(resp.status_code, 404)
 
@@ -178,7 +179,9 @@ class InvitationsAcceptViewTests(TestCase):
         self.assertEqual('email@example.com', form.fields['email'].initial)
         messages = resp.context['messages']
         message_text = [message.message for message in messages]
-        self.assertEqual(message_text, ['Invitation to - email@example.com - has been accepted'])
+        self.assertEqual(
+            message_text, [
+                'Invitation to - email@example.com - has been accepted'])
 
         resp = self.client.post(
             reverse('account_signup'),
@@ -242,7 +245,8 @@ class InvitationsSignalTests(TestCase):
         self.assertTrue(mock_signal.called)
         self.assertEqual(mock_signal.call_count, 1)
 
-        self.assertEqual(mock_signal.call_args[1]['email'], 'email@example.com')
+        self.assertEqual(
+            mock_signal.call_args[1]['email'], 'email@example.com')
         self.assertEqual(
             mock_signal.call_args[1]['sender'], AcceptInvite)
 

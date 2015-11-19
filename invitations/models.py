@@ -78,7 +78,8 @@ class Invitation(models.Model):
 class InvitationsAdapter(DefaultAccountAdapter):
 
     def is_open_for_signup(self, request):
-        if hasattr(request, 'session') and request.session.get('account_verified_email'):
+        if hasattr(request, 'session') and request.session.get(
+                'account_verified_email'):
             return True
         elif app_settings.INVITATION_ONLY is True:
             # Site is ONLY open for invites
