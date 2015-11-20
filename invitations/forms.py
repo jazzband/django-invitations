@@ -4,22 +4,39 @@ from django.utils.translation import ugettext_lazy as _
 from allauth.account.adapter import get_adapter
 
 from .models import Invitation
+from .exceptions import AlreadyInvited, AlreadyAccepted
 
 
 class CleanEmailMixin(object):
 
+    def validate_invitation(self, email):
+        if Invitation.objects.all_valid().filter(
+                email__iexact=email, accepted=False):
+            raise AlreadyInvited
+        elif Invitation.objects.filter(
+                email__iexact=email, accepted=True):
+            raise AlreadyAccepted
+        else:
+            return True
+
     def clean_email(self):
-        value = self.cleaned_data["email"]
-        value = get_adapter().clean_email(value)
+        email = self.cleaned_data["email"]
+        email = get_adapter().clean_email(email)
+
         errors = {
             "already_invited": _("This e-mail address has already been"
                                  " invited."),
+            "already_accepted": _("This e-mail address has already"
+                                  " accepted an invite."),
         }
-
-        if Invitation.objects.filter(email__iexact=value, accepted=False):
+        try:
+            self.validate_invitation(email)
+        except(AlreadyInvited):
             raise forms.ValidationError(errors["already_invited"])
+        except(AlreadyAccepted):
+            raise forms.ValidationError(errors["already_accepted"])
 
-        return value
+        return email
 
 
 class InviteForm(forms.Form, CleanEmailMixin):

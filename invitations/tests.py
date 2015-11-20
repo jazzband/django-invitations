@@ -1,5 +1,6 @@
 import datetime
 import re
+import json
 from mock import patch
 
 from django.test import TestCase
@@ -9,6 +10,7 @@ from django.utils import timezone
 from django.core.urlresolvers import reverse
 from django.contrib.auth import get_user_model
 from django.core import mail
+from django.contrib.auth.models import AnonymousUser
 
 from allauth.account.adapter import get_adapter
 from allauth.account.models import EmailAddress
@@ -17,7 +19,8 @@ from nose_parameterized import parameterized
 
 from .models import Invitation, InvitationsAdapter
 from .app_settings import app_settings
-from .views import AcceptInvite
+from .views import AcceptInvite, SendJSONInvite
+from .forms import InviteForm
 
 
 class InvitationModelTests(TestCase):
@@ -253,6 +256,36 @@ class InvitationsSignalTests(TestCase):
         invite.delete()
 
 
+class InvitationsFormTests(TestCase):
+
+    @classmethod
+    def setUp(cls):
+        cls.accepted_invite = Invitation.create('already@accepted.com')
+        cls.accepted_invite.accepted = True
+        cls.accepted_invite.save()
+        pending_invite = Invitation.create('pending@example.com')
+        pending_invite.sent = timezone.now() - datetime.timedelta(
+            days=app_settings.INVITATION_EXPIRY - 1)
+        pending_invite.save()
+
+    @classmethod
+    def tearDownClass(cls):
+        Invitation.objects.all().delete()
+
+    @parameterized.expand([
+        ('bogger@something.com', True, None),
+        ('already@accepted.com', False, 'has already accepted an invite'),
+        ('pending@example.com', False, 'has already been invited'),
+    ])
+    def test_form(self, email, form_validity, errors):
+        form = InviteForm(data={'email': email})
+        if errors:
+            assert errors in str(form.errors)
+        else:
+            self.assertEqual(form.errors, {})
+        self.assertEqual(form.is_valid(), form_validity)
+
+
 class InvitationsManagerTests(TestCase):
 
     @classmethod
@@ -281,3 +314,87 @@ class InvitationsManagerTests(TestCase):
 
         self.assertEqual(sorted(valid), sorted(expected_valid))
         self.assertEqual(sorted(expired), sorted(expected_expired))
+
+
+class InvitationsJSONTests(TestCase):
+
+    @classmethod
+    def setUp(cls):
+        cls.user = get_user_model().objects.create_user(
+            username='flibble',
+            password='password')
+        cls.accepted_invite = Invitation.create('already@accepted.com')
+        cls.accepted_invite.accepted = True
+        cls.accepted_invite.save()
+        Invitation.create('email3@example.com')
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.user.delete()
+        Invitation.objects.all().delete()
+
+    @parameterized.expand([
+        (['already@accepted.com'],
+         {u'valid': [],
+          u'invalid': [{u'already@accepted.com': u'already accepted'}]},
+         400),
+        (['xample.com'],
+         {u'valid': [], u'invalid': [{u'xample.com': u'invalid email'}]},
+         400),
+        ('xample.com',
+         {u'valid': [], u'invalid': []},
+         400),
+        (['email3@example.com'],
+         {u'valid': [],
+          u'invalid': [{u'email3@example.com': u'pending invite'}]},
+         400),
+        (['example@example.com'],
+         {u'valid': [{u'example@example.com': u'invited'}],
+          u'invalid': []},
+         201),
+    ])
+    @override_settings(
+        INVITATIONS_ALLOW_JSON_INVITES=True
+    )
+    def test_post(self, data, expected, status_code):
+        self.client.login(username='flibble', password='password')
+        response = self.client.post(
+            reverse('invitations:send-json-invite'),
+            data=json.dumps(data),
+            content_type='application/json')
+
+        self.assertEqual(response.status_code, status_code)
+        self.assertEqual(json.loads(response.content.decode()), expected)
+
+    def test_json_setting(self):
+        self.client.login(username='flibble', password='password')
+        response = self.client.post(
+            reverse('invitations:send-json-invite'),
+            data=json.dumps(['example@example.com']),
+            content_type='application/json')
+
+        self.assertEqual(response.status_code, 404)
+
+    @override_settings(
+        INVITATIONS_ALLOW_JSON_INVITES=True
+    )
+    def test_anonymous_get(self):
+        request = RequestFactory().get(
+            reverse('invitations:send-json-invite'),
+            content_type='application/json')
+        request.user = AnonymousUser()
+        response = SendJSONInvite.as_view()(request)
+
+        self.assertEqual(response.status_code, 302)
+
+    @override_settings(
+        INVITATIONS_ALLOW_JSON_INVITES=True
+    )
+    def test_authenticated_get(self):
+        request = RequestFactory().get(
+            reverse('invitations:send-json-invite'),
+            content_type='application/json')
+        request.user = self.user
+        response = SendJSONInvite.as_view()(request)
+
+        self.assertEqual(response.status_code, 405)
