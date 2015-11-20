@@ -42,6 +42,10 @@ Integer.  How many days before the invitation expires.
 
 Boolean.  If the site is invite only, or open to all.
 
+**ALLOW_JSON_INVITES** (default=False)
+
+Expose a URL for authenticated posting of invitees
+
 **INVITATIONS_SIGNUP_REDIRECT** (default='account_signup')
 
 URL name of your signup URL.
