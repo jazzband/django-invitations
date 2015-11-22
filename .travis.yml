@@ -1,20 +1,29 @@
 language: python
 
 env:
- - TOX_ENV=py27-django16
- - TOX_ENV=py27-django17
- - TOX_ENV=py27-django18
- - TOX_ENV=py33-django16
- - TOX_ENV=py33-django17
- - TOX_ENV=py33-django18
- - TOX_ENV=py34-django16
- - TOX_ENV=py34-django17
- - TOX_ENV=py34-django18
- - TOX_ENV=flake8
+  matrix:
+    - TOX_ENV=py27-django16
+    - TOX_ENV=py27-django17
+    - TOX_ENV=py27-django18
+    - TOX_ENV=py27-django19
+    - TOX_ENV=py33-django16
+    - TOX_ENV=py33-django17
+    - TOX_ENV=py33-django18
+    - TOX_ENV=py34-django16
+    - TOX_ENV=py34-django17
+    - TOX_ENV=py34-django18
+    - TOX_ENV=py34-django19
+    - TOX_ENV=flake8
+matrix:
+  include:
+    - python: "3.5"
+      env: TOX_ENV=py35-django18
+    - python: "3.5"
+      env: TOX_ENV=py35-django19
 
 install:
- - pip install tox
- - pip install flake8
+  - pip install tox
+  - pip install flake8
 
 branches:
   - devel
