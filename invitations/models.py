@@ -7,6 +7,7 @@ from django.utils.crypto import get_random_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
+from django.conf import settings
 
 from allauth.account.adapter import DefaultAccountAdapter
 from allauth.account.adapter import get_adapter
@@ -25,15 +26,17 @@ class Invitation(models.Model):
                                    default=timezone.now)
     key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
     sent = models.DateTimeField(verbose_name=_('sent'), null=True)
+    inviter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
 
     objects = InvitationManager()
 
     @classmethod
-    def create(cls, email):
+    def create(cls, email, user=None):
         key = get_random_string(64).lower()
         instance = cls._default_manager.create(
             email=email,
-            key=key)
+            key=key,
+            inviter=user)
         return instance
 
     def key_expired(self):
@@ -54,6 +57,7 @@ class Invitation(models.Model):
             'site_name': current_site.name,
             'email': self.email,
             'key': self.key,
+            'inviter': self.inviter,
         }
 
         email_template = 'invitations/email/email_invite'

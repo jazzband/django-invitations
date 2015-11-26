@@ -4,19 +4,70 @@ Changelog
 %%version%% (unreleased)
 ------------------------
 
+- Added inviter to invitation. [bee_keeper]
+
+- Merge pull request #21 from bee-keeper/devel. [bee-keeper]
+
+  Support for django1.9
+
+- Testing for django1.9 and python 3.5. [bee_keeper]
+
+- Merge pull request #20 from bee-keeper/devel. [bee-keeper]
+
+  Added json endpoint for invites
+
+- Added json endpoint for invites. [bee_keeper]
+
+- Merge pull request #19 from bee-keeper/devel. [bee-keeper]
+
+  Made accept trailing slash optional
+
+- Made trailing slash optional and added flake8 to CI. [bee_keeper]
+
+  Bumped to version 1.3
+
+- Update models.py. [bee-keeper]
+
+- Roadmap. [bee_keeper]
+
+1.2 (2015-08-29)
+----------------
+
+- Test coverage done, ready for 1.2 release. [bee_keeper]
+
 - Dropping support for python 3.2. [bee_keeper]
 
-- site_name passed to tpl rather than current_site obj
+- Dropping support for python 3.2. [bee_keeper]
 
-- Accepted signal sender is now invitations view
+- Signal test coverage, tweaking tox. [bee_keeper]
 
-- Signal test coverage [bee_keeper]
+- Coverage. [bee-keeper]
 
 - Tox+travis. [bee-keeper]
 
+- Tox. [bee-keeper]
+
+- Tox+travis. [bee-keeper]
+
+- Testing tox+travis. [bee-keeper]
+
+- Testing tox+travis. [bee-keeper]
+
+- Tox file. [bee_keeper]
+
+- Py3 fix. [bee_keeper]
+
 - Test for signup redirect. [bee_keeper]
 
-- More Tests and bug fixes. [bee-keeper]
+- Update README.md. [bee-keeper]
+
+- Py 3.2. [bee_keeper]
+
+- Py 3.2. [bee-keeper]
+
+- Print. [bee-keeper]
+
+- Tests and bug fixes. [bee-keeper]
 
 1.1 (2015-08-05)
 ----------------
@@ -42,7 +93,13 @@ Changelog
 
 - Changing travis supported versions. [bee_keeper]
 
+- Travis. [bee_keeper]
+
+- Travis. [bee_keeper]
+
 - Remove 2.6 from testing. [bee_keeper]
+
+- Requirements and changelog. [bee_keeper]
 
 - Test settings. [bee_keeper]
 
@@ -61,6 +118,18 @@ Changelog
 - Fix invite form. [Tommaso Barbugli]
 
 - Update views.py. [bee-keeper]
+
+- Teavis. [bee_keeper]
+
+- Travis. [bee_keeper]
+
+- Travis. [bee_keeper]
+
+- Travis. [bee_keeper]
+
+- Travis. [bee_keeper]
+
+- Travis. [bee_keeper]
 
 - App settings. [bee_keeper]
 
@@ -96,11 +165,25 @@ Changelog
 
 - Py3.2 format. [bee_keeper]
 
+- .travis.yml. [bee_keeper]
+
+- .travis.yml. [bee_keeper]
+
+- .travis.yml. [bee_keeper]
+
+- .travs.yml. [bee_keeper]
+
+- .travis.yml. [bee_keeper]
+
+- .travis.yml. [bee_keeper]
+
 - Test settings and more test coverage. [bee_keeper]
 
 - Tests and refactoring. [bee_keeper]
 
 - New style migrations. [bee_keeper]
+
+- 1.7 style migrations. [bee_keeper]
 
 0.12 (2014-11-30)
 -----------------
@@ -126,6 +209,8 @@ Changelog
 - Include templates in package. [bee_keeper]
 
 - Packaging. [bee_keeper]
+
+- Template path. [bee_keeper]
 
 - Template path. [bee_keeper]
 
