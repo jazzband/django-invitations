@@ -1,6 +1,8 @@
 ##Django-invitations - Invitation integration for django-allauth
 
-[![Build Status](https://travis-ci.org/bee-keeper/django-invitations.svg?branch=devel)](https://travis-ci.org/bee-keeper/django-invitations)
+[![Build Status](https://travis-ci.org/bee-keeper/django-invitations.svg?branch=master)](https://travis-ci.org/bee-keeper/django-invitations)
+
+[![Coverage Status](https://coveralls.io/repos/bee-keeper/django-invitations/badge.svg?branch=devel&service=github)](https://coveralls.io/github/bee-keeper/django-invitations?branch=devel)
 
 ###About
 A Django invite app for the excellent [django-allauth](https://github.com/pennersr/django-allauth).  All emails and messages are fully customisable.
