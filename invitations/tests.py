@@ -87,11 +87,15 @@ class InvitationsSendViewTests(TestCase):
         cls.user = get_user_model().objects.create_user(
             username='flibble',
             password='password')
+        cls.existing_user = get_user_model().objects.create_user(
+            username='flobble',
+            password='password',
+            email='flobble@example.com')
         cls.invitation = Invitation.create('invited@example.com')
 
     @classmethod
     def tearDownClass(cls):
-        cls.user.delete()
+        get_user_model().objects.all().delete()
         Invitation.objects.all().delete()
 
     def test_auth(self):
@@ -104,6 +108,7 @@ class InvitationsSendViewTests(TestCase):
     @parameterized.expand([
         ('invalid@example', 'Enter a valid email address'),
         ('invited@example.com', 'This e-mail address has already been'),
+        ('flobble@example.com', 'An active user is')
     ])
     def test_invalid_form_submissions(self, email, error):
         self.client.login(username='flibble', password='password')
@@ -137,10 +142,14 @@ class InvitationsAcceptViewTests(TestCase):
 
     @classmethod
     def setUpClass(cls):
-        cls.invitation = Invitation.create('email@example.com')
+        cls.user = get_user_model().objects.create_user(
+            username='flibble',
+            password='password')
+        cls.invitation = Invitation.create('email@example.com', user=cls.user)
 
     @classmethod
     def tearDownClass(cls):
+        get_user_model().objects.all().delete()
         Invitation.objects.all().delete()
 
     @override_settings(
@@ -176,6 +185,7 @@ class InvitationsAcceptViewTests(TestCase):
                     kwargs={'key': self.invitation.key}), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
         self.assertTrue(invite.accepted)
+        self.assertEqual(invite.inviter, self.user)
         self.assertEqual(resp.request['PATH_INFO'], reverse('account_signup'))
 
         form = resp.context_data['form']
@@ -267,15 +277,21 @@ class InvitationsFormTests(TestCase):
         pending_invite.sent = timezone.now() - datetime.timedelta(
             days=app_settings.INVITATION_EXPIRY - 1)
         pending_invite.save()
+        cls.existing_user = get_user_model().objects.create_user(
+            username='flobble',
+            password='password',
+            email='flobble@example.com')
 
     @classmethod
     def tearDownClass(cls):
+        get_user_model().objects.all().delete()
         Invitation.objects.all().delete()
 
     @parameterized.expand([
         ('bogger@something.com', True, None),
         ('already@accepted.com', False, 'has already accepted an invite'),
         ('pending@example.com', False, 'has already been invited'),
+        ('flobble@example.com', False, 'active user is using this'),
     ])
     def test_form(self, email, form_validity, errors):
         form = InviteForm(data={'email': email})

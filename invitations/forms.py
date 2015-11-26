@@ -1,10 +1,11 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 
 from allauth.account.adapter import get_adapter
 
 from .models import Invitation
-from .exceptions import AlreadyInvited, AlreadyAccepted
+from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 
 
 class CleanEmailMixin(object):
@@ -16,6 +17,8 @@ class CleanEmailMixin(object):
         elif Invitation.objects.filter(
                 email__iexact=email, accepted=True):
             raise AlreadyAccepted
+        elif get_user_model().objects.filter(email__iexact=email):
+            raise UserRegisteredEmail
         else:
             return True
 
@@ -28,6 +31,7 @@ class CleanEmailMixin(object):
                                  " invited."),
             "already_accepted": _("This e-mail address has already"
                                   " accepted an invite."),
+            "email_in_use": _("An active user is using this e-mail address"),
         }
         try:
             self.validate_invitation(email)
@@ -35,7 +39,8 @@ class CleanEmailMixin(object):
             raise forms.ValidationError(errors["already_invited"])
         except(AlreadyAccepted):
             raise forms.ValidationError(errors["already_accepted"])
-
+        except(UserRegisteredEmail):
+            raise forms.ValidationError(errors["email_in_use"])
         return email
 
 
