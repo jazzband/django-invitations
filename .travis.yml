@@ -24,9 +24,13 @@ matrix:
 install:
   - pip install tox
   - pip install flake8
+  - pip install coveralls
 
 branches:
   - devel
   - master
 
 script: tox -e $TOX_ENV
+
+after_success:
+  - coveralls

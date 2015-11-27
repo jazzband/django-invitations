@@ -145,7 +145,8 @@ class InvitationsAcceptViewTests(TestCase):
         cls.user = get_user_model().objects.create_user(
             username='flibble',
             password='password')
-        cls.invitation = Invitation.create('email@example.com', user=cls.user)
+        cls.invitation = Invitation.create(
+            'email@example.com', inviter=cls.user)
 
     @classmethod
     def tearDownClass(cls):

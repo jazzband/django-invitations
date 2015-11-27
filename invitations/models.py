@@ -26,17 +26,18 @@ class Invitation(models.Model):
                                    default=timezone.now)
     key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
     sent = models.DateTimeField(verbose_name=_('sent'), null=True)
-    inviter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True)
+    inviter = models.ForeignKey(
+        settings.AUTH_USER_MODEL, null=True, blank=True)
 
     objects = InvitationManager()
 
     @classmethod
-    def create(cls, email, user=None):
+    def create(cls, email, inviter=None):
         key = get_random_string(64).lower()
         instance = cls._default_manager.create(
             email=email,
             key=key,
-            inviter=user)
+            inviter=inviter)
         return instance
 
     def key_expired(self):
