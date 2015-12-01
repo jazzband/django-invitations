@@ -2,9 +2,8 @@ from django import forms
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 
-from allauth.account.adapter import get_adapter
-
 from .models import Invitation
+from .adapters import get_invitations_adapter
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 
 
@@ -24,7 +23,7 @@ class CleanEmailMixin(object):
 
     def clean_email(self):
         email = self.cleaned_data["email"]
-        email = get_adapter().clean_email(email)
+        email = get_invitations_adapter().clean_email(email)
 
         errors = {
             "already_invited": _("This e-mail address has already been"

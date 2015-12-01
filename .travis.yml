@@ -2,24 +2,39 @@ language: python
 
 env:
   matrix:
-    - TOX_ENV=py27-django16
-    - TOX_ENV=py27-django17
-    - TOX_ENV=py27-django18
-    - TOX_ENV=py27-django19
-    - TOX_ENV=py33-django16
-    - TOX_ENV=py33-django17
-    - TOX_ENV=py33-django18
-    - TOX_ENV=py34-django16
-    - TOX_ENV=py34-django17
-    - TOX_ENV=py34-django18
-    - TOX_ENV=py34-django19
+    - TOX_ENV=py27-django16-backendBasic
+    - TOX_ENV=py27-django17-backendBasic
+    - TOX_ENV=py27-django18-backendBasic
+    - TOX_ENV=py27-django19-backendBasic
+    - TOX_ENV=py33-django16-backendBasic
+    - TOX_ENV=py33-django17-backendBasic
+    - TOX_ENV=py33-django18-backendBasic
+    - TOX_ENV=py34-django16-backendBasic
+    - TOX_ENV=py34-django17-backendBasic
+    - TOX_ENV=py34-django18-backendBasic
+    - TOX_ENV=py34-django19-backendBasic
+    - TOX_ENV=py27-django16-backendAllauth
+    - TOX_ENV=py27-django17-backendAllauth
+    - TOX_ENV=py27-django18-backendAllauth
+    - TOX_ENV=py27-django19-backendAllauth
+    - TOX_ENV=py33-django16-backendAllauth
+    - TOX_ENV=py33-django17-backendAllauth
+    - TOX_ENV=py33-django18-backendAllauth
+    - TOX_ENV=py34-django16-backendAllauth
+    - TOX_ENV=py34-django17-backendAllauth
+    - TOX_ENV=py34-django18-backendAllauth
+    - TOX_ENV=py34-django19-backendAllauth
     - TOX_ENV=flake8
 matrix:
   include:
     - python: "3.5"
-      env: TOX_ENV=py35-django18
+      env: TOX_ENV=py35-django18-backendBasic
     - python: "3.5"
-      env: TOX_ENV=py35-django19
+      env: TOX_ENV=py35-django18-backendAllauth
+    - python: "3.5"
+      env: TOX_ENV=py35-django19-backendBasic
+    - python: "3.5"
+      env: TOX_ENV=py35-django19-backendAllauth
 
 install:
   - pip install tox

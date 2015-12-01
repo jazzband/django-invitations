@@ -1,4 +1,3 @@
-django-allauth
 tox>=2.1.1
 mock>=1.3.0
 coverage>=3.7.1
