@@ -32,4 +32,10 @@ class AppSettings(object):
         """ Where to redirect on email confirm of invite """
         return self._setting('SIGNUP_REDIRECT', 'account_signup')
 
+    @property
+    def ADAPTER(self):
+        """ The adapter, setting ACCOUNT_ADAPTER overrides this default """
+        return self._setting(
+            'ADAPTER', 'invitations.adapters.BaseInvitationsAdapter')
+
 app_settings = AppSettings('INVITATIONS_')

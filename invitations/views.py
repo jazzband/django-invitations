@@ -9,13 +9,13 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
 from braces.views import LoginRequiredMixin
-from allauth.account.adapter import get_adapter
 
 from .forms import InviteForm, CleanEmailMixin
 from .models import Invitation
 from . import signals
-from .exceptions import AlreadyInvited, AlreadyAccepted
+from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 from .app_settings import app_settings
+from .adapters import get_invitations_adapter
 
 
 class SendInvite(LoginRequiredMixin, FormView):
@@ -70,6 +70,9 @@ class SendJSONInvite(LoginRequiredMixin, View):
                 except(AlreadyInvited):
                     response['invalid'].append(
                         {invitee: 'pending invite'})
+                except(UserRegisteredEmail):
+                    response['invalid'].append(
+                        {invitee: 'user registered email'})
                 else:
                     invite.send_invitation(request)
                     response['valid'].append({invitee: 'invited'})
@@ -95,16 +98,18 @@ class AcceptInvite(SingleObjectMixin, View):
         self.object = invitation = self.get_object()
         invitation.accepted = True
         invitation.save()
-        get_adapter().stash_verified_email(self.request, invitation.email)
+        get_invitations_adapter().stash_verified_email(
+            self.request, invitation.email)
 
         signals.invite_accepted.send(sender=self.__class__,
                                      request=self.request,
                                      email=invitation.email)
 
-        get_adapter().add_message(self.request,
-                                  messages.SUCCESS,
-                                  'invitations/messages/invite_accepted.txt',
-                                  {'email': invitation.email})
+        get_invitations_adapter().add_message(
+            self.request,
+            messages.SUCCESS,
+            'invitations/messages/invite_accepted.txt',
+            {'email': invitation.email})
 
         return redirect(app_settings.SIGNUP_REDIRECT)
 

@@ -12,15 +12,15 @@ from django.contrib.auth import get_user_model
 from django.core import mail
 from django.contrib.auth.models import AnonymousUser
 
-from allauth.account.adapter import get_adapter
-from allauth.account.models import EmailAddress
 from freezegun import freeze_time
 from nose_parameterized import parameterized
 
-from .models import Invitation, InvitationsAdapter
-from .app_settings import app_settings
-from .views import AcceptInvite, SendJSONInvite
-from .forms import InviteForm
+from invitations.adapters import (
+    get_invitations_adapter, BaseInvitationsAdapter)
+from invitations.models import Invitation
+from invitations.app_settings import app_settings
+from invitations.views import AcceptInvite, SendJSONInvite
+from invitations.forms import InviteForm
 
 
 class InvitationModelTests(TestCase):
@@ -56,28 +56,14 @@ class InvitationsAdapterTests(TestCase):
 
     @classmethod
     def setUp(cls):
-        cls.adapter = get_adapter()
-        cls.signup_request = RequestFactory().get(reverse(
-            'account_signup', urlconf='allauth.account.urls'))
+        cls.adapter = get_invitations_adapter()
 
     @classmethod
     def tearDownClass(cls):
         del cls.adapter
 
     def test_fetch_adapter(self):
-        self.assertIsInstance(self.adapter, InvitationsAdapter)
-
-    def test_adapter_default_signup(self):
-        self.assertTrue(self.adapter.is_open_for_signup(self.signup_request))
-
-    @override_settings(
-        INVITATIONS_INVITATION_ONLY=True
-    )
-    def test_adapter_invitations_only(self):
-        self.assertFalse(self.adapter.is_open_for_signup(self.signup_request))
-        response = self.client.get(
-            reverse('account_signup'))
-        self.assertIn('Sign Up Closed', response.content.decode('utf8'))
+        self.assertIsInstance(self.adapter, BaseInvitationsAdapter)
 
 
 class InvitationsSendViewTests(TestCase):
@@ -102,8 +88,8 @@ class InvitationsSendViewTests(TestCase):
         response = self.client.post(
             reverse('invitations:send-invite'), {'email': 'valid@example.com'},
             follow=True)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.template_name, ['account/login.html'])
+
+        self.assertEqual(response.status_code, 404)
 
     @parameterized.expand([
         ('invalid@example', 'Enter a valid email address'),
@@ -179,6 +165,9 @@ class InvitationsAcceptViewTests(TestCase):
         ('get'),
         ('post'),
     ])
+    @override_settings(
+        INVITATIONS_SIGNUP_REDIRECT='/non-existent-url/'
+    )
     def test_accept_invite(self, method):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
@@ -187,26 +176,8 @@ class InvitationsAcceptViewTests(TestCase):
         invite = Invitation.objects.get(email='email@example.com')
         self.assertTrue(invite.accepted)
         self.assertEqual(invite.inviter, self.user)
-        self.assertEqual(resp.request['PATH_INFO'], reverse('account_signup'))
-
-        form = resp.context_data['form']
-        self.assertEqual('email@example.com', form.fields['email'].initial)
-        messages = resp.context['messages']
-        message_text = [message.message for message in messages]
         self.assertEqual(
-            message_text, [
-                'Invitation to - email@example.com - has been accepted'])
-
-        resp = self.client.post(
-            reverse('account_signup'),
-            {'email': 'email@example.com',
-             'username': 'username',
-             'password1': 'password',
-             'password2': 'password'
-             })
-
-        allauth_email_obj = EmailAddress.objects.get(email='email@example.com')
-        self.assertTrue(allauth_email_obj.verified)
+            resp.request['PATH_INFO'], '/non-existent-url/')
 
     @override_settings(
         INVITATIONS_SIGNUP_REDIRECT='/non-existent-url/'
@@ -222,39 +193,48 @@ class InvitationsAcceptViewTests(TestCase):
 
 class InvitationsSignalTests(TestCase):
 
+    @classmethod
+    def setUp(cls):
+        cls.user = get_user_model().objects.create_user(
+            username='flobble', password='password')
+        cls.invite = Invitation.create(
+            email='email@example.com', inviter=cls.user)
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.user.delete()
+        cls.invite.delete()
+
     @patch('invitations.signals.invite_url_sent.send')
     def test_invite_url_sent_triggered_correctly(self, mock_signal):
-        invite = Invitation.create('email@example.com')
-        invite_url = reverse('invitations:accept-invite', args=[invite.key])
-
+        invite_url = reverse('invitations:accept-invite',
+                             args=[self.invite.key])
         request = RequestFactory().get('/')
-        request.user = 'monkey'
         invite_url = request.build_absolute_uri(invite_url)
 
-        invite.send_invitation(request)
+        self.invite.send_invitation(request)
 
         self.assertTrue(mock_signal.called)
         self.assertEqual(mock_signal.call_count, 1)
 
         mock_signal.assert_called_with(
-            instance=invite,
+            instance=self.invite,
             invite_url_sent=invite_url,
-            inviter='monkey',
+            inviter=self.user,
             sender=Invitation,
         )
 
-        invite.delete()
-
+    @override_settings(
+        INVITATIONS_SIGNUP_REDIRECT='/non-existent-url/'
+    )
     @patch('invitations.signals.invite_accepted.send')
     def test_invite_invite_accepted_triggered_correctly(self, mock_signal):
-        invite = Invitation.create('email@example.com')
         request = RequestFactory().get('/')
-        request.user = 'monkey'
-        invite.send_invitation(request)
+        self.invite.send_invitation(request)
 
         self.client.post(
             reverse('invitations:accept-invite',
-                    kwargs={'key': invite.key}), follow=True)
+                    kwargs={'key': self.invite.key}), follow=True)
 
         self.assertTrue(mock_signal.called)
         self.assertEqual(mock_signal.call_count, 1)
@@ -264,7 +244,7 @@ class InvitationsSignalTests(TestCase):
         self.assertEqual(
             mock_signal.call_args[1]['sender'], AcceptInvite)
 
-        invite.delete()
+        self.invite.delete()
 
 
 class InvitationsFormTests(TestCase):
@@ -332,6 +312,14 @@ class InvitationsManagerTests(TestCase):
         self.assertEqual(sorted(valid), sorted(expected_valid))
         self.assertEqual(sorted(expired), sorted(expected_expired))
 
+    def test_delete_all(self):
+        valid = Invitation.objects.all_valid().values_list(
+            'email', flat=True)
+        Invitation.objects.delete_expired_confirmations()
+        remaining_invites = Invitation.objects.all().values_list(
+            'email', flat=True)
+        self.assertEqual(sorted(valid), sorted(remaining_invites))
+
 
 class InvitationsJSONTests(TestCase):
 
@@ -339,7 +327,8 @@ class InvitationsJSONTests(TestCase):
     def setUp(cls):
         cls.user = get_user_model().objects.create_user(
             username='flibble',
-            password='password')
+            password='password',
+            email='mrflibble@example.com')
         cls.accepted_invite = Invitation.create('already@accepted.com')
         cls.accepted_invite.accepted = True
         cls.accepted_invite.save()
@@ -364,6 +353,10 @@ class InvitationsJSONTests(TestCase):
         (['email3@example.com'],
          {u'valid': [],
           u'invalid': [{u'email3@example.com': u'pending invite'}]},
+         400),
+        (['mrflibble@example.com'],
+         {u'valid': [],
+          u'invalid': [{u'mrflibble@example.com': u'user registered email'}]},
          400),
         (['example@example.com'],
          {u'valid': [{u'example@example.com': u'invited'}],
@@ -415,3 +408,46 @@ class InvitationsJSONTests(TestCase):
         response = SendJSONInvite.as_view()(request)
 
         self.assertEqual(response.status_code, 405)
+
+
+class InvitationsAdminTests(TestCase):
+
+    @classmethod
+    def setUp(cls):
+        cls.user = get_user_model().objects.create_superuser(
+            username='flibble',
+            password='password',
+            email='mrflibble@example.com')
+        cls.invite = Invitation.objects.create(email='example@example.com')
+
+    @classmethod
+    def tearDownClass(cls):
+        cls.user.delete()
+        Invitation.objects.all().delete()
+
+    def test_admin_form_add(self):
+        self.client.login(username='flibble', password='password')
+        response = self.client.post(
+            reverse('admin:invitations_invitation_add'),
+            {'email': 'valid@example.com', 'inviter': self.user.id},
+            follow=True)
+        invite = Invitation.objects.get(email='valid@example.com')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(invite.sent)
+        self.assertEqual(invite.inviter, self.user)
+
+        invite.delete()
+
+    def test_admin_form_change(self):
+        self.client.login(username='flibble', password='password')
+        response = self.client.get(
+            reverse('admin:invitations_invitation_change',
+                    args=(self.invite.id,)),
+            follow=True)
+
+        self.assertEqual(response.status_code, 200)
+        fields = list(response.context_data['adminform'].form.fields.keys())
+        expected_fields = ['email', 'accepted', 'created',
+                           'key', 'sent', 'inviter']
+        self.assertEqual(fields, expected_fields)
