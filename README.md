@@ -1,11 +1,11 @@
-##Django-invitations - Generic invitations with adaptable backends
+##Django-invitations - Generic invitations app
 
 [![Build Status](https://travis-ci.org/bee-keeper/django-invitations.svg?branch=master)](https://travis-ci.org/bee-keeper/django-invitations)
 
 [![Coverage Status](https://coveralls.io/repos/bee-keeper/django-invitations/badge.svg?branch=master&service=github)](https://coveralls.io/github/bee-keeper/django-invitations?branch=master)
 
 ###About
-Generic invitations solution with adaptable backends.  All emails and messages are fully customisable.
+Generic invitations solution with adaptable backend and support for django-allauth.  All emails and messages are fully customisable.
 
 Originally written as an invitations solution for the excellent [django-allauth](https://github.com/pennersr/django-allauth), this app has been refactored to remove the allauth dependency whilst retaining 100% backwards compatibility.
 
