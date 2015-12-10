@@ -113,6 +113,6 @@ def get_invitations_adapter():
             # defer to allauth
             from allauth.account.adapter import get_adapter
             return get_adapter()
-    else:
-        # load an adapter from elsewhere
-        return import_attribute(app_settings.ADAPTER)()
+
+    # load an adapter from elsewhere
+    return import_attribute(app_settings.ADAPTER)()
