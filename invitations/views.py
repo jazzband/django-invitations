@@ -4,7 +4,7 @@ from django.views.generic import FormView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib import messages
 from django.http import Http404, HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import redirect, render_to_response
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
@@ -96,6 +96,11 @@ class AcceptInvite(SingleObjectMixin, View):
 
     def post(self, *args, **kwargs):
         self.object = invitation = self.get_object()
+
+        # Might return an HttpResponse when errors occur
+        if isinstance(invitation, HttpResponse):
+            return invitation
+
         invitation.accepted = True
         invitation.save()
         get_invitations_adapter().stash_verified_email(
@@ -115,11 +120,25 @@ class AcceptInvite(SingleObjectMixin, View):
 
     def get_object(self, queryset=None):
         if queryset is None:
-            queryset = self.get_queryset()
-        try:
-            return queryset.get(key=self.kwargs["key"].lower())
-        except Invitation.DoesNotExist:
-            raise Http404()
+            try:
+                queryset = Invitation.objects.get(key=self.kwargs["key"].lower())
+            except Invitation.DoesNotExist:
+                response = render_to_response('invitations/errors/doesNotExist.html')
+                response.status_code = 404
+                return HttpResponse(response)
+
+            if queryset.accepted :
+                response = render_to_response('invitations/errors/alreadyAccepted.html')
+                response.status_code = 410
+                return HttpResponse(response)
+
+            if queryset.key_expired() :
+                response = render_to_response('invitations/errors/expired.html')
+                response.status_code = 410
+                return HttpResponse(response)
+
+            return queryset
+            
 
     def get_queryset(self):
         return Invitation.objects.all_valid()
