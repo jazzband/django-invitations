@@ -4,7 +4,7 @@ from django.views.generic import FormView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib import messages
 from django.http import Http404, HttpResponse
-from django.shortcuts import redirect, render_to_response
+from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
@@ -128,7 +128,7 @@ class AcceptInvite(SingleObjectMixin, View):
                 return HttpResponse(response)
 
             if queryset.accepted :
-                response = render_to_response('invitations/errors/already_accepted.html')
+                response = render_to_response('invitations/errors/alreadyAccepted.html')
                 response.status_code = 410
                 return HttpResponse(response)
 
