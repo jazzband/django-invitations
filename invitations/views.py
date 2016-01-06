@@ -27,6 +27,10 @@ class SendInvite(LoginRequiredMixin, FormView):
 
         try:
             invite = form.save(email)
+            # Since this is LoginRequired we can use request.user without
+            # checking if it is anonymous first.
+            invite.inviter = self.request.user
+            invite.save()
             invite.send_invitation(self.request)
         except Exception:
             return self.form_invalid(form)
