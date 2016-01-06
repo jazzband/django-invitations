@@ -108,8 +108,9 @@ class BaseInvitationsAdapter(object):
 
 
 def get_invitations_adapter():
-    if hasattr(settings, 'ACCOUNT_ADAPTER'):
-        if settings.ACCOUNT_ADAPTER == 'invitations.models.InvitationsAdapter':
+    # Compatibility with legacy allauth only version.
+    if (hasattr(settings, 'ACCOUNT_ADAPTER') and
+        settings.ACCOUNT_ADAPTER == 'invitations.models.InvitationsAdapter'):
             # defer to allauth
             from allauth.account.adapter import get_adapter
             return get_adapter()
