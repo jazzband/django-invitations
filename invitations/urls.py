@@ -1,10 +1,8 @@
-from django.conf.urls import patterns, url
+from django.conf.urls import url
 
 from . import views
 
-urlpatterns = patterns(
-    '',
-
+urlpatterns = [
     url(r'^send-invite/$', views.SendInvite.as_view(),
         name='send-invite'),
 
@@ -13,4 +11,4 @@ urlpatterns = patterns(
 
     url(r'^accept-invite/(?P<key>\w+)/?$', views.AcceptInvite.as_view(),
         name='accept-invite'),
-)
+]
