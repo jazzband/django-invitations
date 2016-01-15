@@ -27,10 +27,8 @@ class SendInvite(LoginRequiredMixin, FormView):
 
         try:
             invite = form.save(email)
-            # inviter can also be set on create
-            if not invite.inviter:
-                invite.inviter = self.request.user
-                invite.save()
+            invite.inviter = self.request.user
+            invite.save()
             invite.send_invitation(self.request)
         except Exception:
             return self.form_invalid(form)
