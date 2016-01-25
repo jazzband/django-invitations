@@ -88,7 +88,7 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
 *  `INVITATIONS_ADAPTER` (default=`'invitations.adapters.BaseInvitationsAdapter'`)
 
-    Used for custom integrations.  ACCOUNT_ADAPTER overrides this setting
+    Used for custom integrations. Set this to `ACCOUNT_ADAPTER` if using django-allauth.
 
 ###Signals
 
