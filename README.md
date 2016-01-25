@@ -66,25 +66,29 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
 ###Additional Configuration
 
-**INVITATIONS_INVITATION_EXPIRY** (default=3)
+*   `INVITATIONS_INVITATION_EXPIRY` (default=`3`)
 
-Integer.  How many days before the invitation expires.
+    Integer.  How many days before the invitation expires.
 
-**INVITATIONS_INVITATION_ONLY** (default=False)
+*   `INVITATIONS_INVITATION_ONLY` (default=`False`)
 
-Boolean.  If the site is invite only, or open to all.
+    Boolean.  If the site is invite only, or open to all.
 
-**ALLOW_JSON_INVITES** (default=False)
+*   `INVITATIONS_CONFIRM_INVITE_ON_GET` (default=`True`)
 
-Expose a URL for authenticated posting of invitees
+    Boolean. If confirmations can be accepted via a `GET` request.
 
-**INVITATIONS_SIGNUP_REDIRECT** (default='account_signup')
+*   `INVITATIONS_ALLOW_JSON_INVITES` (default=`False`)
 
-URL name of your signup URL.
+    Expose a URL for authenticated posting of invitees
 
-**INVITATIONS_ADAPTER** (default='invitations.adapters.BaseInvitationsAdapter')
+*   `INVITATIONS_SIGNUP_REDIRECT` (default=`'account_signup'`)
 
-Used for custom integrations.  ACCOUNT_ADAPTER overrides this setting
+    URL name of your signup URL.
+
+*  `INVITATIONS_ADAPTER` (default=`'invitations.adapters.BaseInvitationsAdapter'`)
+
+    Used for custom integrations.  ACCOUNT_ADAPTER overrides this setting
 
 ###Signals
 
