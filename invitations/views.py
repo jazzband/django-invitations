@@ -99,12 +99,13 @@ class AcceptInvite(SingleObjectMixin, View):
     def post(self, *args, **kwargs):
         self.object = invitation = self.get_object()
 
-        # Compatibility with older versions: return an HTTP 410 GONE if there is
-        # an error. # Error conditions are: no key, expired key or previously
-        # accepted key.
+        # Compatibility with older versions: return an HTTP 410 GONE if there
+        # is an error. # Error conditions are: no key, expired key or
+        # previously accepted key.
         if app_settings.GONE_ON_ACCEPT_ERROR and \
-                (not invitation or (invitation and (invitation.accepted or
-                                                    invitation.key_expired()))):
+                (not invitation or
+                 (invitation and (invitation.accepted or
+                                  invitation.key_expired()))):
             return HttpResponse(status=410)
 
         # No invitation was found.

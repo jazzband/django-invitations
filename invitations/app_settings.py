@@ -1,5 +1,6 @@
 from django.conf import settings
 
+
 class AppSettings(object):
 
     def __init__(self, prefix):
