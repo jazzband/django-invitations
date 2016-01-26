@@ -85,8 +85,8 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
     accepting an invite. If `False`, display an error message and redirect on
     errors:
 
-        * Redirects to `INVITATIONS_SIGNUP_REDIRECT` on an expired key
-        * Otherwise, redirects to `INVITATIONS_LOGIN_REDIRECT` on other errors.
+    * Redirects to `INVITATIONS_SIGNUP_REDIRECT` on an expired key
+    * Otherwise, redirects to `INVITATIONS_LOGIN_REDIRECT` on other errors.
 
 *   `INVITATIONS_ALLOW_JSON_INVITES` (default=`False`)
 
