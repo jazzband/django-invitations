@@ -98,6 +98,46 @@ class AcceptInvite(SingleObjectMixin, View):
 
     def post(self, *args, **kwargs):
         self.object = invitation = self.get_object()
+
+        # Compatibility with older versions: return an HTTP 410 GONE if there is
+        # an error. # Error conditions are: no key, expired key or previously
+        # accepted key.
+        if app_settings.GONE_ON_ACCEPT_ERROR and \
+                (not invitation or (invitation and (invitation.accepted or
+                                                    invitation.key_expired()))):
+            return HttpResponse(status=410)
+
+        # No invitation was found.
+        if not invitation:
+            # Newer behavior: show an error message and redirect.
+            get_invitations_adapter().add_message(
+                self.request,
+                messages.ERROR,
+                'invitations/messages/invite_invalid.txt')
+            return redirect(app_settings.LOGIN_REDIRECT)
+
+        # The invitation was previously accepted, redirect to the login
+        # view.
+        if invitation.accepted:
+            get_invitations_adapter().add_message(
+                self.request,
+                messages.ERROR,
+                'invitations/messages/invite_already_accepted.txt',
+                {'email': invitation.email})
+            # Redirect to login since there's hopefully an account already.
+            return redirect(app_settings.LOGIN_REDIRECT)
+
+        # The key was expired.
+        if invitation.key_expired():
+            get_invitations_adapter().add_message(
+                self.request,
+                messages.ERROR,
+                'invitations/messages/invite_expired.txt',
+                {'email': invitation.email})
+            # Redirect to sign-up since they might be able to register anyway.
+            return redirect(app_settings.SIGNUP_REDIRECT)
+
+        # The invitation is valid! Accept it and let them finish the sign-up.
         invitation.accepted = True
         invitation.save()
         get_invitations_adapter().stash_verified_email(
@@ -121,7 +161,7 @@ class AcceptInvite(SingleObjectMixin, View):
         try:
             return queryset.get(key=self.kwargs["key"].lower())
         except Invitation.DoesNotExist:
-            raise Http404()
+            return None
 
     def get_queryset(self):
-        return Invitation.objects.all_valid()
+        return Invitation.objects.all()
