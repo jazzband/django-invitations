@@ -133,6 +133,14 @@ class InvitationsAcceptViewTests(TestCase):
             password='password')
         cls.invitation = Invitation.create(
             'email@example.com', inviter=cls.user)
+        cls.invitation.sent = timezone.now()
+        cls.invitation.save()
+
+        cls.accepted_invitation = Invitation.create(
+            'email2@example.com', inviter=cls.user)
+        cls.accepted_invitation.sent = timezone.now()
+        cls.accepted_invitation.accepted = True
+        cls.accepted_invitation.save()
 
     @classmethod
     def tearDownClass(cls):
@@ -159,7 +167,78 @@ class InvitationsAcceptViewTests(TestCase):
         resp = client_with_method(
             reverse('invitations:accept-invite', kwargs={'key': 'invalidKey'}),
             follow=True)
-        self.assertEqual(resp.status_code, 404)
+        self.assertEqual(resp.status_code, 410)
+
+    @parameterized.expand([
+        ('get'),
+        ('post'),
+    ])
+    @override_settings(
+        INVITATIONS_GONE_ON_ACCEPT_ERROR=False,
+        INVITATIONS_LOGIN_REDIRECT='/login-url/'
+    )
+    def test_accept_invite_invalid_key_error_disabled(self, method):
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse('invitations:accept-invite', kwargs={'key': 'invalidKey'}),
+            follow=True)
+        self.assertEqual(resp.request['PATH_INFO'], '/login-url/')
+
+    @parameterized.expand([
+        ('get'),
+        ('post'),
+    ])
+    def test_accept_invite_accepted_key(self, method):
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': self.accepted_invitation.key}), follow=True)
+        self.assertEqual(resp.status_code, 410)
+
+    @parameterized.expand([
+        ('get'),
+        ('post'),
+    ])
+    @override_settings(
+        INVITATIONS_GONE_ON_ACCEPT_ERROR=False,
+        INVITATIONS_LOGIN_REDIRECT='/login-url/'
+    )
+    def test_accept_invite_accepted_key_error_disabled(self, method):
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': self.accepted_invitation.key}), follow=True)
+        self.assertEqual(resp.request['PATH_INFO'], '/login-url/')
+
+    @parameterized.expand([
+        ('get'),
+        ('post'),
+    ])
+    @override_settings(
+        INVITATIONS_INVITATION_EXPIRY=0
+    )
+    def test_accept_invite_expired_key(self, method):
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': self.invitation.key}), follow=True)
+        self.assertEqual(resp.status_code, 410)
+
+    @parameterized.expand([
+        ('get'),
+        ('post'),
+    ])
+    @override_settings(
+        INVITATIONS_INVITATION_EXPIRY=0,
+        INVITATIONS_GONE_ON_ACCEPT_ERROR=False,
+        INVITATIONS_SIGNUP_REDIRECT='/signup-url/'
+    )
+    def test_accept_invite_expired_key_error_disabled(self, method):
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': self.invitation.key}), follow=True)
+        self.assertEqual(resp.request['PATH_INFO'], '/signup-url/')
 
     @parameterized.expand([
         ('get'),

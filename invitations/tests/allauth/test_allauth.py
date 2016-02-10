@@ -3,6 +3,7 @@ from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
+from django.utils import timezone
 
 from nose_parameterized import parameterized
 from allauth.account.models import EmailAddress
@@ -20,6 +21,8 @@ class AllAuthIntegrationTests(TestCase):
             password='password')
         cls.invitation = Invitation.create(
             'email@example.com', inviter=cls.user)
+        cls.invitation.sent = timezone.now()
+        cls.invitation.save()
         cls.adapter = get_invitations_adapter()
 
     @classmethod

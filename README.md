@@ -78,6 +78,16 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     Boolean. If confirmations can be accepted via a `GET` request.
 
+*   `INVITATIONS_GONE_ON_ACCEPT_ERROR` (default=`True`)
+
+    Boolean. If `True`, return an HTTP 410 GONE response if the invitation key
+    is invalid, or the invitation is expired or previously accepted when
+    accepting an invite. If `False`, display an error message and redirect on
+    errors:
+
+    * Redirects to `INVITATIONS_SIGNUP_REDIRECT` on an expired key
+    * Otherwise, redirects to `INVITATIONS_LOGIN_REDIRECT` on other errors.
+
 *   `INVITATIONS_ALLOW_JSON_INVITES` (default=`False`)
 
     Expose a URL for authenticated posting of invitees
@@ -85,6 +95,10 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 *   `INVITATIONS_SIGNUP_REDIRECT` (default=`'account_signup'`)
 
     URL name of your signup URL.
+
+*   `INVITATIONS_LOGIN_REDIRECT` (default=`LOGIN_URL` from Django settings)
+
+    URL name of your login URL.
 
 *  `INVITATIONS_ADAPTER` (default=`'invitations.adapters.BaseInvitationsAdapter'`)
 

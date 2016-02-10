@@ -1,3 +1,6 @@
+from django.conf import settings
+
+
 class AppSettings(object):
 
     def __init__(self, prefix):
@@ -23,6 +26,14 @@ class AppSettings(object):
         return self._setting('CONFIRM_INVITE_ON_GET', True)
 
     @property
+    def GONE_ON_ACCEPT_ERROR(self):
+        """
+        If an invalid/expired/previously accepted key is provided, return a
+        HTTP 410 GONE response.
+        """
+        return self._setting('GONE_ON_ACCEPT_ERROR', True)
+
+    @property
     def ALLOW_JSON_INVITES(self):
         """ Exposes json endpoint for mass invite creation """
         return self._setting('ALLOW_JSON_INVITES', False)
@@ -31,6 +42,11 @@ class AppSettings(object):
     def SIGNUP_REDIRECT(self):
         """ Where to redirect on email confirm of invite """
         return self._setting('SIGNUP_REDIRECT', 'account_signup')
+
+    @property
+    def LOGIN_REDIRECT(self):
+        """ Where to redirect on an expired or already accepted invite """
+        return self._setting('LOGIN_REDIRECT', settings.LOGIN_URL)
 
     @property
     def ADAPTER(self):
