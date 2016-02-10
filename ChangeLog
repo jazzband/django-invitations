@@ -1,8 +1,85 @@
 Changelog
 =========
 
-1.5 (2015-12-07)
+%%version%% (unreleased)
 ------------------------
+
+- 1.7. [bee-keeper]
+
+- Merge pull request #34 from percipient/dont-404. [bee-keeper]
+
+  Display a message on expired/erroneous/accepted keys.
+
+- Fix flake8 issues. [Patrick Cloke]
+
+- Fix a formatting mistake in the README. [Patrick Cloke]
+
+- Display a message on expired/erroneous/accepted keys. Related to #25.
+  [Patrick Cloke]
+
+- Merge pull request #33 from percipient/readme-settings. [bee-keeper]
+
+  Fix-up the settings in the README
+
+- Update the INVITATIONS_ADAPTER setting. [Patrick Cloke]
+
+- Update the readme with all the settings. [Patrick Cloke]
+
+- Removed uneeded check on send invite. [bee_keeper]
+
+- Test new url spec. [bee_keeper]
+
+- Merge pull request #32 from mjnaderi/patch-1. [bee-keeper]
+
+  Remove RemovedInDjango110Warning warnings in Django 1.9
+
+- Remove RemovedInDjango110Warning warnings in Django 1.9. [Mohammad
+  Javad Naderi]
+
+  With Django 1.9, each time I run `python manage.py runserver`, it shows 2 warnings:
+
+  ```
+  /someplace/.venv/lib/python2.7/site-packages/invitations/urls.py:15: RemovedInDjango110Warning: django.conf.urls.patterns() is deprecated and will be removed in Django 1.10. Update your urlpatterns to be a list of django.conf.urls.url() instances instead.
+    name='accept-invite'),
+
+  /someplace/.venv/lib/python2.7/site-packages/invitations/urls.py:15: RemovedInDjango110Warning: django.conf.urls.patterns() is deprecated and will be removed in Django 1.10. Update your urlpatterns to be a list of django.conf.urls.url() instances instead.
+    name='accept-invite'),
+  ```
+
+  This pull request fixes it.
+
+1.6 (2016-01-10)
+----------------
+
+- V1.6. [bee_keeper]
+
+- Dont override inviter from create step. [bee_keeper]
+
+- Merge pull request #30 from percipient/allauth-with-custom-adapter.
+  [bee-keeper]
+
+  Allow using custom allauth backends.
+
+- Make flake8 happy. [Patrick Cloke]
+
+- Don't return None from get_invitations_adapter. [Patrick Cloke]
+
+- Merge pull request #31 from percipient/set-inviter. [bee-keeper]
+
+  Set the inviter in the SendInvite view.
+
+- Set the inviter in the SendInvite view. [Patrick Cloke]
+
+- Update README.md. [bee-keeper]
+
+1.5 (2015-12-07)
+----------------
+
+- Update README.md. [bee-keeper]
+
+- Merge pull request #24 from bee-keeper/devel. [bee-keeper]
+
+  Refactor as generic invite app
 
 - Removed the dependancy on django-allauth, this package is now a
   generic invite app. [bee_keeper]
@@ -16,6 +93,7 @@ Changelog
 
   Coverage and exposing inviter in admin
 
+- Coverage and exposing inviter in admin. [bee_keeper]
 
 1.3 (2015-11-26)
 ----------------
