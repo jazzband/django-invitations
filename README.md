@@ -72,7 +72,7 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
 *   `INVITATIONS_INVITATION_ONLY` (default=`False`)
 
-    Boolean.  If the site is invite only, or open to all.
+    Boolean.  If the site is invite only, or open to all (only relevant when using allauth).
 
 *   `INVITATIONS_CONFIRM_INVITE_ON_GET` (default=`True`)
 
