@@ -72,9 +72,9 @@ class InvitationsAdapterTests(TestCase):
             result = self.adapter.format_email_subject("Bar")
             self.assertEqual(result, '[Foo.com] Bar')
         # custom override
-        with self.settings(INVITATIONS_EMAIL_SUBJECT_PREFIX="Foo: "):
+        with self.settings(INVITATIONS_EMAIL_SUBJECT_PREFIX=""):
             result = self.adapter.format_email_subject("Bar")
-            self.assertEqual(result, "Foo: Bar")
+            self.assertEqual(result, "Bar")
 
 
 class InvitationsSendViewTests(TestCase):
