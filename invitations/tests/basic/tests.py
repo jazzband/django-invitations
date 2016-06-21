@@ -65,6 +65,17 @@ class InvitationsAdapterTests(TestCase):
     def test_fetch_adapter(self):
         self.assertIsInstance(self.adapter, BaseInvitationsAdapter)
 
+    def test_email_subject_prefix_settings(self):
+        # default
+        with patch('invitations.adapters.Site') as MockSite:
+            MockSite.objects.get_current.return_value.name = 'Foo.com'
+            result = self.adapter.format_email_subject("Bar")
+            self.assertEqual(result, '[Foo.com] Bar')
+        # custom override
+        with self.settings(INVITATIONS_EMAIL_SUBJECT_PREFIX="Foo: "):
+            result = self.adapter.format_email_subject("Bar")
+            self.assertEqual(result, "Foo: Bar")
+
 
 class InvitationsSendViewTests(TestCase):
 

@@ -54,4 +54,11 @@ class AppSettings(object):
         return self._setting(
             'ADAPTER', 'invitations.adapters.BaseInvitationsAdapter')
 
+    @property
+    def EMAIL_SUBJECT_PREFIX(self):
+        """
+        Subject-line prefix to use for email messages sent
+        """
+        return self._setting("EMAIL_SUBJECT_PREFIX", None)
+
 app_settings = AppSettings('INVITATIONS_')
