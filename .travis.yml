@@ -6,24 +6,32 @@ env:
     - TOX_ENV=py27-django17-backendBasic
     - TOX_ENV=py27-django18-backendBasic
     - TOX_ENV=py27-django19-backendBasic
+    - TOX_ENV=py27-django10-backendBasic
     - TOX_ENV=py33-django16-backendBasic
     - TOX_ENV=py33-django17-backendBasic
     - TOX_ENV=py33-django18-backendBasic
+    - TOX_ENV=py33-django19-backendBasic
+    - TOX_ENV=py33-django10-backendBasic
     - TOX_ENV=py34-django16-backendBasic
     - TOX_ENV=py34-django17-backendBasic
     - TOX_ENV=py34-django18-backendBasic
     - TOX_ENV=py34-django19-backendBasic
+    - TOX_ENV=py34-django10-backendBasic
     - TOX_ENV=py27-django16-backendAllauth
     - TOX_ENV=py27-django17-backendAllauth
     - TOX_ENV=py27-django18-backendAllauth
     - TOX_ENV=py27-django19-backendAllauth
+    - TOX_ENV=py27-django10-backendAllauth
     - TOX_ENV=py33-django16-backendAllauth
     - TOX_ENV=py33-django17-backendAllauth
     - TOX_ENV=py33-django18-backendAllauth
+    - TOX_ENV=py33-django19-backendAllauth
+    - TOX_ENV=py33-django10-backendAllauth
     - TOX_ENV=py34-django16-backendAllauth
     - TOX_ENV=py34-django17-backendAllauth
     - TOX_ENV=py34-django18-backendAllauth
     - TOX_ENV=py34-django19-backendAllauth
+    - TOX_ENV=py34-django10-backendAllauth
     - TOX_ENV=flake8
 matrix:
   include:
@@ -35,6 +43,10 @@ matrix:
       env: TOX_ENV=py35-django19-backendBasic
     - python: "3.5"
       env: TOX_ENV=py35-django19-backendAllauth
+    - python: "3.5"
+      env: TOX_ENV=py35-django10-backendBasic
+    - python: "3.5"
+      env: TOX_ENV=py35-django10-backendAllauth
 
 install:
   - pip install tox
