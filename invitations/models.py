@@ -8,6 +8,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.conf import settings
+from django.template.context import RequestContext
 
 from .managers import InvitationManager
 from .app_settings import app_settings
@@ -51,13 +52,13 @@ class Invitation(models.Model):
                              args=[self.key])
         invite_url = request.build_absolute_uri(invite_url)
 
-        ctx = {
+        ctx = RequestContext(request, {
             'invite_url': invite_url,
             'site_name': current_site.name,
             'email': self.email,
             'key': self.key,
             'inviter': self.inviter,
-        }
+        })
 
         email_template = 'invitations/email/email_invite'
 
