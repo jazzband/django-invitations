@@ -2,25 +2,19 @@ language: python
 
 env:
   matrix:
-    - TOX_ENV=py27-django16-backendBasic
     - TOX_ENV=py27-django17-backendBasic
     - TOX_ENV=py27-django18-backendBasic
     - TOX_ENV=py27-django19-backendBasic
-    - TOX_ENV=py33-django16-backendBasic
     - TOX_ENV=py33-django17-backendBasic
     - TOX_ENV=py33-django18-backendBasic
-    - TOX_ENV=py34-django16-backendBasic
     - TOX_ENV=py34-django17-backendBasic
     - TOX_ENV=py34-django18-backendBasic
     - TOX_ENV=py34-django19-backendBasic
-    - TOX_ENV=py27-django16-backendAllauth
     - TOX_ENV=py27-django17-backendAllauth
     - TOX_ENV=py27-django18-backendAllauth
     - TOX_ENV=py27-django19-backendAllauth
-    - TOX_ENV=py33-django16-backendAllauth
     - TOX_ENV=py33-django17-backendAllauth
     - TOX_ENV=py33-django18-backendAllauth
-    - TOX_ENV=py34-django16-backendAllauth
     - TOX_ENV=py34-django17-backendAllauth
     - TOX_ENV=py34-django18-backendAllauth
     - TOX_ENV=py34-django19-backendAllauth
