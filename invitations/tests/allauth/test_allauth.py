@@ -65,6 +65,38 @@ class AllAuthIntegrationTests(TestCase):
             email='email@example.com')
         self.assertTrue(allauth_email_obj.verified)
 
+    @parameterized.expand([
+        ('get'),
+        ('post'),
+    ])
+    @override_settings(
+        INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP=True,
+    )
+    def test_accept_invite_accepted_invitation_after_allauth_signup(self, method):
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': self.invitation.key}), follow=True)
+        self.assertEqual(resp.status_code, 200)
+
+        invite = Invitation.objects.get(email='email@example.com')
+        self.assertEqual(invite.inviter, self.user)
+        self.assertFalse(invite.accepted)
+        self.assertEqual(
+            resp.request['PATH_INFO'], reverse('account_signup'))
+        form = resp.context_data['form']
+        self.assertEqual('email@example.com', form.fields['email'].initial)
+
+        resp = self.client.post(
+            reverse('account_signup'),
+            {'email': 'email@example.com',
+             'username': 'username',
+             'password1': 'password',
+             'password2': 'password'
+             })
+        invite = Invitation.objects.get(email='email@example.com')
+        self.assertTrue(invite.accepted)
+
     def test_fetch_adapter(self):
         self.assertIsInstance(self.adapter, InvitationsAdapter)
 

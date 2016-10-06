@@ -143,8 +143,7 @@ class AcceptInvite(SingleObjectMixin, View):
 
         # The invitation is valid. Mark it as accepted now if ACCEPT_INVITE_AFTER_SIGNUP is False.
         if not app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
-            invitation.accepted = True
-            invitation.save()
+            accept_invitation(invitation=invitation, request=self.request, signal_sender=self.__class__)
 
         get_invitations_adapter().stash_verified_email(
             self.request, invitation.email)
@@ -167,17 +166,22 @@ class AcceptInvite(SingleObjectMixin, View):
         return Invitation.objects.all()
 
 
+def accept_invitation(invitation, request, signal_sender):
+    invitation.accepted = True
+    invitation.save()
+
+    invite_accepted.send(sender=signal_sender, email=invitation.email)
+
+    get_invitations_adapter().add_message(
+        request,
+        messages.SUCCESS,
+        'invitations/messages/invite_accepted.txt',
+        {'email': invitation.email})
+
+
 @receiver(user_signed_up)
 def accept_invite(sender, request, user, **kwargs):
-    invitation = Invitation.objects.filter(email=user.email)
-    if invitation:
-        invitation.accepted = True
-        invitation.save()
-
-        invite_accepted.send(sender=Invitation, email=invitation.email)
-
-        get_invitations_adapter().add_message(
-            request,
-            messages.SUCCESS,
-            'invitations/messages/invite_accepted.txt',
-            {'email': invitation.email})
+    if Invitation.objects.filter(email=user.email).exists():
+        invitation = Invitation.objects.get(email=user.email)
+        if invitation:
+            accept_invitation(invitation=invitation, request=request, signal_sender=Invitation)
