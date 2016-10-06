@@ -78,6 +78,11 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     Boolean. If confirmations can be accepted via a `GET` request.
 
+*   `INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP` (default=`False`)
+
+    Boolean. If `True`, invitations will be accepted after users finish signup.
+    If `False`, invitations will be accepted right after the invitation link is clicked.
+
 *   `INVITATIONS_GONE_ON_ACCEPT_ERROR` (default=`True`)
 
     Boolean. If `True`, return an HTTP 410 GONE response if the invitation key

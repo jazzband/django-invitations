@@ -7,7 +7,9 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
+from django.dispatch import receiver
 
+from allauth.account.signals import user_signed_up
 from braces.views import LoginRequiredMixin
 
 from .forms import InviteForm, CleanEmailMixin
@@ -16,6 +18,7 @@ from . import signals
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 from .app_settings import app_settings
 from .adapters import get_invitations_adapter
+from .signals import invite_accepted
 
 
 class SendInvite(LoginRequiredMixin, FormView):
@@ -138,21 +141,17 @@ class AcceptInvite(SingleObjectMixin, View):
             # Redirect to sign-up since they might be able to register anyway.
             return redirect(app_settings.SIGNUP_REDIRECT)
 
-        # The invitation is valid! Accept it and let them finish the sign-up.
-        invitation.accepted = True
-        invitation.save()
+        # The invitation is valid. Mark it as accepted now if ACCEPT_INVITE_AFTER_SIGNUP is False.
+        if not app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
+            invitation.accepted = True
+            invitation.save()
+
         get_invitations_adapter().stash_verified_email(
             self.request, invitation.email)
 
         signals.invite_accepted.send(sender=self.__class__,
                                      request=self.request,
                                      email=invitation.email)
-
-        get_invitations_adapter().add_message(
-            self.request,
-            messages.SUCCESS,
-            'invitations/messages/invite_accepted.txt',
-            {'email': invitation.email})
 
         return redirect(app_settings.SIGNUP_REDIRECT)
 
@@ -166,3 +165,19 @@ class AcceptInvite(SingleObjectMixin, View):
 
     def get_queryset(self):
         return Invitation.objects.all()
+
+
+@receiver(user_signed_up)
+def accept_invite(sender, request, user, **kwargs):
+    invitation = Invitation.objects.filter(email=user.email)
+    if invitation:
+        invitation.accepted = True
+        invitation.save()
+
+        invite_accepted.send(sender=Invitation, email=invitation.email)
+
+        get_invitations_adapter().add_message(
+            request,
+            messages.SUCCESS,
+            'invitations/messages/invite_accepted.txt',
+            {'email': invitation.email})

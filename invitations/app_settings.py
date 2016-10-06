@@ -26,6 +26,11 @@ class AppSettings(object):
         return self._setting('CONFIRM_INVITE_ON_GET', True)
 
     @property
+    def ACCEPT_INVITE_AFTER_SIGNUP(self):
+        """ Accept the invitation after the user finished signup. """
+        return self._setting('ACCEPT_INVITE_AFTER_SIGNUP', False)
+
+    @property
     def GONE_ON_ACCEPT_ERROR(self):
         """
         If an invalid/expired/previously accepted key is provided, return a
