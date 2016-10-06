@@ -173,11 +173,10 @@ def accept_invitation(invitation, request, signal_sender):
         {'email': invitation.email})
 
 
+def accept_invite_after_signup(sender, request, user, **kwargs):
+    invitation = Invitation.objects.filter(email=user.email).first()
+    if invitation:
+        accept_invitation(invitation=invitation, request=request, signal_sender=Invitation)
+
 if app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
-
-    def accept_invite_after_signup(sender, request, user, **kwargs):
-        invitation = Invitation.objects.filter(email=user.email).first()
-        if invitation:
-            accept_invitation(invitation=invitation, request=request, signal_sender=Invitation)
-
     user_signed_up.connect(accept_invite_after_signup)
