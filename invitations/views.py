@@ -7,14 +7,12 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.dispatch import receiver
 
 from allauth.account.signals import user_signed_up
 from braces.views import LoginRequiredMixin
 
 from .forms import InviteForm, CleanEmailMixin
 from .models import Invitation
-from . import signals
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 from .app_settings import app_settings
 from .adapters import get_invitations_adapter
