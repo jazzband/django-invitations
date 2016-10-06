@@ -148,10 +148,6 @@ class AcceptInvite(SingleObjectMixin, View):
         get_invitations_adapter().stash_verified_email(
             self.request, invitation.email)
 
-        signals.invite_accepted.send(sender=self.__class__,
-                                     request=self.request,
-                                     email=invitation.email)
-
         return redirect(app_settings.SIGNUP_REDIRECT)
 
     def get_object(self, queryset=None):
