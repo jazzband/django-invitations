@@ -176,7 +176,7 @@ def accept_invitation(invitation, request, signal_sender):
 
 
 @receiver(user_signed_up)
-def accept_invite(sender, request, user, **kwargs):
+def accept_invite_after_signup(sender, request, user, **kwargs):
     if Invitation.objects.filter(email=user.email).exists():
         invitation = Invitation.objects.get(email=user.email)
         if invitation:
