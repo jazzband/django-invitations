@@ -8,7 +8,6 @@ from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 
-from allauth.account.signals import user_signed_up
 from braces.views import LoginRequiredMixin
 
 from .forms import InviteForm, CleanEmailMixin
@@ -179,4 +178,4 @@ def accept_invite_after_signup(sender, request, user, **kwargs):
         accept_invitation(invitation=invitation, request=request, signal_sender=Invitation)
 
 if app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
-    user_signed_up.connect(accept_invite_after_signup)
+    get_invitations_adapter().get_user_signed_up_signal().connect(accept_invite_after_signup)

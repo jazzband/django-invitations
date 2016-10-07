@@ -10,6 +10,8 @@ try:
 except ImportError:
     from django.utils.encoding import force_unicode as force_text
 
+from allauth.account.signals import user_signed_up
+
 from .app_settings import app_settings
 from .utils import import_attribute
 
@@ -107,6 +109,9 @@ class BaseInvitationsAdapter(object):
                                          extra_tags=extra_tags)
             except TemplateDoesNotExist:
                 pass
+
+    def get_user_signed_up_signal(self):
+        return user_signed_up
 
 
 def get_invitations_adapter():
