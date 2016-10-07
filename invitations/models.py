@@ -10,8 +10,6 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template.context import RequestContext
 
-from allauth.account.signals import user_signed_up
-
 from .managers import InvitationManager
 from .app_settings import app_settings
 from .adapters import get_invitations_adapter
@@ -85,6 +83,7 @@ class Invitation(models.Model):
 if hasattr(settings, 'ACCOUNT_ADAPTER'):
     if settings.ACCOUNT_ADAPTER == 'invitations.models.InvitationsAdapter':
         from allauth.account.adapter import DefaultAccountAdapter
+        from allauth.account.signals import user_signed_up
 
         class InvitationsAdapter(DefaultAccountAdapter):
 
