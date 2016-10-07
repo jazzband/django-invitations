@@ -72,7 +72,7 @@ class AllAuthIntegrationTests(TestCase):
     @override_settings(
         INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP=True,
     )
-    def test_accept_invite_accepted_invitation_after_allauth_signup(self, method):
+    def test_accept_invite_accepted_invitation_after_signup(self, method):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
