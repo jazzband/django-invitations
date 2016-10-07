@@ -10,6 +10,8 @@ from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template.context import RequestContext
 
+from allauth.account.signals import user_signed_up
+
 from .managers import InvitationManager
 from .app_settings import app_settings
 from .adapters import get_invitations_adapter
@@ -96,3 +98,6 @@ if hasattr(settings, 'ACCOUNT_ADAPTER'):
                 else:
                     # Site is open to signup
                     return True
+
+            def get_user_signed_up_signal(self):
+                return user_signed_up
