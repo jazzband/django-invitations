@@ -3,7 +3,7 @@ import django
 
 SECRET_KEY = 'not_empty'
 SITE_ID = 1
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 DATABASES = {
     'default': {
@@ -60,9 +60,19 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    'south',
     'django_nose',
     'invitations',
+
 )
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
+
+
+SOUTH_MIGRATION_MODULES = {
+    'invitations': 'invitations.south_migrations',
+}
+
+SOUTH_TESTS_MIGRATE = False

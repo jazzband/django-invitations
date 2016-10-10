@@ -20,3 +20,8 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+
+
+SOUTH_MIGRATION_MODULES = {
+    'invitations': 'invitations.south_migrations',
+}
