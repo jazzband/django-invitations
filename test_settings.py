@@ -3,7 +3,7 @@ import django
 
 SECRET_KEY = 'not_empty'
 SITE_ID = 1
-# TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 DATABASES = {
     'default': {
@@ -74,5 +74,3 @@ AUTHENTICATION_BACKENDS = (
 SOUTH_MIGRATION_MODULES = {
     'invitations': 'invitations.south_migrations',
 }
-
-SOUTH_TESTS_MIGRATE = False
