@@ -83,6 +83,7 @@ class Invitation(models.Model):
 if hasattr(settings, 'ACCOUNT_ADAPTER'):
     if settings.ACCOUNT_ADAPTER == 'invitations.models.InvitationsAdapter':
         from allauth.account.adapter import DefaultAccountAdapter
+        from allauth.account.signals import user_signed_up
 
         class InvitationsAdapter(DefaultAccountAdapter):
 
@@ -96,3 +97,6 @@ if hasattr(settings, 'ACCOUNT_ADAPTER'):
                 else:
                     # Site is open to signup
                     return True
+
+            def get_user_signed_up_signal(self):
+                return user_signed_up

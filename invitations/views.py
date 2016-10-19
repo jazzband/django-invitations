@@ -12,10 +12,10 @@ from braces.views import LoginRequiredMixin
 
 from .forms import InviteForm, CleanEmailMixin
 from .models import Invitation
-from . import signals
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 from .app_settings import app_settings
 from .adapters import get_invitations_adapter
+from .signals import invite_accepted
 
 
 class SendInvite(LoginRequiredMixin, FormView):
@@ -138,21 +138,15 @@ class AcceptInvite(SingleObjectMixin, View):
             # Redirect to sign-up since they might be able to register anyway.
             return redirect(app_settings.SIGNUP_REDIRECT)
 
-        # The invitation is valid! Accept it and let them finish the sign-up.
-        invitation.accepted = True
-        invitation.save()
+        # The invitation is valid.
+        # Mark it as accepted now if ACCEPT_INVITE_AFTER_SIGNUP is False.
+        if not app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
+            accept_invitation(invitation=invitation,
+                              request=self.request,
+                              signal_sender=self.__class__)
+
         get_invitations_adapter().stash_verified_email(
             self.request, invitation.email)
-
-        signals.invite_accepted.send(sender=self.__class__,
-                                     request=self.request,
-                                     email=invitation.email)
-
-        get_invitations_adapter().add_message(
-            self.request,
-            messages.SUCCESS,
-            'invitations/messages/invite_accepted.txt',
-            {'email': invitation.email})
 
         return redirect(app_settings.SIGNUP_REDIRECT)
 
@@ -166,3 +160,28 @@ class AcceptInvite(SingleObjectMixin, View):
 
     def get_queryset(self):
         return Invitation.objects.all()
+
+
+def accept_invitation(invitation, request, signal_sender):
+    invitation.accepted = True
+    invitation.save()
+
+    invite_accepted.send(sender=signal_sender, email=invitation.email)
+
+    get_invitations_adapter().add_message(
+        request,
+        messages.SUCCESS,
+        'invitations/messages/invite_accepted.txt',
+        {'email': invitation.email})
+
+
+def accept_invite_after_signup(sender, request, user, **kwargs):
+    invitation = Invitation.objects.filter(email=user.email).first()
+    if invitation:
+        accept_invitation(invitation=invitation,
+                          request=request,
+                          signal_sender=Invitation)
+
+if app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
+    signed_up_signal = get_invitations_adapter().get_user_signed_up_signal()
+    signed_up_signal.connect(accept_invite_after_signup)
