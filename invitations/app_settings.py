@@ -60,6 +60,13 @@ class AppSettings(object):
             'ADAPTER', 'invitations.adapters.BaseInvitationsAdapter')
 
     @property
+    def EMAIL_MAX_LENGTH(self):
+        """
+        Adjust max_length of e-mail addresses
+        """
+        return self._setting("EMAIL_MAX_LENGTH", 254)
+
+    @property
     def EMAIL_SUBJECT_PREFIX(self):
         """
         Subject-line prefix to use for email messages sent

@@ -4,6 +4,9 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 from django.conf import settings
 
+EMAIL_MAX_LENGTH = getattr(settings, 'INVITATIONS_EMAIL_MAX_LENGTH', 254)
+
+
 
 class Migration(migrations.Migration):
 
@@ -21,6 +24,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='invitation',
             name='email',
-            field=models.EmailField(unique=True, max_length=254, verbose_name='e-mail address'),
+            field=models.EmailField(unique=True, max_length=EMAIL_MAX_LENGTH, verbose_name='e-mail address'),
         ),
     ]

@@ -19,7 +19,8 @@ from . import signals
 @python_2_unicode_compatible
 class Invitation(models.Model):
 
-    email = models.EmailField(unique=True, verbose_name=_('e-mail address'))
+    email = models.EmailField(unique=True, verbose_name=_('e-mail address'),
+                              max_length=app_settings.EMAIL_MAX_LENGTH)
     accepted = models.BooleanField(verbose_name=_('accepted'), default=False)
     created = models.DateTimeField(verbose_name=_('created'),
                                    default=timezone.now)
