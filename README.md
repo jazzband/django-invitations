@@ -111,6 +111,10 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     Used for custom integrations. Set this to `ACCOUNT_ADAPTER` if using django-allauth.
 
+*  `INVITATIONS_EMAIL_MAX_LENGTH` (default=`254`)
+
+    If set to `None` (the default), invitation email max length will be set up to 254. Set this to an integer value to set up a custome email max length value.
+
 *  `INVITATIONS_EMAIL_SUBJECT_PREFIX` (default=`None`)
 
     If set to `None` (the default), invitation email subjects will be prefixed with the name of the current Site in brackets (such as `[example.com]`). Set this to a string to for a custom email subject prefix, or an empty string for no prefix.
