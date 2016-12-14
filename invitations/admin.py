@@ -1,7 +1,9 @@
 from django.contrib import admin
 
-from .models import Invitation
 from .forms import InvitationAdminAddForm, InvitationAdminChangeForm
+from .utils import get_invitation_model
+
+Invitation = get_invitation_model()
 
 
 class InvitationAdmin(admin.ModelAdmin):
@@ -15,5 +17,6 @@ class InvitationAdmin(admin.ModelAdmin):
             kwargs['form'].user = request.user
             kwargs['form'].request = request
         return super(InvitationAdmin, self).get_form(request, obj, **kwargs)
+
 
 admin.site.register(Invitation, InvitationAdmin)

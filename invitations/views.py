@@ -11,11 +11,13 @@ from django.core.validators import validate_email
 from braces.views import LoginRequiredMixin
 
 from .forms import InviteForm, CleanEmailMixin
-from .models import Invitation
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 from .app_settings import app_settings
 from .adapters import get_invitations_adapter
 from .signals import invite_accepted
+from .utils import get_invitation_model
+
+Invitation = get_invitation_model()
 
 
 class SendInvite(LoginRequiredMixin, FormView):
@@ -181,6 +183,7 @@ def accept_invite_after_signup(sender, request, user, **kwargs):
         accept_invitation(invitation=invitation,
                           request=request,
                           signal_sender=Invitation)
+
 
 if app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
     signed_up_signal = get_invitations_adapter().get_user_signed_up_signal()

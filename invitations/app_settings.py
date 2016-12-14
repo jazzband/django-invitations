@@ -73,4 +73,12 @@ class AppSettings(object):
         """
         return self._setting("EMAIL_SUBJECT_PREFIX", None)
 
+    @property
+    def INVITATION_MODEL(self):
+        """
+        Subject-line prefix to use for Invitation model setup
+        """
+        return self._setting("INVITATION_MODEL", "invitations.Invitation")
+
+
 app_settings = AppSettings('INVITATIONS_')
