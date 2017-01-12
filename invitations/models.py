@@ -6,9 +6,12 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template.context import RequestContext
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 
 from .managers import InvitationManager
 from .app_settings import app_settings
