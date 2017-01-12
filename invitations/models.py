@@ -26,8 +26,8 @@ class Invitation(models.Model):
                                    default=timezone.now)
     key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
     sent = models.DateTimeField(verbose_name=_('sent'), null=True)
-    inviter = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, blank=True)
+    inviter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True,
+                                blank=True, on_delete=models.CASCADE)
 
     objects = InvitationManager()
 
