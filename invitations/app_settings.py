@@ -73,4 +73,5 @@ class AppSettings(object):
         """
         return self._setting("EMAIL_SUBJECT_PREFIX", None)
 
+
 app_settings = AppSettings('INVITATIONS_')

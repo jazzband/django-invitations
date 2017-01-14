@@ -16,4 +16,5 @@ class InvitationAdmin(admin.ModelAdmin):
             kwargs['form'].request = request
         return super(InvitationAdmin, self).get_form(request, obj, **kwargs)
 
+
 admin.site.register(Invitation, InvitationAdmin)
