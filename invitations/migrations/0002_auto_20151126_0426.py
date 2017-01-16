@@ -2,6 +2,7 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+import django.db.models.deletion
 from django.conf import settings
 
 EMAIL_MAX_LENGTH = getattr(settings, 'INVITATIONS_EMAIL_MAX_LENGTH', 254)
@@ -19,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='invitation',
             name='inviter',
-            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True),
+            field=models.ForeignKey(to=settings.AUTH_USER_MODEL, null=True, on_delete=django.db.models.deletion.CASCADE),
         ),
         migrations.AlterField(
             model_name='invitation',

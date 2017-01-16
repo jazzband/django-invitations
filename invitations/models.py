@@ -6,9 +6,12 @@ from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.sites.models import Site
-from django.core.urlresolvers import reverse
 from django.conf import settings
 from django.template.context import RequestContext
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 
 from .managers import InvitationManager
 from .app_settings import app_settings
@@ -26,8 +29,8 @@ class Invitation(models.Model):
                                    default=timezone.now)
     key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
     sent = models.DateTimeField(verbose_name=_('sent'), null=True)
-    inviter = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, blank=True)
+    inviter = models.ForeignKey(settings.AUTH_USER_MODEL, null=True,
+                                blank=True, on_delete=models.CASCADE)
 
     objects = InvitationManager()
 
