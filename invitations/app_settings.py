@@ -7,7 +7,6 @@ class AppSettings(object):
         self.prefix = prefix
 
     def _setting(self, name, dflt):
-        from django.conf import settings
         return getattr(settings, self.prefix + name, dflt)
 
     @property
