@@ -6,13 +6,13 @@ setup(
     package_data={'invitations': ['templates/*.*']},
     include_package_data=True,
     zip_safe=False,
-    version='1.8',
+    version='1.9',
     description='Generic invitations app with support for django-allauth',
     author='https://github.com/bee-keeper',
     author_email='none@none.com',
     url='https://github.com/bee-keeper/django-invitations.git',
     download_url='https://github.com/'
-                 'bee-keeper/django-invitations/tarball/1.8',
+                 'bee-keeper/django-invitations/tarball/1.9',
     keywords=['django', 'invitation', 'django-allauth', 'invite'],
     classifiers=[
         'Development Status :: 4 - Beta',
