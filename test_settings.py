@@ -60,9 +60,17 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
+    # 'south',
     'django_nose',
     'invitations',
+
 )
+
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
 )
+
+
+# SOUTH_MIGRATION_MODULES = {
+#     'invitations': 'invitations.south_migrations',
+# }
