@@ -60,7 +60,7 @@ matrix:
       env: TOX_ENV=py35-django18-backendAllauth
     - python: "3.5"
       env: TOX_ENV=py35-django19-backendAllauth
-      - python: "3.5"
+    - python: "3.5"
       env: TOX_ENV=py35-django110-backendAllauth
     - python: "3.5"
       env: TOX_ENV=py35-django111-backendAllauth
