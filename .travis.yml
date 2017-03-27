@@ -18,7 +18,6 @@ env:
     - TOX_ENV=py34-django110-backendBasic
     - TOX_ENV=py34-django111-backendBasic
 
-    - TOX_ENV=py35-django17-backendBasic
     - TOX_ENV=py35-django18-backendBasic
     - TOX_ENV=py35-django19-backendBasic
     - TOX_ENV=py35-django110-backendBasic
@@ -39,7 +38,6 @@ env:
     - TOX_ENV=py34-django110-backendAllauth
     - TOX_ENV=py34-django111-backendAllauth
 
-    - TOX_ENV=py35-django17-backendAllauth
     - TOX_ENV=py35-django18-backendAllauth
     - TOX_ENV=py35-django19-backendAllauth
     - TOX_ENV=py35-django110-backendAllauth
