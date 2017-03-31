@@ -22,8 +22,39 @@ class TestAllAuthIntegration:
         ('get'),
         ('post'),
     ])
+    def test_accept_invite_accepted_invitation_after_signup(
+            self, settings, method, sent_invitation_by_user_a, user_a):
+        settings.INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse('invitations:accept-invite',
+                    kwargs={'key': sent_invitation_by_user_a.key}
+                    ), follow=True)
+        assert resp.status_code == 200
+
+        invite = Invitation.objects.get(email='email@example.com')
+        assert invite.inviter == user_a
+        assert invite.accepted is False
+        assert resp.request['PATH_INFO'] == reverse('account_signup')
+        form = resp.context_data['form']
+        assert 'email@example.com' == form.fields['email'].initial
+
+        resp = self.client.post(
+            reverse('account_signup'),
+            {'email': 'email@example.com',
+             'username': 'username',
+             'password1': 'password',
+             'password2': 'password'
+             })
+        invite = Invitation.objects.get(email='email@example.com')
+        assert invite.accepted is True
+
+    @pytest.mark.parametrize('method', [
+        ('get'),
+        ('post'),
+    ])
     def test_accept_invite_allauth(
-            self, method, user_a, sent_invitation_by_user_a):
+            self, method, settings, user_a, sent_invitation_by_user_a):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse(
@@ -55,37 +86,6 @@ class TestAllAuthIntegration:
         allauth_email_obj = EmailAddress.objects.get(
             email='email@example.com')
         assert allauth_email_obj.verified is True
-
-    @pytest.mark.parametrize('method', [
-        ('get'),
-        ('post'),
-    ])
-    def test_accept_invite_accepted_invitation_after_signup(
-            self, settings, method, sent_invitation_by_user_a, user_a):
-        settings.INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
-        client_with_method = getattr(self.client, method)
-        resp = client_with_method(
-            reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}
-                    ), follow=True)
-        assert resp.status_code == 200
-
-        invite = Invitation.objects.get(email='email@example.com')
-        assert invite.inviter == user_a
-        assert invite.accepted is False
-        assert resp.request['PATH_INFO'] == reverse('account_signup')
-        form = resp.context_data['form']
-        assert 'email@example.com' == form.fields['email'].initial
-
-        resp = self.client.post(
-            reverse('account_signup'),
-            {'email': 'email@example.com',
-             'username': 'username',
-             'password1': 'password',
-             'password2': 'password'
-             })
-        invite = Invitation.objects.get(email='email@example.com')
-        assert invite.accepted is True
 
     def test_fetch_adapter(self):
         assert isinstance(self.adapter, InvitationsAdapter)
