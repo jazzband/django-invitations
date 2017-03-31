@@ -39,7 +39,10 @@ class TestAllAuthIntegration:
         assert 'email@example.com' == form.fields['email'].initial
         messages = resp.context['messages']
         message_text = [message.message for message in messages]
-        assert 'Invitation to - email@example.com - has been accepted' in message_text
+        assert (
+            'Invitation to - email@example.com - has been accepted' in
+            message_text
+        )
 
         resp = self.client.post(
             reverse('account_signup'),

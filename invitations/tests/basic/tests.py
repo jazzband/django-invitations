@@ -181,7 +181,8 @@ class TestInvitationsAcceptView:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
+                    kwargs={'key': sent_invitation_by_user_a.key}
+                    ), follow=True)
         assert resp.status_code == 410
 
     @pytest.mark.parametrize('method', [
@@ -196,7 +197,8 @@ class TestInvitationsAcceptView:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
+                    kwargs={'key': sent_invitation_by_user_a.key}
+                    ), follow=True)
         assert resp.request['PATH_INFO'] == '/signup-url/'
 
     @pytest.mark.parametrize('method', [
@@ -209,7 +211,8 @@ class TestInvitationsAcceptView:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
+                    kwargs={'key': sent_invitation_by_user_a.key}
+                    ), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
         assert invite.accepted is True
         assert invite.inviter == user_a
