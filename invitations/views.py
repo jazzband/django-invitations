@@ -11,11 +11,13 @@ from django.core.validators import validate_email
 from braces.views import LoginRequiredMixin
 
 from .forms import InviteForm, CleanEmailMixin
-from .models import Invitation
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
 from .app_settings import app_settings
 from .adapters import get_invitations_adapter
 from .signals import invite_accepted
+from .utils import get_invitation_model
+
+Invitation = get_invitation_model()
 
 
 class SendInvite(LoginRequiredMixin, FormView):

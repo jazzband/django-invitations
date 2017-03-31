@@ -17,10 +17,12 @@ from nose_parameterized import parameterized
 
 from invitations.adapters import (
     get_invitations_adapter, BaseInvitationsAdapter)
-from invitations.models import Invitation
 from invitations.app_settings import app_settings
 from invitations.views import AcceptInvite, SendJSONInvite
 from invitations.forms import InviteForm
+from invitations.utils import get_invitation_model
+
+Invitation = get_invitation_model()
 
 
 class InvitationModelTests(TestCase):
@@ -538,6 +540,6 @@ class InvitationsAdminTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         fields = list(response.context_data['adminform'].form.fields.keys())
-        expected_fields = ['email', 'accepted', 'created',
-                           'key', 'sent', 'inviter']
+        expected_fields = ['accepted',
+                           'key', 'sent', 'inviter', 'email', 'created']
         self.assertEqual(fields, expected_fields)

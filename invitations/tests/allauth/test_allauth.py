@@ -8,8 +8,11 @@ from django.utils import timezone
 from nose_parameterized import parameterized
 from allauth.account.models import EmailAddress
 
-from invitations.models import Invitation, InvitationsAdapter
+from invitations.models import InvitationsAdapter
 from invitations.adapters import get_invitations_adapter
+from invitations.utils import get_invitation_model
+
+Invitation = get_invitation_model()
 
 
 class AllAuthIntegrationTests(TestCase):
