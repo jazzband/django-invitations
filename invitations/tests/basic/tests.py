@@ -80,7 +80,8 @@ class TestInvitationsSendView:
         ('invited@example.com', 'This e-mail address has already been'),
         ('flobble@example.com', 'An active user is'),
     ])
-    def test_invalid_form_submissions(self, user_a, user_b, invitation_b, email, error):
+    def test_invalid_form_submissions(
+            self, user_a, user_b, invitation_b, email, error):
         self.client.login(username='flibble', password='password')
         resp = self.client.post(
             reverse('invitations:send-invite'), {'email': email})
@@ -104,7 +105,8 @@ class TestInvitationsSendView:
         assert 'Invitation to join example.com' in mail.outbox[0].subject
         url = re.search(
             "(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
-        assert url == reverse('invitations:accept-invite', kwargs={'key': invitation.key})
+        assert url == reverse(
+            'invitations:accept-invite', kwargs={'key': invitation.key})
 
 
 @pytest.mark.django_db
@@ -159,7 +161,8 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    def test_accept_invite_accepted_key_error_disabled(self, settings, accepted_invitation, method):
+    def test_accept_invite_accepted_key_error_disabled(
+            self, settings, accepted_invitation, method):
         settings.INVITATIONS_GONE_ON_ACCEPT_ERROR = False
         settings.INVITATIONS_LOGIN_REDIRECT = '/login-url/'
         client_with_method = getattr(self.client, method)
@@ -172,7 +175,8 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    def test_accept_invite_expired_key(self, settings, sent_invitation_by_user_a, method):
+    def test_accept_invite_expired_key(
+            self, settings, sent_invitation_by_user_a, method):
         settings.INVITATIONS_INVITATION_EXPIRY = 0
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
@@ -199,7 +203,8 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    def test_accept_invite(self, settings, sent_invitation_by_user_a, user_a, method):
+    def test_accept_invite(
+            self, settings, sent_invitation_by_user_a, user_a, method):
         settings.INVITATIONS_SIGNUP_REDIRECT = '/non-existent-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
@@ -254,8 +259,8 @@ class TestInvitationSignals:
 
         self.client.post(
             reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
-
+                    kwargs={'key': sent_invitation_by_user_a.key}
+                    ), follow=True)
         assert mock_signal.called
         assert mock_signal.call_count == 1
 
@@ -272,7 +277,8 @@ class TestInvitationsForm:
         ('flobble@example.com', False, 'active user is using this'),
     ])
     def test_form(
-            self, email, form_validity, errors, accepted_invitation, pending_invitation, user_b):
+            self, email, form_validity, errors,
+            accepted_invitation, pending_invitation, user_b):
         form = InviteForm(data={'email': email})
         if errors:
             assert errors in str(form.errors)
@@ -285,7 +291,8 @@ class TestInvitationsForm:
 class TestInvitationsManager:
 
     def test_managers(
-            self, sent_invitation_by_user_a, accepted_invitation, expired_invitation, invitation_b):
+            self, sent_invitation_by_user_a, accepted_invitation,
+            expired_invitation, invitation_b):
         valid = Invitation.objects.all_valid().values_list(
             'email', flat=True)
         expired = Invitation.objects.all_expired().values_list(
@@ -333,7 +340,8 @@ class TestInvitationsJSON:
          201),
     ])
     def test_post(
-            self, settings, data, expected, status_code, user_a, accepted_invitation,
+            self, settings, data, expected, status_code,
+            user_a, accepted_invitation,
             pending_invitation, user_b):
         settings.INVITATIONS_ALLOW_JSON_INVITES = True
         self.client.login(username='flibble', password='password')

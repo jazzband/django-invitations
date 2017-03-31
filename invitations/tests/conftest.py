@@ -73,7 +73,8 @@ def accepted_invitation(db, user_a):
 @pytest.fixture
 def pending_invitation(db, user_a):
     invite = Invitation.create('pending@example.com', inviter=user_a)
-    invite.sent = timezone.now() - datetime.timedelta(days=app_settings.INVITATION_EXPIRY - 1)
+    invite.sent = timezone.now() - datetime.timedelta(
+        days=app_settings.INVITATION_EXPIRY - 1)
     invite.save()
     return invite
 
@@ -81,6 +82,7 @@ def pending_invitation(db, user_a):
 @pytest.fixture
 def expired_invitation(db, user_a):
     invite = Invitation.create('expired@example.com')
-    invite.sent = timezone.now() - datetime.timedelta(days=app_settings.INVITATION_EXPIRY + 1)
+    invite.sent = timezone.now() - datetime.timedelta(
+        days=app_settings.INVITATION_EXPIRY + 1)
     invite.save()
     return invite

@@ -22,11 +22,14 @@ class TestAllAuthIntegration:
         ('get'),
         ('post'),
     ])
-    def test_accept_invite_allauth(self, method, user_a, sent_invitation_by_user_a):
+    def test_accept_invite_allauth(
+            self, method, user_a, sent_invitation_by_user_a):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
+            reverse(
+                'invitations:accept-invite',
+                kwargs={'key': sent_invitation_by_user_a.key}
+            ), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
         assert invite.accepted
         assert invite.inviter == user_a
@@ -60,7 +63,8 @@ class TestAllAuthIntegration:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
+                    kwargs={'key': sent_invitation_by_user_a.key}
+                    ), follow=True)
         assert resp.status_code == 200
 
         invite = Invitation.objects.get(email='email@example.com')
