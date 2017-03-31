@@ -1,10 +1,10 @@
-##Django-invitations - Generic invitations app
+## Django-invitations - Generic invitations app
 
 [![Build Status](https://travis-ci.org/bee-keeper/django-invitations.svg?branch=master)](https://travis-ci.org/bee-keeper/django-invitations)
 
 [![Coverage Status](https://coveralls.io/repos/bee-keeper/django-invitations/badge.svg?branch=master&service=github)](https://coveralls.io/github/bee-keeper/django-invitations?branch=master)
 
-###About
+### About
 Generic invitations solution with adaptable backend and support for django-allauth.  All emails and messages are fully customisable.
 
 Originally written as an invitations solution for the excellent [django-allauth](https://github.com/pennersr/django-allauth), this app has been refactored to remove the allauth dependency whilst retaining 100% backwards compatibility.
@@ -23,7 +23,7 @@ Allauth Invitation flow:
 * The signup URL has the email prefilled and upon signing up the user is logged into the site
 
 
-###Generic Installation
+### Generic Installation
 
 ```
 pip install django-invitations
@@ -35,7 +35,7 @@ pip install django-invitations
 url(r'^invitations/', include('invitations.urls', namespace='invitations')),
 ```
 
-###Allauth Integration
+### Allauth Integration
 
 As above but note that invitations must come after allauth in the INSTALLED_APPS
 
@@ -44,7 +44,7 @@ As above but note that invitations must come after allauth in the INSTALLED_APPS
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 ```
 
-###Sending Invites
+### Sending Invites
 
 ```
 # inviter argument is optional
@@ -55,12 +55,12 @@ invite.send_invitation(request)
 To send invites via django admin, just add an invite and save.
 
 
-###Bulk Invites
+### Bulk Invites
 
 Bulk invites are supported via JSON.  Post a list of comma separated emails to the dedicated URL and Invitations will return a data object containing a list of valid and invalid invitations.
 
 
-###Testing
+### Testing
 
 `python manage.py test` or `tox`
 
@@ -119,7 +119,7 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     If set to `None` (the default), invitation email subjects will be prefixed with the name of the current Site in brackets (such as `[example.com]`). Set this to a string to for a custom email subject prefix, or an empty string for no prefix.
 
-###Signals
+### Signals
 
 The following signals are emitted:
 
@@ -127,7 +127,7 @@ The following signals are emitted:
 * `invite_accepted`
 
 
-###Management Commands
+### Management Commands
 Expired and accepted invites can be cleared as so:
 
 `python manage.py clear_expired_invitations`

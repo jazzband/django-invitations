@@ -1,6 +1,5 @@
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
-from django.test.utils import override_settings
 from django.test import Client
 
 import pytest
@@ -13,8 +12,7 @@ from invitations.adapters import get_invitations_adapter
 Invitation = get_invitation_model()
 
 
-@pytest.mark.django_db
-class TestAllAuthIntegration:
+class TestAllAuthIntegrationAcceptAfterSignup:
     client = Client()
     adapter = get_invitations_adapter()
 
@@ -48,6 +46,11 @@ class TestAllAuthIntegration:
              })
         invite = Invitation.objects.get(email='email@example.com')
         assert invite.accepted is True
+
+
+class TestAllAuthIntegration:
+    client = Client()
+    adapter = get_invitations_adapter()
 
     @pytest.mark.parametrize('method', [
         ('get'),
@@ -95,10 +98,9 @@ class TestAllAuthIntegration:
             'account_signup', urlconf='allauth.account.urls'))
         assert self.adapter.is_open_for_signup(signup_request) is True
 
-    @override_settings(
-        INVITATIONS_INVITATION_ONLY=True,
-    )
-    def test_allauth_adapter_invitations_only(self):
+    @pytest.mark.django_db
+    def test_allauth_adapter_invitations_only(self, settings):
+        settings.INVITATIONS_INVITATION_ONLY = True
         signup_request = RequestFactory().get(reverse(
             'account_signup', urlconf='allauth.account.urls'))
         assert self.adapter.is_open_for_signup(signup_request) is False

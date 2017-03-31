@@ -222,7 +222,8 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_SIGNUP_REDIRECT = '/non-existent-url/'
         resp = self.client.post(
             reverse('invitations:accept-invite',
-                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
+                    kwargs={'key': sent_invitation_by_user_a.key}
+                    ), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
         assert invite.accepted is True
         assert resp.request['PATH_INFO'] == '/non-existent-url/'
