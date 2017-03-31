@@ -14,7 +14,8 @@ from django.contrib.auth.models import AnonymousUser
 import pytest
 from freezegun import freeze_time
 
-from invitations.adapters import BaseInvitationsAdapter
+from invitations.adapters import (
+    BaseInvitationsAdapter, get_invitations_adapter)
 from invitations.app_settings import app_settings
 from invitations.views import AcceptInvite, SendJSONInvite
 from invitations.forms import InviteForm
@@ -44,10 +45,12 @@ class TestInvitationModel:
 
 class TestInvitationsAdapter:
 
-    def test_fetch_adapter(self, adapter):
+    def test_fetch_adapter(self):
+        adapter = get_invitations_adapter()
         assert isinstance(adapter, BaseInvitationsAdapter)
 
-    def test_email_subject_prefix_settings_with_site(self, adapter):
+    def test_email_subject_prefix_settings_with_site(self):
+        adapter = get_invitations_adapter()
         with patch('invitations.adapters.Site') as MockSite:
             MockSite.objects.get_current.return_value.name = 'Foo.com'
             result = adapter.format_email_subject('Bar')
@@ -56,7 +59,8 @@ class TestInvitationsAdapter:
     @override_settings(
         INVITATIONS_EMAIL_SUBJECT_PREFIX=''
     )
-    def test_email_subject_prefix_settings_with_custom_override(self, adapter):
+    def test_email_subject_prefix_settings_with_custom_override(self):
+        adapter = get_invitations_adapter()
         result = adapter.format_email_subject('Bar')
         assert result == 'Bar'
 
@@ -107,10 +111,8 @@ class TestInvitationsSendView:
 class TestInvitationsAcceptView:
     client = Client()
 
-    @override_settings(
-        INVITATIONS_CONFIRM_INVITE_ON_GET=False
-    )
-    def test_accept_invite_GET_is_404(self, invitation_b):
+    def test_accept_invite_get_is_404(self, settings, invitation_b):
+        settings.INVITATIONS_CONFIRM_INVITE_ON_GET = False
         resp = self.client.get(
             reverse(
                 'invitations:accept-invite',
@@ -133,11 +135,9 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    @override_settings(
-        INVITATIONS_GONE_ON_ACCEPT_ERROR=False,
-        INVITATIONS_LOGIN_REDIRECT='/login-url/'
-    )
-    def test_accept_invite_invalid_key_error_disabled(self, method):
+    def test_accept_invite_invalid_key_error_disabled(self, settings, method):
+        settings.INVITATIONS_GONE_ON_ACCEPT_ERROR = False
+        settings.INVITATIONS_LOGIN_REDIRECT = '/login-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite', kwargs={'key': 'invalidKey'}),
@@ -159,11 +159,9 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    @override_settings(
-        INVITATIONS_GONE_ON_ACCEPT_ERROR=False,
-        INVITATIONS_LOGIN_REDIRECT='/login-url/'
-    )
-    def test_accept_invite_accepted_key_error_disabled(self, accepted_invitation, method):
+    def test_accept_invite_accepted_key_error_disabled(self, settings, accepted_invitation, method):
+        settings.INVITATIONS_GONE_ON_ACCEPT_ERROR = False
+        settings.INVITATIONS_LOGIN_REDIRECT = '/login-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
@@ -174,10 +172,8 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    @override_settings(
-        INVITATIONS_INVITATION_EXPIRY=0
-    )
-    def test_accept_invite_expired_key(self, sent_invitation_by_user_a, method):
+    def test_accept_invite_expired_key(self, settings, sent_invitation_by_user_a, method):
+        settings.INVITATIONS_INVITATION_EXPIRY = 0
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
@@ -188,12 +184,11 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    @override_settings(
-        INVITATIONS_INVITATION_EXPIRY=0,
-        INVITATIONS_GONE_ON_ACCEPT_ERROR=False,
-        INVITATIONS_SIGNUP_REDIRECT='/signup-url/'
-    )
-    def test_accept_invite_expired_key_error_disabled(self, sent_invitation_by_user_a, method):
+    def test_accept_invite_expired_key_error_disabled(
+            self, sent_invitation_by_user_a, method, settings):
+        settings.INVITATIONS_INVITATION_EXPIRY = 0
+        settings.INVITATIONS_GONE_ON_ACCEPT_ERROR = False
+        settings.INVITATIONS_SIGNUP_REDIRECT = '/signup-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
@@ -204,10 +199,8 @@ class TestInvitationsAcceptView:
         ('get'),
         ('post'),
     ])
-    @override_settings(
-        INVITATIONS_SIGNUP_REDIRECT='/non-existent-url/'
-    )
-    def test_accept_invite(self, sent_invitation_by_user_a, user_a, method):
+    def test_accept_invite(self, settings, sent_invitation_by_user_a, user_a, method):
+        settings.INVITATIONS_SIGNUP_REDIRECT = '/non-existent-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
@@ -217,10 +210,8 @@ class TestInvitationsAcceptView:
         assert invite.inviter == user_a
         assert resp.request['PATH_INFO'] == '/non-existent-url/'
 
-    @override_settings(
-        INVITATIONS_SIGNUP_REDIRECT='/non-existent-url/'
-    )
-    def test_signup_redirect(self, sent_invitation_by_user_a):
+    def test_signup_redirect(self, settings, sent_invitation_by_user_a):
+        settings.INVITATIONS_SIGNUP_REDIRECT = '/non-existent-url/'
         resp = self.client.post(
             reverse('invitations:accept-invite',
                     kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
@@ -341,12 +332,10 @@ class TestInvitationsJSON:
           u'invalid': []},
          201),
     ])
-    @override_settings(
-        INVITATIONS_ALLOW_JSON_INVITES=True
-    )
     def test_post(
-            self, data, expected, status_code, user_a, accepted_invitation,
+            self, settings, data, expected, status_code, user_a, accepted_invitation,
             pending_invitation, user_b):
+        settings.INVITATIONS_ALLOW_JSON_INVITES = True
         self.client.login(username='flibble', password='password')
         response = self.client.post(
             reverse('invitations:send-json-invite'),
@@ -377,10 +366,8 @@ class TestInvitationsJSON:
 
         assert response.status_code == 302
 
-    @override_settings(
-        INVITATIONS_ALLOW_JSON_INVITES=True
-    )
-    def test_authenticated_get(self, user_a):
+    def test_authenticated_get(self, settings, user_a):
+        settings.INVITATIONS_ALLOW_JSON_INVITES = True
         request = RequestFactory().get(
             reverse('invitations:send-json-invite'),
             content_type='application/json')

@@ -17,15 +17,6 @@ Invitation = get_invitation_model()
 class TestAllAuthIntegration:
     client = Client()
     adapter = get_invitations_adapter()
-    # @classmethod
-    # def setUpClass(cls):
-    #     cls.user = get_user_model().objects.create_user(
-    #         username='flibble',
-    #         password='password')
-    #     cls.invitation = Invitation.create(
-    #         'email@example.com', inviter=cls.user)
-    #     cls.invitation.sent = timezone.now()
-    #     cls.invitation.save()
 
     @pytest.mark.parametrize('method', [
         ('get'),
@@ -63,11 +54,9 @@ class TestAllAuthIntegration:
         ('get'),
         ('post'),
     ])
-    @override_settings(
-        INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP=True,
-    )
     def test_accept_invite_accepted_invitation_after_signup(
-            self, method, sent_invitation_by_user_a, user_a):
+            self, settings, method, sent_invitation_by_user_a, user_a):
+        settings.INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',

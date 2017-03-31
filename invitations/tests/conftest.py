@@ -8,7 +8,6 @@ from django.utils import timezone
 from freezegun import freeze_time
 
 from invitations.utils import get_invitation_model
-from invitations.adapters import get_invitations_adapter
 from invitations.app_settings import app_settings
 
 Invitation = get_invitation_model()
@@ -26,11 +25,6 @@ def invitation_a(db):
 @pytest.fixture
 def invitation_b(db):
     return Invitation.create('invited@example.com')
-
-
-@pytest.fixture
-def adapter():
-    return get_invitations_adapter()
 
 
 @pytest.fixture
