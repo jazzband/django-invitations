@@ -7,8 +7,8 @@ from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-
-from braces.views import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 
 from .forms import InviteForm, CleanEmailMixin
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
@@ -20,9 +20,13 @@ from .utils import get_invitation_model
 Invitation = get_invitation_model()
 
 
-class SendInvite(LoginRequiredMixin, FormView):
+class SendInvite(FormView):
     template_name = 'invitations/forms/_invite.html'
     form_class = InviteForm
+
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(SendInvite, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         email = form.cleaned_data["email"]
@@ -43,9 +47,10 @@ class SendInvite(LoginRequiredMixin, FormView):
         return self.render_to_response(self.get_context_data(form=form))
 
 
-class SendJSONInvite(LoginRequiredMixin, View):
+class SendJSONInvite(View):
     http_method_names = [u'post']
 
+    @method_decorator(login_required)
     def dispatch(self, request, *args, **kwargs):
         if app_settings.ALLOW_JSON_INVITES:
             return super(SendJSONInvite, self).dispatch(

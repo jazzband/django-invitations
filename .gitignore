@@ -2,6 +2,7 @@
 *.pyc
 .tox/
 dist/
+.cache/
 .coverage/
 django_invitations.egg-info/
 .gitchangelog.rc

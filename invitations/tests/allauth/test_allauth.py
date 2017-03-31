@@ -1,60 +1,51 @@
-from django.test import TestCase
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
-from django.utils import timezone
+from django.test import Client
 
-from nose_parameterized import parameterized
+import pytest
 from allauth.account.models import EmailAddress
 
 from invitations.models import InvitationsAdapter
-from invitations.adapters import get_invitations_adapter
 from invitations.utils import get_invitation_model
+from invitations.adapters import get_invitations_adapter
 
 Invitation = get_invitation_model()
 
 
-class AllAuthIntegrationTests(TestCase):
+@pytest.mark.django_db
+class TestAllAuthIntegration:
+    client = Client()
+    adapter = get_invitations_adapter()
+    # @classmethod
+    # def setUpClass(cls):
+    #     cls.user = get_user_model().objects.create_user(
+    #         username='flibble',
+    #         password='password')
+    #     cls.invitation = Invitation.create(
+    #         'email@example.com', inviter=cls.user)
+    #     cls.invitation.sent = timezone.now()
+    #     cls.invitation.save()
 
-    @classmethod
-    def setUpClass(cls):
-        cls.user = get_user_model().objects.create_user(
-            username='flibble',
-            password='password')
-        cls.invitation = Invitation.create(
-            'email@example.com', inviter=cls.user)
-        cls.invitation.sent = timezone.now()
-        cls.invitation.save()
-        cls.adapter = get_invitations_adapter()
-
-    @classmethod
-    def tearDownClass(cls):
-        get_user_model().objects.all().delete()
-        Invitation.objects.all().delete()
-
-    @parameterized.expand([
+    @pytest.mark.parametrize('method', [
         ('get'),
         ('post'),
     ])
-    def test_accept_invite_allauth(self, method):
+    def test_accept_invite_allauth(self, method, user_a, sent_invitation_by_user_a):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
-                    kwargs={'key': self.invitation.key}), follow=True)
+                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
-        self.assertTrue(invite.accepted)
-        self.assertEqual(invite.inviter, self.user)
-        self.assertEqual(
-            resp.request['PATH_INFO'], reverse('account_signup'))
+        assert invite.accepted
+        assert invite.inviter == user_a
+        assert resp.request['PATH_INFO'] == reverse('account_signup')
 
         form = resp.context_data['form']
-        self.assertEqual('email@example.com', form.fields['email'].initial)
+        assert 'email@example.com' == form.fields['email'].initial
         messages = resp.context['messages']
         message_text = [message.message for message in messages]
-        self.assertEqual(
-            message_text, [
-                'Invitation to - email@example.com - has been accepted'])
+        assert 'Invitation to - email@example.com - has been accepted' in message_text
 
         resp = self.client.post(
             reverse('account_signup'),
@@ -66,29 +57,29 @@ class AllAuthIntegrationTests(TestCase):
 
         allauth_email_obj = EmailAddress.objects.get(
             email='email@example.com')
-        self.assertTrue(allauth_email_obj.verified)
+        assert allauth_email_obj.verified is True
 
-    @parameterized.expand([
+    @pytest.mark.parametrize('method', [
         ('get'),
         ('post'),
     ])
     @override_settings(
         INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP=True,
     )
-    def test_accept_invite_accepted_invitation_after_signup(self, method):
+    def test_accept_invite_accepted_invitation_after_signup(
+            self, method, sent_invitation_by_user_a, user_a):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse('invitations:accept-invite',
-                    kwargs={'key': self.invitation.key}), follow=True)
-        self.assertEqual(resp.status_code, 200)
+                    kwargs={'key': sent_invitation_by_user_a.key}), follow=True)
+        assert resp.status_code == 200
 
         invite = Invitation.objects.get(email='email@example.com')
-        self.assertEqual(invite.inviter, self.user)
-        self.assertFalse(invite.accepted)
-        self.assertEqual(
-            resp.request['PATH_INFO'], reverse('account_signup'))
+        assert invite.inviter == user_a
+        assert invite.accepted is False
+        assert resp.request['PATH_INFO'] == reverse('account_signup')
         form = resp.context_data['form']
-        self.assertEqual('email@example.com', form.fields['email'].initial)
+        assert 'email@example.com' == form.fields['email'].initial
 
         resp = self.client.post(
             reverse('account_signup'),
@@ -98,16 +89,15 @@ class AllAuthIntegrationTests(TestCase):
              'password2': 'password'
              })
         invite = Invitation.objects.get(email='email@example.com')
-        self.assertTrue(invite.accepted)
+        assert invite.accepted is True
 
     def test_fetch_adapter(self):
-        self.assertIsInstance(self.adapter, InvitationsAdapter)
+        assert isinstance(self.adapter, InvitationsAdapter)
 
     def test_allauth_signup_open(self):
         signup_request = RequestFactory().get(reverse(
             'account_signup', urlconf='allauth.account.urls'))
-        self.assertTrue(
-            self.adapter.is_open_for_signup(signup_request))
+        assert self.adapter.is_open_for_signup(signup_request) is True
 
     @override_settings(
         INVITATIONS_INVITATION_ONLY=True,
@@ -115,8 +105,7 @@ class AllAuthIntegrationTests(TestCase):
     def test_allauth_adapter_invitations_only(self):
         signup_request = RequestFactory().get(reverse(
             'account_signup', urlconf='allauth.account.urls'))
-        self.assertFalse(
-            self.adapter.is_open_for_signup(signup_request))
+        assert self.adapter.is_open_for_signup(signup_request) is False
         response = self.client.get(
             reverse('account_signup'))
-        self.assertIn('Sign Up Closed', response.content.decode('utf8'))
+        assert 'Sign Up Closed' in response.content.decode('utf8')
