@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+""" invitations' adapters """
+
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.conf import settings

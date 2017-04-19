@@ -1,3 +1,6 @@
+# -*- coding: utf-8 -*-
+""" invitations' models """
+
 import datetime
 
 from django.db import models
@@ -56,13 +59,13 @@ class Invitation(models.Model):
                              args=[self.key])
         invite_url = request.build_absolute_uri(invite_url)
 
-        ctx = RequestContext(request, {
+        ctx = {
             'invite_url': invite_url,
             'site_name': current_site.name,
             'email': self.email,
             'key': self.key,
             'inviter': self.inviter,
-        })
+        }
 
         email_template = 'invitations/email/email_invite'
 
