@@ -1,6 +1,3 @@
-# -*- coding: utf-8 -*-
-""" invitations' models """
-
 import datetime
 
 from django.db import models
