@@ -7,7 +7,6 @@ from django.utils.crypto import get_random_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.sites.models import Site
 from django.conf import settings
-from django.template.context import RequestContext
 try:
     from django.urls import reverse
 except ImportError:
@@ -56,13 +55,13 @@ class Invitation(models.Model):
                              args=[self.key])
         invite_url = request.build_absolute_uri(invite_url)
 
-        ctx = RequestContext(request, {
+        ctx = {
             'invite_url': invite_url,
             'site_name': current_site.name,
             'email': self.email,
             'key': self.key,
             'inviter': self.inviter,
-        })
+        }
 
         email_template = 'invitations/email/email_invite'
 
