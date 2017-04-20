@@ -10,7 +10,6 @@ from django.utils.crypto import get_random_string
 from django.utils.encoding import python_2_unicode_compatible
 from django.contrib.sites.models import Site
 from django.conf import settings
-from django.template.context import RequestContext
 try:
     from django.urls import reverse
 except ImportError:
