@@ -33,6 +33,10 @@ pip install django-invitations
 
 # Append to urls.py
 url(r'^invitations/', include('invitations.urls', namespace='invitations')),
+
+# Run migrations
+
+python manage.py migrate
 ```
 
 ### Allauth Integration
