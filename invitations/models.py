@@ -4,10 +4,10 @@ from django.conf import settings
 from django.contrib.sites.models import Site
 from django.core.urlresolvers import reverse
 from django.db import models
-from django.template.context import RequestContext
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.encoding import python_2_unicode_compatible
+
 from django.utils.translation import ugettext_lazy as _
 
 from . import signals
@@ -46,13 +46,13 @@ class Invitation(AbstractBaseInvitation):
                              args=[self.key])
         invite_url = request.build_absolute_uri(invite_url)
 
-        ctx = RequestContext(request, {
+        ctx = {
             'invite_url': invite_url,
             'site_name': current_site.name,
             'email': self.email,
             'key': self.key,
             'inviter': self.inviter,
-        })
+        }
 
         email_template = 'invitations/email/email_invite'
 

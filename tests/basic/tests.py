@@ -19,6 +19,7 @@ from invitations.adapters import (
 from invitations.app_settings import app_settings
 from invitations.views import AcceptInvite, SendJSONInvite
 from invitations.forms import InviteForm
+from .. models import ExampleSwappableInvitation
 from invitations.utils import get_invitation_model
 
 Invitation = get_invitation_model()
@@ -91,6 +92,28 @@ class TestInvitationsSendView:
 
     @freeze_time('2015-07-30 12:00:06')
     def test_valid_form_submission(self, user_a):
+        self.client.login(username='flibble', password='password')
+        resp = self.client.post(
+            reverse('invitations:send-invite'), {'email': 'email@example.com'})
+        invitation = Invitation.objects.get(email='email@example.com')
+
+        assert resp.status_code == 200
+        assert 'success_message' in resp.context_data.keys()
+
+        assert invitation.sent == datetime.datetime.now()
+        assert len(mail.outbox) == 1
+        assert mail.outbox[0].to[0] == 'email@example.com'
+        assert 'Invitation to join example.com' in mail.outbox[0].subject
+        url = re.search(
+            "(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
+        assert url == reverse(
+            'invitations:accept-invite', kwargs={'key': invitation.key})
+
+    @override_settings(
+        INVITATION_MODEL='ExampleSwappableInvitation'
+    )
+    @freeze_time('2015-07-30 12:00:06')
+    def test_valid_form_submission_with_swapped_model(self, user_a):
         self.client.login(username='flibble', password='password')
         resp = self.client.post(
             reverse('invitations:send-invite'), {'email': 'email@example.com'})

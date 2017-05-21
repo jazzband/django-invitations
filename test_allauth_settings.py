@@ -11,6 +11,7 @@ INSTALLED_APPS = (
     'allauth.account',
     'allauth.socialaccount',
     'invitations',
+    'tests',
 )
 
 AUTHENTICATION_BACKENDS = (
