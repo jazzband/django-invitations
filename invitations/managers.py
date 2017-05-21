@@ -7,7 +7,7 @@ from django.db.models import Q
 from .app_settings import app_settings
 
 
-class InvitationManager(models.Manager):
+class BaseInvitationManager(models.Manager):
 
     def all_expired(self):
         return self.filter(self.expired_q())

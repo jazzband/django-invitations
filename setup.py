@@ -27,7 +27,4 @@ setup(
         'Programming Language :: Python :: 3.5',
         'Framework :: Django',
     ],
-    install_requires=[
-        'django-braces>=1.8.0'
-    ]
 )

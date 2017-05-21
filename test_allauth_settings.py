@@ -7,11 +7,11 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django_nose',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'invitations',
+    'tests',
 )
 
 AUTHENTICATION_BACKENDS = (

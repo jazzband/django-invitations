@@ -3,7 +3,6 @@ import django
 
 SECRET_KEY = 'not_empty'
 SITE_ID = 1
-TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 DATABASES = {
     'default': {
@@ -51,7 +50,6 @@ MIDDLEWARE_CLASSES = (
 )
 
 EMAIL_BACKEND = 'django.core.mail.backends.locmem.EmailBackend'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 INSTALLED_APPS = (
     'django.contrib.auth',
@@ -60,7 +58,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.sites',
     'django.contrib.messages',
-    'django_nose',
+    'tests',
     'invitations',
 )
 AUTHENTICATION_BACKENDS = (
