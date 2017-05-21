@@ -6,7 +6,7 @@ setup(
     package_data={'invitations': ['templates/*.*']},
     include_package_data=True,
     zip_safe=False,
-    version='1.9',
+    version='1.9.1',
     description='Generic invitations app with support for django-allauth',
     author='https://github.com/bee-keeper',
     author_email='none@none.com',
