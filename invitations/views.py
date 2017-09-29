@@ -1,24 +1,25 @@
 import json
 
-from django.views.generic import FormView, View
-from django.views.generic.detail import SingleObjectMixin
 from django.contrib import messages
-from django.http import Http404, HttpResponse
-from django.shortcuts import redirect
+from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.contrib.auth.decorators import login_required
+from django.http import Http404, HttpResponse
+from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import ugettext_lazy as _
+from django.views.generic import FormView, View
+from django.views.generic.detail import SingleObjectMixin
 
-from .forms import InviteForm, CleanEmailMixin
-from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
-from .app_settings import app_settings
 from .adapters import get_invitations_adapter
+from .app_settings import app_settings
+from .exceptions import AlreadyAccepted, AlreadyInvited, UserRegisteredEmail
+from .forms import CleanEmailMixin
 from .signals import invite_accepted
-from .utils import get_invitation_model
+from .utils import get_invitation_model, get_invite_form
 
 Invitation = get_invitation_model()
+InviteForm = get_invite_form()
 
 
 class SendInvite(FormView):

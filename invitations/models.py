@@ -10,7 +10,6 @@ from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
 from django.utils.encoding import python_2_unicode_compatible
-
 from django.utils.translation import ugettext_lazy as _
 
 from . import signals

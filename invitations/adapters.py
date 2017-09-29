@@ -1,22 +1,21 @@
-from django.template.loader import render_to_string
-from django.contrib import messages
 from django.conf import settings
-from django.template import TemplateDoesNotExist
-from django.core.mail import EmailMultiAlternatives, EmailMessage
+from django.contrib import messages
 from django.contrib.sites.models import Site
+from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.template import TemplateDoesNotExist
+from django.template.loader import render_to_string
+
+from .app_settings import app_settings
+from .utils import import_attribute
 
 try:
     from django.utils.encoding import force_text
 except ImportError:
     from django.utils.encoding import force_unicode as force_text
 
-from .app_settings import app_settings
-from .utils import import_attribute
-
 
 # Code credits here to django-allauth
 class BaseInvitationsAdapter(object):
-
     def stash_verified_email(self, request, email):
         request.session['account_verified_email'] = email
 

@@ -17,6 +17,18 @@ def import_attribute(path):
     return ret
 
 
+def get_invite_form():
+    return import_attribute(app_settings.INVITE_FORM)
+
+
+def get_invitation_admin_add_form():
+    return import_attribute(app_settings.ADMIN_ADD_FORM)
+
+
+def get_invitation_admin_change_form():
+    return import_attribute(app_settings.ADMIN_CHANGE_FORM)
+
+
 def get_invitation_model():
     """
     Returns the Invitation model that is active in this project.
