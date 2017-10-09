@@ -5,8 +5,9 @@ from django.conf import settings
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^invitations/', include('invitations.urls')),
-    url(r'^admin/', admin.site.urls),
+    url(r'^invitations/', include(
+        'invitations.urls', namespace='invitations')),
+    url(r'^admin/', include(admin.site.urls)),
 ]
 
 if 'allauth' in settings.INSTALLED_APPS:
