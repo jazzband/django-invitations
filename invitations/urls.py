@@ -2,7 +2,6 @@ from django.conf.urls import url
 
 from . import views
 
-app_name = 'invitations'
 urlpatterns = [
     url(r'^send-invite/$', views.SendInvite.as_view(),
         name='send-invite'),
