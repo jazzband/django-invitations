@@ -7,7 +7,10 @@ from django.test import Client
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.utils import timezone
-from django.core.urlresolvers import reverse
+try:
+    from django.urls import reverse
+except ImportError:
+    from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import AnonymousUser
 
