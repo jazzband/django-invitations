@@ -6,7 +6,7 @@ from .app_settings import app_settings
 
 try:
     import importlib
-except:
+except ImportError:
     from django.utils import importlib
 
 
