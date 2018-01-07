@@ -99,3 +99,7 @@ msgstr "Email"
 #, python-format
 msgid "Invitation to - %(email)s - has been accepted"
 msgstr "Приглашение, отправленное на %(email)s, принято"
+
+#: views.py:44
+msgid "%(email)s has been invited"
+msgstr "Приглашение отправлено на %(email)s"
