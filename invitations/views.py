@@ -9,6 +9,7 @@ from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
+from django.utils.translation import ugettext_lazy as _
 
 from .forms import InviteForm, CleanEmailMixin
 from .exceptions import AlreadyInvited, AlreadyAccepted, UserRegisteredEmail
@@ -38,10 +39,9 @@ class SendInvite(FormView):
             invite.send_invitation(self.request)
         except Exception:
             return self.form_invalid(form)
-
         return self.render_to_response(
             self.get_context_data(
-                success_message='%s has been invited' % email))
+                success_message=_('%(email)s has been invited') % {"email": email}))
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
