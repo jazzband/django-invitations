@@ -41,8 +41,7 @@ class SendInvite(FormView):
             return self.form_invalid(form)
         return self.render_to_response(
             self.get_context_data(
-                success_message=_('%(email)s has been invited') % {"email": email},
-                form=self.get_form_class()))
+                success_message=_('%(email)s has been invited') % {"email": email}))
 
     def form_invalid(self, form):
         return self.render_to_response(self.get_context_data(form=form))
