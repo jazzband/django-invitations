@@ -1,5 +1,6 @@
 from django.core.management.base import BaseCommand
-from .. .utils import get_invitation_model
+
+from ...utils import get_invitation_model
 
 Invitation = get_invitation_model()
 

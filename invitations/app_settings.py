@@ -80,5 +80,23 @@ class AppSettings(object):
         """
         return self._setting("INVITATION_MODEL", "invitations.Invitation")
 
+    @property
+    def INVITE_FORM(self):
+        return self._setting("INVITE_FORM", "invitations.forms.InviteForm")
+
+    @property
+    def ADMIN_ADD_FORM(self):
+        return self._setting(
+            "ADMIN_ADD_FORM",
+            "invitations.forms.InvitationAdminAddForm"
+        )
+
+    @property
+    def ADMIN_CHANGE_FORM(self):
+        return self._setting(
+            "ADMIN_CHANGE_FORM",
+            "invitations.forms.InvitationAdminChangeForm"
+        )
+
 
 app_settings = AppSettings('INVITATIONS_')

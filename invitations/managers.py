@@ -1,8 +1,8 @@
 from datetime import timedelta
 
 from django.db import models
-from django.utils import timezone
 from django.db.models import Q
+from django.utils import timezone
 
 from .app_settings import app_settings
 
