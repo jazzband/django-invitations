@@ -4,19 +4,16 @@ python: 3.6
 env:
   matrix:
    - TOX_ENV=py27-django111-backendBasic
+   - TOX_ENV=py27-django111-backendAllauth
    - TOX_ENV=py34-django111-backendBasic
+   - TOX_ENV=py34-django111-backendAllauth
    - TOX_ENV=py35-django111-backendBasic
    - TOX_ENV=py36-django111-backendBasic
    - TOX_ENV=py34-django20-backendBasic
-   - TOX_ENV=py35-django20-backendBasic
-   - TOX_ENV=py36-django20-backendBasic
-
-   - TOX_ENV=py27-django111-backendAllauth
-   - TOX_ENV=py34-django111-backendAllauth
-   - TOX_ENV=py35-django111-backendAllauth
-   - TOX_ENV=py36-django111-backendAllauth
    - TOX_ENV=py34-django20-backendAllauth
+   - TOX_ENV=py35-django20-backendBasic
    - TOX_ENV=py35-django20-backendAllauth
+   - TOX_ENV=py36-django20-backendBasic
    - TOX_ENV=py36-django20-backendAllauth
    - TOX_ENV=flake8
 
@@ -26,18 +23,18 @@ matrix:
     - python: "3.5"
       env: TOX_ENV=py35-django111-backendBasic
     - python: "3.5"
-      env: TOX_ENV=py35-django20-backendBasic
-    - python: "3.5"
       env: TOX_ENV=py35-django111-backendAllauth
+    - python: "3.5"
+      env: TOX_ENV=py35-django20-backendBasic
     - python: "3.5"
       env: TOX_ENV=py35-django20-backendAllauth
   exclude:
     - python: "3.6"
       env: TOX_ENV=py35-django111-backendBasic
     - python: "3.6"
-      env: TOX_ENV=py35-django20-backendBasic
-    - python: "3.6"
       env: TOX_ENV=py35-django111-backendAllauth
+    - python: "3.6"
+      env: TOX_ENV=py35-django20-backendBasic
     - python: "3.6"
       env: TOX_ENV=py35-django20-backendAllauth
 
