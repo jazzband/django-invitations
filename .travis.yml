@@ -27,19 +27,11 @@ matrix:
       env: TOXENV=py35-django111-backendBasic
     - python: "3.5"
       env: TOXENV=py35-django111-backendAllauth
-    # - python: "3.5"
-    #   env: TOXENV=py35-django20-backendBasic
-    # - python: "3.5"
-    #   env: TOXENV=py35-django20-backendAllauth
   exclude:
     - python: "3.6"
       env: TOXENV=py35-django111-backendBasic
     - python: "3.6"
       env: TOXENV=py35-django111-backendAllauth
-    # - python: "3.6"
-    #   env: TOXENV=py35-django20-backendBasic
-    # - python: "3.6"
-    #   env: TOXENV=py35-django20-backendAllauth
 
 cache:
   directories:
