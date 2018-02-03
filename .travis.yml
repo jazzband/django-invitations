@@ -21,15 +21,15 @@ env:
 
 matrix:
   fast_finish: true
-  include:
-    - python: "3.5"
-      env: TOXENV=py35-django111-backendBasic
-    - python: "3.5"
-      env: TOXENV=py35-django111-backendAllauth
   exclude:
     - python: "3.6"
       env: TOXENV=py35-django111-backendBasic
     - python: "3.6"
+      env: TOXENV=py35-django111-backendAllauth
+  include:
+    - python: "3.5"
+      env: TOXENV=py35-django111-backendBasic
+    - python: "3.5"
       env: TOXENV=py35-django111-backendAllauth
 
 cache:
