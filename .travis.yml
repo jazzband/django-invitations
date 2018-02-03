@@ -40,7 +40,7 @@ cache:
 
 install:
   - pip install --upgrade pip wheel setuptools
-  - pip install coveralls tox flake8
+  - pip install tox coveralls
 
 branches:
   - devel
