@@ -7,8 +7,8 @@ env:
    - TOXENV=py27-django111-backendBasic
    - TOXENV=py34-django111-backendBasic
    - TOXENV=py34-django111-backendAllauth
-   - TOXENV=py35-django111-backendBasic
-   - TOXENV=py35-django111-backendAllauth
+   # - TOXENV=py35-django111-backendBasic
+   # - TOXENV=py35-django111-backendAllauth
    - TOXENV=py36-django111-backendBasic
    - TOXENV=py36-django111-backendAllauth
    # - TOXENV=py34-django20-backendBasic
@@ -21,15 +21,15 @@ env:
 
 matrix:
   fast_finish: true
-  exclude:
-    - python: "3.6"
-      env: TOXENV=py35-django111-backendBasic
-    - python: "3.6"
-      env: TOXENV=py35-django111-backendAllauth
   include:
     - python: "3.5"
       env: TOXENV=py35-django111-backendBasic
     - python: "3.5"
+      env: TOXENV=py35-django111-backendAllauth
+    exclude:
+    - python: "3.6"
+      env: TOXENV=py35-django111-backendBasic
+    - python: "3.6"
       env: TOXENV=py35-django111-backendAllauth
 
 cache:
