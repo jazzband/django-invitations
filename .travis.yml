@@ -1,59 +1,64 @@
+sudo: false
 language: python
-python: 3.5
+python: 3.6
 
 env:
   matrix:
-    - TOX_ENV=py27-django19-backendBasic
-    - TOX_ENV=py27-django110-backendBasic
-    - TOX_ENV=py27-django111-backendBasic
-
-    - TOX_ENV=py34-django19-backendBasic
-    - TOX_ENV=py34-django110-backendBasic
-    - TOX_ENV=py34-django111-backendBasic
-
-    - TOX_ENV=py35-django19-backendBasic
-    - TOX_ENV=py35-django110-backendBasic
-    - TOX_ENV=py35-django111-backendBasic
-
-    - TOX_ENV=py27-django19-backendAllauth
-    - TOX_ENV=py27-django110-backendAllauth
-    - TOX_ENV=py27-django111-backendAllauth
-
-    - TOX_ENV=py34-django19-backendAllauth
-    - TOX_ENV=py34-django110-backendAllauth
-    - TOX_ENV=py34-django111-backendAllauth
-
-    - TOX_ENV=py35-django19-backendAllauth
-    - TOX_ENV=py35-django110-backendAllauth
-    - TOX_ENV=py35-django111-backendAllauth
-
-    - TOX_ENV=flake8
+   - TOXENV=py27-django111-backendBasic
+   - TOXENV=py34-django111-backendBasic
+   - TOXENV=py34-django111-backendAllauth
+   - TOXENV=py35-django111-backendBasic
+   - TOXENV=py35-django111-backendAllauth
+   - TOXENV=py36-django111-backendBasic
+   - TOXENV=py36-django111-backendAllauth
+   - TOXENV=py34-django20-backendBasic
+   - TOXENV=py34-django20-backendAllauth
+   - TOXENV=py35-django20-backendBasic
+   - TOXENV=py35-django20-backendAllauth
+   - TOXENV=py36-django20-backendBasic
+   - TOXENV=py36-django20-backendAllauth
+   - TOXENV=flake8
 
 matrix:
+  fast_finish: true
   include:
     - python: "3.5"
-      env: TOX_ENV=py35-django19-backendBasic
+      env: TOXENV=py35-django111-backendBasic
     - python: "3.5"
-      env: TOX_ENV=py35-django110-backendBasic
+      env: TOXENV=py35-django111-backendAllauth
     - python: "3.5"
-      env: TOX_ENV=py35-django110-backendBasic
+      env: TOXENV=py35-django20-backendBasic
     - python: "3.5"
-      env: TOX_ENV=py35-django19-backendAllauth
-    - python: "3.5"
-      env: TOX_ENV=py35-django110-backendAllauth
-    - python: "3.5"
-      env: TOX_ENV=py35-django111-backendAllauth
+      env: TOXENV=py35-django20-backendAllauth
+  exclude:
+    - python: "3.6"
+      env: TOXENV=py35-django111-backendBasic
+    - python: "3.6"
+      env: TOXENV=py35-django111-backendAllauth
+    - python: "3.6"
+      env: TOXENV=py35-django20-backendBasic
+    - python: "3.6"
+      env: TOXENV=py35-django20-backendAllauth
+  allow_failures:
+    - env: TOXENV=py35-django111-backendAllauth # Because the exclude above is ignored for some reason
+    - env: TOXENV=py35-django111-backendBasic # Because the exclude above is ignored for some reason
+    - env: TOXENV=py35-django20-backendAllauth # Because the exclude above is ignored for some reason
+    - env: TOXENV=py35-django20-backendBasic # Because the exclude above is ignored for some reason
+
+cache:
+  directories:
+    - $HOME/.cache/pip
+    - $TRAVIS_BUILD_DIR/.tox
 
 install:
-  - pip install tox
-  - pip install flake8
-  - pip install coveralls
+  - pip install --upgrade pip wheel setuptools
+  - pip install tox coveralls
 
 branches:
   - devel
   - master
 
-script: tox -e $TOX_ENV
+script: tox
 
 after_success:
   - coveralls
