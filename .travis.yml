@@ -11,12 +11,12 @@ env:
    - TOXENV=py35-django111-backendAllauth
    - TOXENV=py36-django111-backendBasic
    - TOXENV=py36-django111-backendAllauth
-   # - TOXENV=py34-django20-backendBasic
-   # - TOXENV=py34-django20-backendAllauth
-   # - TOXENV=py35-django20-backendBasic
-   # - TOXENV=py35-django20-backendAllauth
-   # - TOXENV=py36-django20-backendBasic
-   # - TOXENV=py36-django20-backendAllauth
+   - TOXENV=py34-django20-backendBasic
+   - TOXENV=py34-django20-backendAllauth
+   - TOXENV=py35-django20-backendBasic
+   - TOXENV=py35-django20-backendAllauth
+   - TOXENV=py36-django20-backendBasic
+   - TOXENV=py36-django20-backendAllauth
    - TOXENV=flake8
 
 matrix:
@@ -26,14 +26,24 @@ matrix:
       env: TOXENV=py35-django111-backendBasic
     - python: "3.5"
       env: TOXENV=py35-django111-backendAllauth
+       - python: "3.5"
+      env: TOXENV=py35-django20-backendBasic
+    - python: "3.5"
+      env: TOXENV=py35-django20-backendAllauth
   exclude:
     - python: "3.6"
       env: TOXENV=py35-django111-backendBasic
     - python: "3.6"
       env: TOXENV=py35-django111-backendAllauth
+    - python: "3.6"
+      env: TOXENV=py35-django20-backendBasic
+    - python: "3.6"
+      env: TOXENV=py35-django20-backendAllauth
   allow_failures:
     - env: TOXENV=py35-django111-backendAllauth # Because the exclude above is ignored for some reason
     - env: TOXENV=py35-django111-backendBasic # Because the exclude above is ignored for some reason
+    - env: TOXENV=py35-django20-backendAllauth # Because the exclude above is ignored for some reason
+    - env: TOXENV=py35-django20-backendBasic # Because the exclude above is ignored for some reason
 
 cache:
   directories:
