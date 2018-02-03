@@ -9,7 +9,9 @@ env:
    - TOXENV=py34-django111-backendBasic
    - TOXENV=py34-django111-backendAllauth
    - TOXENV=py35-django111-backendBasic
+   - TOXENV=py35-django111-backendAllauth
    - TOXENV=py36-django111-backendBasic
+   - TOXENV=py36-django111-backendAllauth
    # - TOXENV=py34-django20-backendBasic
    # - TOXENV=py34-django20-backendAllauth
    # - TOXENV=py35-django20-backendBasic
