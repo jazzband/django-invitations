@@ -9,3 +9,5 @@ django_invitations.egg-info/
 .gitchangelog.rc
 .python-version
 .coverage
+/.idea/
+
