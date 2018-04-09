@@ -81,10 +81,16 @@ class AppSettings(object):
 
     @property
     def INVITE_FORM(self):
+        """
+        Form class used for sending invites outside admin.
+        """
         return self._setting("INVITE_FORM", "invitations.forms.InviteForm")
 
     @property
     def ADMIN_ADD_FORM(self):
+        """
+        Form class used for sending invites in admin.
+        """
         return self._setting(
             "ADMIN_ADD_FORM",
             "invitations.forms.InvitationAdminAddForm"
@@ -92,6 +98,9 @@ class AppSettings(object):
 
     @property
     def ADMIN_CHANGE_FORM(self):
+        """
+        Form class used for updating invitations in admin.
+        """
         return self._setting(
             "ADMIN_CHANGE_FORM",
             "invitations.forms.InvitationAdminChangeForm"

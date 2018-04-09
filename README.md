@@ -127,6 +127,18 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     App registry path of the invitation model used in the current project, for customization purposes.
 
+*  `INVITE_FORM` (default=`invitations.forms.InviteForm`)
+
+    Form class used for sending invites outside admin.
+
+*  `ADMIN_ADD_FORM` (default=`invitations.forms.InvitationAdminAddForm`)
+
+    Form class used for sending invites in admin.
+
+*  `ADMIN_CHANGE_FORM` (default=`invitations.forms.InvitationAdminChangeForm`)
+
+    Form class used for updating invitations in admin.
+
 ### Signals
 
 The following signals are emitted:
