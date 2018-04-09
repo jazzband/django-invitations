@@ -6,9 +6,8 @@ class AppSettings(object):
     def __init__(self, prefix):
         self.prefix = prefix
 
-    def _setting(self, name, dflt):
-        from django.conf import settings
-        return getattr(settings, self.prefix + name, dflt)
+    def _setting(self, name, default):
+        return getattr(settings, self.prefix + name, default)
 
     @property
     def INVITATION_EXPIRY(self):
