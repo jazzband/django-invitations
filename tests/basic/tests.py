@@ -110,7 +110,7 @@ class TestInvitationsSendView:
         url = re.search(
             "(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
         assert url == reverse(
-            'invitations:accept-invite', kwargs={'key': invitation.key})
+            app_settings.COMFIRMATION_VIEWNAME, kwargs={'key': invitation.key})
 
     @override_settings(
         INVITATION_MODEL='ExampleSwappableInvitation'
@@ -132,7 +132,7 @@ class TestInvitationsSendView:
         url = re.search(
             "(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
         assert url == reverse(
-            'invitations:accept-invite', kwargs={'key': invitation.key})
+            app_settings.COMFIRMATION_VIEWNAME, kwargs={'key': invitation.key})
 
 
 @pytest.mark.django_db
@@ -143,7 +143,7 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_CONFIRM_INVITE_ON_GET = False
         resp = self.client.get(
             reverse(
-                'invitations:accept-invite',
+                app_settings.COMFIRMATION_VIEWNAME,
                 kwargs={'key': invitation_b.key}),
             follow=True)
         assert resp.status_code == 404
@@ -155,7 +155,7 @@ class TestInvitationsAcceptView:
     def test_accept_invite_invalid_key(self, method):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite', kwargs={'key': 'invalidKey'}),
+            reverse(app_settings.COMFIRMATION_VIEWNAME, kwargs={'key': 'invalidKey'}),
             follow=True)
         assert resp.status_code == 410
 
@@ -168,7 +168,7 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_LOGIN_REDIRECT = '/login-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite', kwargs={'key': 'invalidKey'}),
+            reverse(app_settings.COMFIRMATION_VIEWNAME, kwargs={'key': 'invalidKey'}),
             follow=True)
         assert resp.request['PATH_INFO'] == '/login-url/'
 
@@ -179,7 +179,7 @@ class TestInvitationsAcceptView:
     def test_accept_invite_accepted_key(self, accepted_invitation, method):
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': accepted_invitation.key}), follow=True)
         assert resp.status_code == 410
 
@@ -193,7 +193,7 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_LOGIN_REDIRECT = '/login-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': accepted_invitation.key}), follow=True)
         assert resp.request['PATH_INFO'] == '/login-url/'
 
@@ -206,7 +206,7 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_INVITATION_EXPIRY = 0
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': sent_invitation_by_user_a.key}
                     ), follow=True)
         assert resp.status_code == 410
@@ -222,7 +222,7 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_SIGNUP_REDIRECT = '/signup-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': sent_invitation_by_user_a.key}
                     ), follow=True)
         assert resp.request['PATH_INFO'] == '/signup-url/'
@@ -236,7 +236,7 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_SIGNUP_REDIRECT = '/non-existent-url/'
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': sent_invitation_by_user_a.key}
                     ), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
@@ -247,7 +247,7 @@ class TestInvitationsAcceptView:
     def test_signup_redirect(self, settings, sent_invitation_by_user_a):
         settings.INVITATIONS_SIGNUP_REDIRECT = '/non-existent-url/'
         resp = self.client.post(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': sent_invitation_by_user_a.key}
                     ), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
@@ -261,7 +261,7 @@ class TestInvitationSignals:
     @patch('invitations.signals.invite_url_sent.send')
     def test_invite_url_sent_triggered_correctly(
             self, mock_signal, sent_invitation_by_user_a, user_a):
-        invite_url = reverse('invitations:accept-invite',
+        invite_url = reverse(app_settings.COMFIRMATION_VIEWNAME,
                              args=[sent_invitation_by_user_a.key])
         request = RequestFactory().get('/')
         invite_url = request.build_absolute_uri(invite_url)
@@ -288,7 +288,7 @@ class TestInvitationSignals:
         sent_invitation_by_user_a.send_invitation(request)
 
         self.client.post(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': sent_invitation_by_user_a.key}
                     ), follow=True)
         assert mock_signal.called

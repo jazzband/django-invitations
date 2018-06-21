@@ -98,5 +98,12 @@ class AppSettings(object):
             "invitations.forms.InvitationAdminChangeForm"
         )
 
+    @property
+    def COMFIRMATION_VIEWNAME(self):
+        return self._setting(
+            "COMFIRMATION_VIEWNAME",
+            "invitations:accept-invite"
+        )
+
 
 app_settings = AppSettings('INVITATIONS_')

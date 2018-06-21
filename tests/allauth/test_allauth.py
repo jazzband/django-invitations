@@ -1,3 +1,5 @@
+from invitations.app_settings import app_settings
+
 try:
     from django.urls import reverse
 except ImportError:
@@ -28,7 +30,7 @@ class TestAllAuthIntegrationAcceptAfterSignup:
         settings.INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': sent_invitation_by_user_a.key}
                     ), follow=True)
         assert resp.status_code == 200
@@ -59,7 +61,7 @@ class TestAllAuthIntegrationAcceptAfterSignup:
         settings.INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
-            reverse('invitations:accept-invite',
+            reverse(app_settings.COMFIRMATION_VIEWNAME,
                     kwargs={'key': sent_invitation_by_user_a.key}
                     ), follow=True)
 
@@ -92,7 +94,7 @@ class TestAllAuthIntegration:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse(
-                'invitations:accept-invite',
+                app_settings.COMFIRMATION_VIEWNAME,
                 kwargs={'key': sent_invitation_by_user_a.key}
             ), follow=True)
         invite = Invitation.objects.get(email='email@example.com')
