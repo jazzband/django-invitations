@@ -3,7 +3,7 @@ import re
 import json
 from mock import patch
 
-from django.test import Client
+from django.test import Client, modify_settings
 from django.test.client import RequestFactory
 from django.test.utils import override_settings
 from django.utils import timezone
@@ -13,6 +13,7 @@ except ImportError:
     from django.core.urlresolvers import reverse
 from django.core import mail
 from django.contrib.auth.models import AnonymousUser
+from django.contrib.sites.shortcuts import get_current_site
 
 import pytest
 from freezegun import freeze_time
@@ -53,19 +54,37 @@ class TestInvitationsAdapter:
         adapter = get_invitations_adapter()
         assert isinstance(adapter, BaseInvitationsAdapter)
 
+    @override_settings(ALLOWED_HOSTS=['bazz.com'])
     def test_email_subject_prefix_settings_with_site(self):
         adapter = get_invitations_adapter()
-        with patch('invitations.adapters.Site') as MockSite:
+        with patch('django.contrib.sites.models.Site') as MockSite:
             MockSite.objects.get_current.return_value.name = 'Foo.com'
-            result = adapter.format_email_subject('Bar')
+            rf = RequestFactory()
+            rf.defaults['SERVER_NAME'] = 'bazz.com'
+            request = rf.get('/')
+            site_name = get_current_site(request)
+            result = adapter.format_email_subject('Bar', site_name.name)
             assert result == '[Foo.com] Bar'
+
+    @override_settings(ALLOWED_HOSTS=['bazz.com'])
+    def test_email_subject_prefix_settings_without_site(self):
+        adapter = get_invitations_adapter()
+        with modify_settings(
+            INSTALLED_APPS={'remove': 'django.contrib.sites'}):
+            rf = RequestFactory()
+            rf.defaults['SERVER_NAME'] = 'bazz.com'
+            request = rf.get('/')
+            site_name = get_current_site(request)
+            result = adapter.format_email_subject('Bar', site_name.name)
+            assert result == '[bazz.com] Bar'
+
 
     @override_settings(
         INVITATIONS_EMAIL_SUBJECT_PREFIX=''
     )
     def test_email_subject_prefix_settings_with_custom_override(self):
         adapter = get_invitations_adapter()
-        result = adapter.format_email_subject('Bar')
+        result = adapter.format_email_subject('Bar', 'Foo.com')
         assert result == 'Bar'
 
 
