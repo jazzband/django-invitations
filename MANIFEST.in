@@ -1,1 +1,4 @@
+include LICENSE ChangeLog README.md requirements.txt manage.py tox.ini
 recursive-include invitations/templates *
+include test_*.py
+recursive-include tests *.py
