@@ -50,6 +50,20 @@ ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 
 ### Sending Invites
 
+First import the model:
+
+```
+from invitations.utils import get_invitation_model
+```
+
+Make an instance of the model:
+
+```
+Invitation = get_invitation_model()
+```
+
+Then finally pass the recipient to the model and send.
+
 ```
 # inviter argument is optional
 invite = Invitation.create('email@example.com', inviter=request.user)
