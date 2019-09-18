@@ -32,7 +32,7 @@ pip install django-invitations
 'invitations',
 
 # Append to urls.py
-url(r'^invitations/', include('invitations.urls', namespace='invitations')),
+re_path(r'^invitations/', include('invitations.urls', namespace='invitations')),
 
 # Run migrations
 
