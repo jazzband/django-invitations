@@ -72,6 +72,7 @@ class TestInvitationsAdapter:
 class TestInvitationsSendView:
     client = Client()
 
+    @pytest.mark.django_db
     def test_auth(self):
         response = self.client.post(
             reverse('invitations:send-invite'), {'email': 'valid@example.com'},

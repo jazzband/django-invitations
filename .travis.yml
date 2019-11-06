@@ -1,49 +1,10 @@
 sudo: false
 language: python
-python: 3.6
-
-env:
-  matrix:
-   - TOXENV=py27-django111-backendBasic
-   - TOXENV=py34-django111-backendBasic
-   - TOXENV=py34-django111-backendAllauth
-   - TOXENV=py35-django111-backendBasic
-   - TOXENV=py35-django111-backendAllauth
-   - TOXENV=py36-django111-backendBasic
-   - TOXENV=py36-django111-backendAllauth
-   - TOXENV=py34-django20-backendBasic
-   - TOXENV=py34-django20-backendAllauth
-   - TOXENV=py35-django20-backendBasic
-   - TOXENV=py35-django20-backendAllauth
-   - TOXENV=py36-django20-backendBasic
-   - TOXENV=py36-django20-backendAllauth
-   - TOXENV=flake8
-
-matrix:
-  fast_finish: true
-  include:
-    - python: "3.5"
-      env: TOXENV=py35-django111-backendBasic
-    - python: "3.5"
-      env: TOXENV=py35-django111-backendAllauth
-    - python: "3.5"
-      env: TOXENV=py35-django20-backendBasic
-    - python: "3.5"
-      env: TOXENV=py35-django20-backendAllauth
-  exclude:
-    - python: "3.6"
-      env: TOXENV=py35-django111-backendBasic
-    - python: "3.6"
-      env: TOXENV=py35-django111-backendAllauth
-    - python: "3.6"
-      env: TOXENV=py35-django20-backendBasic
-    - python: "3.6"
-      env: TOXENV=py35-django20-backendAllauth
-  allow_failures:
-    - env: TOXENV=py35-django111-backendAllauth # Because the exclude above is ignored for some reason
-    - env: TOXENV=py35-django111-backendBasic # Because the exclude above is ignored for some reason
-    - env: TOXENV=py35-django20-backendAllauth # Because the exclude above is ignored for some reason
-    - env: TOXENV=py35-django20-backendBasic # Because the exclude above is ignored for some reason
+python:
+  - 3.5
+  - 3.6
+  - 3.7
+  - 3.8
 
 cache:
   directories:
@@ -52,11 +13,7 @@ cache:
 
 install:
   - pip install --upgrade pip wheel setuptools
-  - pip install tox coveralls
-
-branches:
-  - devel
-  - master
+  - pip install tox coveralls tox-travis
 
 script: tox
 
