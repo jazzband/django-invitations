@@ -17,6 +17,12 @@ env:
    - TOXENV=py35-django20-backendAllauth
    - TOXENV=py36-django20-backendBasic
    - TOXENV=py36-django20-backendAllauth
+   - TOXENV=py36-django30-backendBasic
+   - TOXENV=py36-django30-backendAllauth
+   - TOXENV=py37-django30-backendBasic
+   - TOXENV=py37-django30-backendAllauth
+   - TOXENV=py38-django30-backendBasic
+   - TOXENV=py38-django30-backendAllauth    
    - TOXENV=flake8
 
 matrix:
