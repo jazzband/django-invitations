@@ -36,6 +36,10 @@ matrix:
       env: TOXENV=py35-django20-backendBasic
     - python: "3.5"
       env: TOXENV=py35-django20-backendAllauth
+    - python: "3.7"
+      env: TOXENV=py37-django30-backendBasic
+    - python: "3.7"
+      env: TOXENV=py37-django30-backendAllauth      
   exclude:
     - python: "3.6"
       env: TOXENV=py35-django111-backendBasic
