@@ -1,6 +1,6 @@
 from django.apps import apps as django_apps
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import six
+import six
 
 from .app_settings import app_settings
 

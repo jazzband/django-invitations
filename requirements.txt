@@ -4,3 +4,8 @@ freezegun>=0.3.5
 pytest>=3.0.7
 pytest-django>=3.1.2
 pytest-cov>=2.4.0
+coverage==4.5.4
+flake8==3.7.9
+freezegun==0.3.12
+tox>=3.14.0
+six==1.13.0
