@@ -11,6 +11,7 @@ setup(
     author='https://github.com/bee-keeper',
     author_email='none@none.com',
     url='https://github.com/bee-keeper/django-invitations.git',
+    install_requires=['six'],
     download_url='https://github.com/'
                  'bee-keeper/django-invitations/tarball/1.9.2',
     keywords=['django', 'invitation', 'django-allauth', 'invite'],
