@@ -1,5 +1,7 @@
 ## Django-invitations - Generic invitations app
 
+[WORKING ON PATCH FOR DJANGO 3.0 COMPATIBILITY]
+
 [![Build Status](https://travis-ci.org/bee-keeper/django-invitations.svg?branch=master)](https://travis-ci.org/bee-keeper/django-invitations)
 
 [![Coverage Status](https://coveralls.io/repos/bee-keeper/django-invitations/badge.svg?branch=master&service=github)](https://coveralls.io/github/bee-keeper/django-invitations?branch=master)
