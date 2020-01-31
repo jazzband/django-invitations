@@ -9,7 +9,7 @@ except ImportError:
 from django.db import models
 from django.utils import timezone
 from django.utils.crypto import get_random_string
-# from six import python_2_unicode_compatible
+from six import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from . import signals
@@ -18,7 +18,7 @@ from .app_settings import app_settings
 from .base_invitation import AbstractBaseInvitation
 
 
-# @python_2_unicode_compatible
+@python_2_unicode_compatible
 class Invitation(AbstractBaseInvitation):
     email = models.EmailField(unique=True, verbose_name=_('e-mail address'),
                               max_length=app_settings.EMAIL_MAX_LENGTH)
