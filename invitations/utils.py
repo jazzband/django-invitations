@@ -1,6 +1,5 @@
 from django.apps import apps as django_apps
 from django.core.exceptions import ImproperlyConfigured
-from django.utils import six
 
 from .app_settings import app_settings
 
@@ -11,7 +10,7 @@ except ImportError:
 
 
 def import_attribute(path):
-    assert isinstance(path, six.string_types)
+    assert isinstance(path, str)
     pkg, attr = path.rsplit('.', 1)
     ret = getattr(importlib.import_module(pkg), attr)
     return ret
