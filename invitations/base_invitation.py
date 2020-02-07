@@ -1,12 +1,10 @@
 from django.conf import settings
 from django.db import models
-from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 from .managers import BaseInvitationManager
 
 
-@python_2_unicode_compatible
 class AbstractBaseInvitation(models.Model):
     accepted = models.BooleanField(verbose_name=_('accepted'), default=False)
     key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
