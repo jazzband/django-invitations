@@ -1,0 +1,105 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-01-07 18:53+0500\n"
+"PO-Revision-Date: 2018-01-07 18:53+0500\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: base_invitation.py:11
+msgid "accepted"
+msgstr "прийнятий"
+
+#: base_invitation.py:12
+msgid "key"
+msgstr "ключ"
+
+#: base_invitation.py:13
+msgid "sent"
+msgstr "відправлений"
+
+#: forms.py:31
+msgid "This e-mail address has already been invited."
+msgstr "На цей e-mail вже відправлено запрошення."
+
+#: forms.py:33
+msgid "This e-mail address has already accepted an invite."
+msgstr "Запрошення, відправлене на цей e-mail, вже прийнято"
+
+#: forms.py:35
+msgid "An active user is using this e-mail address"
+msgstr "Користувач з цим e-mail вже існує"
+
+#: forms.py:51 forms.py:62
+msgid "E-mail"
+msgstr "E-mail"
+
+#: models.py:21
+msgid "e-mail address"
+msgstr "e-mail адрес"
+
+#: models.py:23
+msgid "created"
+msgstr "створений"
+
+#: templates/invitations/email/email_invite_message.txt:3
+#, python-format
+msgid ""
+"\n"
+"\n"
+"Hello,\n"
+"\n"
+"You (%(email)s) have been invited to join %(site_name)s\n"
+"\n"
+"If you'd like to join, please go to %(invite_url)s\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Здрастуйте,\n"
+"\n"
+"Ви (%(email)s) запрошені приєднатися до проекту %(site_name)s\n"
+"\n"
+"Якщо ви хочете приєднатися, перейдіть за посиланням %(invite_url)s\n"
+"\n"
+
+#: templates/invitations/email/email_invite_subject.txt:3
+#, python-format
+msgid "Invitation to join %(site_name)s"
+msgstr "Запрошення приєднатися до %(site_name)s"
+
+#: templates/invitations/forms/_invite.html:3
+msgid "Invite"
+msgstr "Запрошення"
+
+#: templates/invitations/forms/_invite.html:4
+msgid ""
+"Please add an email below. The user will receive an email with instructions."
+msgstr "Введіть email нижче і користувач отримає лист з інструкціями."
+
+#: templates/invitations/forms/_invite.html:9
+msgid "Email"
+msgstr "Email"
+
+#: templates/invitations/messages/invite_accepted.txt:3
+#, python-format
+msgid "Invitation to - %(email)s - has been accepted"
+msgstr "Запрошення, надіслане на % (email)s, прийнято"
+
+#: views.py:44
+msgid "%(email)s has been invited"
+msgstr "Запрошення відправлено на %(email)s"
