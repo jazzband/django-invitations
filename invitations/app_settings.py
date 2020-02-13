@@ -98,5 +98,14 @@ class AppSettings(object):
             "invitations.forms.InvitationAdminChangeForm"
         )
 
+    @property
+    def INVITATION_USE_SESSION_KEY(self):
+        """ Add invitation key to session """
+        return self._setting("INVITATION_USE_SESSION_KEY", False)
+    
+    @property
+    def INVITATION_SESSION_KEY(self):
+        """ Define session key """
+        return self._setting("INVITATION_SESSION_KEY", "invitation_session_key")
 
 app_settings = AppSettings('INVITATIONS_')

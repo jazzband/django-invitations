@@ -160,6 +160,10 @@ class AcceptInvite(SingleObjectMixin, View):
         get_invitations_adapter().stash_verified_email(
             self.request, invitation.email)
 
+        # Add invitation key to session
+        if app_settings.INVITATION_USE_SESSION_KEY:
+            self.request.session[app_settings.INVITATION_SESSION_KEY] = invitation.key
+
         return redirect(self.get_signup_redirect())
 
     def get_object(self, queryset=None):
