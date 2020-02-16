@@ -1,5 +1,4 @@
 import json
-import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
@@ -21,7 +20,6 @@ from .utils import get_invitation_model, get_invite_form
 Invitation = get_invitation_model()
 InviteForm = get_invite_form()
 
-logger = logging.getLogger(__name__)
 
 class SendInvite(FormView):
     template_name = 'invitations/forms/_invite.html'
@@ -162,9 +160,7 @@ class AcceptInvite(SingleObjectMixin, View):
             self.request, invitation.email)
 
         # Add invitation key to session
-        logger.debug(app_settings.INVITATION_USE_SESSION_KEY)
         if app_settings.INVITATION_USE_SESSION_KEY:
-            logger.debug(app_settings.INVITATION_SESSION_KEY)
             self.request.session[app_settings.INVITATION_SESSION_KEY] = invitation.key
 
         return redirect(self.get_signup_redirect())
