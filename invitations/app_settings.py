@@ -101,11 +101,11 @@ class AppSettings(object):
     @property
     def INVITATION_USE_SESSION_KEY(self):
         """ Add invitation key to session """
-        return self._setting("INVITATION_USE_SESSION_KEY", False)
+        return self._setting("INVITATION_USE_SESSION_KEY", settings.INVITATION_USE_SESSION_KEY)
     
     @property
     def INVITATION_SESSION_KEY(self):
         """ Define session key """
-        return self._setting("INVITATION_SESSION_KEY", "invitation_session_key")
+        return self._setting("INVITATION_SESSION_KEY", settings.INVITATION_SESSION_KEY)
 
 app_settings = AppSettings('INVITATIONS_')
