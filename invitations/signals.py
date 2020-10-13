@@ -1,7 +1,7 @@
 from django.dispatch import Signal
 
 invite_url_sent = Signal(providing_args=['invite_url_sent', 'inviter'])
-invite_accepted = Signal(providing_args=['email'])
+invite_accepted = Signal(providing_args=['email', 'invitation'])
 
 """
 @receiver(invite_url_sent, sender=Invitation)
