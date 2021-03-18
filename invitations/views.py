@@ -36,6 +36,10 @@ class SendInvite(FormView):
         try:
             invite = form.save(email)
             invite.inviter = self.request.user
+            try:
+                invite.inviter_organization = self.request.user.company.name
+            except:
+                pass
             invite.save()
             invite.send_invitation(self.request)
         except Exception:
