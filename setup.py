@@ -14,6 +14,7 @@ setup(
     download_url='https://github.com/'
                  'bee-keeper/django-invitations/tarball/1.9.3',
     keywords=['django', 'invitation', 'django-allauth', 'invite'],
+    license='GPL-3.0-only',
     classifiers=[
         'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
@@ -25,6 +26,7 @@ setup(
         'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
+        'License :: OSI Approved :: GPL-3.0-only',
         'Framework :: Django',
     ],
 )
