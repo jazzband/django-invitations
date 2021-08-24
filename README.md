@@ -12,6 +12,10 @@ Generic invitations solution with adaptable backend and support for django-allau
 
 Originally written as an invitations solution for the excellent [django-allauth](https://github.com/pennersr/django-allauth), this app has been refactored to remove the allauth dependency whilst retaining 100% backwards compatibility.
 
+## Contributing
+
+As we are members of a [JazzBand project](https://jazzband.co/projects), `django-invitations` contributors should adhere to the [Contributor Code of Conduct](https://jazzband.co/about/conduct).
+
 ## Installation
 
 ```
