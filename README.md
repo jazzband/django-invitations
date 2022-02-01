@@ -1,29 +1,22 @@
-## Django-invitations - Generic invitations app
+# Django-invitations - Generic invitations app
 
+[![Jazzband](https://jazzband.co/static/img/badge.svg)](https://jazzband.co/)
+[![PyPI Download](https://img.shields.io/pypi/v/django-invitations.svg)](https://pypi.python.org/pypi/django-invitations)
+[![PyPI Python Versions](https://img.shields.io/pypi/pyversions/django-invitations.svg)](https://pypi.python.org/pypi/django-invitations)
 [![Build Status](https://travis-ci.org/bee-keeper/django-invitations.svg?branch=master)](https://travis-ci.org/bee-keeper/django-invitations)
-
 [![Coverage Status](https://coveralls.io/repos/bee-keeper/django-invitations/badge.svg?branch=master&service=github)](https://coveralls.io/github/bee-keeper/django-invitations?branch=master)
 
-### About
+## About
+
 Generic invitations solution with adaptable backend and support for django-allauth.  All emails and messages are fully customisable.
 
 Originally written as an invitations solution for the excellent [django-allauth](https://github.com/pennersr/django-allauth), this app has been refactored to remove the allauth dependency whilst retaining 100% backwards compatibility.
 
-Generic Invitation flow:
+## Contributing
 
-* Priviledged user invites prospective user by email (via either Django admin, form post, JSON post or programmatically)
-* User receives invitation email with confirmation link
-* User clicks link and is redirected to a preconfigured url (default is accounts/signup)
+As we are members of a [JazzBand project](https://jazzband.co/projects), `django-invitations` contributors should adhere to the [Contributor Code of Conduct](https://jazzband.co/about/conduct).
 
-
-Allauth Invitation flow:
-
-* As above but..
-* User clicks link, their email is confirmed and they are redirected to signup
-* The signup URL has the email prefilled and upon signing up the user is logged into the site
-
-
-### Generic Installation
+## Installation
 
 ```
 pip install django-invitations
@@ -38,6 +31,24 @@ url(r'^invitations/', include('invitations.urls', namespace='invitations')),
 
 python manage.py migrate
 ```
+
+## Usage
+
+There are two primary ways to use `django-invitations` described below.
+
+Generic Invitation flow:
+
+* Priviledged user invites prospective user by email (via either Django admin, form post, JSON post or programmatically)
+* User receives invitation email with confirmation link
+* User clicks link and is redirected to a preconfigured url (default is accounts/signup)
+
+Allauth Invitation flow:
+
+* As above but..
+* User clicks link, their email is confirmed and they are redirected to signup
+* The signup URL has the email prefilled and upon signing up the user is logged into the site
+
+Further details can be found in the following sections.
 
 ### Allauth Integration
 
@@ -150,6 +161,7 @@ The following signals are emitted:
 
 
 ### Management Commands
+
 Expired and accepted invites can be cleared as so:
 
 `python manage.py clear_expired_invitations`
