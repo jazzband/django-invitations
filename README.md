@@ -18,17 +18,40 @@ As we are members of a [JazzBand project](https://jazzband.co/projects), `django
 
 ## Installation
 
+1. Install with pip
 ```
 pip install django-invitations
+```
 
-# Add to settings.py, INSTALLED_APPS
-'invitations',
+2. Add django.contrib.sites" and 'invitations to INSTALLED_APPS
 
-# Append to urls.py
-path("invitations/", include('invitations.urls', namespace='invitations')),
+```
+INSTALLED_APPS = [
+    ...
+    "django.contrib.sites",
+    "invitations",
+    ...
+]
+```
 
-# Run migrations
+2. Make sure you have SITE_ID defined in settings
+```
+SITE_ID = 1
+```
 
+3. Append to urls.py
+
+```
+urlpatterns = [
+    ...
+    path("invitations/", include('invitations.urls', namespace='invitations')),
+    ...
+]
+```
+
+4. Run migrations
+
+```
 python manage.py migrate
 ```
 
