@@ -10,6 +10,7 @@ InvitationAdminChangeForm = get_invitation_admin_change_form()
 
 class InvitationAdmin(admin.ModelAdmin):
     list_display = ('email', 'sent', 'accepted')
+    raw_id_fields = ("inviter",)
 
     def get_form(self, request, obj=None, **kwargs):
         if obj:
