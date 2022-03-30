@@ -1,7 +1,7 @@
 import datetime
 import re
 import json
-from mock import patch
+from unittest.mock import patch
 
 from django.test import Client
 from django.test.client import RequestFactory
