@@ -56,15 +56,13 @@ class TestInvitationsAdapter:
 
     def test_email_subject_prefix_settings_with_site(self):
         adapter = get_invitations_adapter()
-        with patch("invitations.adapters.Site") as MockSite:
-            MockSite.objects.get_current.return_value.name = "Foo.com"
-            result = adapter.format_email_subject("Bar")
-            assert result == "[Foo.com] Bar"
+        result = adapter.format_email_subject("Bar", context={"site_name": "Foo.com"})
+        assert result == "[Foo.com] Bar"
 
     @override_settings(INVITATIONS_EMAIL_SUBJECT_PREFIX="")
     def test_email_subject_prefix_settings_with_custom_override(self):
         adapter = get_invitations_adapter()
-        result = adapter.format_email_subject("Bar")
+        result = adapter.format_email_subject("Bar", context={"site_name": "Foo.com"})
         assert result == "Bar"
 
 
