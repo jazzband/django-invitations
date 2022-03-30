@@ -1,15 +1,15 @@
-from django.conf.urls import url, include
+from django.urls import path, include
 from django.contrib import admin
 from django.conf import settings
 
 admin.autodiscover()
 
 urlpatterns = [
-    url(r'^invitations/', include('invitations.urls')),
-    url(r'^admin/', admin.site.urls),
+    path('invitations/', include('invitations.urls')),
+    path('admin/', admin.site.urls),
 ]
 
 if 'allauth' in settings.INSTALLED_APPS:
     urlpatterns.append(
-        url(r'^accounts/', include('allauth.urls'))
+        path('accounts/', include('allauth.urls'))
     )
