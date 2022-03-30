@@ -1,7 +1,7 @@
 import datetime
 import re
 import json
-from mock import patch
+from unittest.mock import patch
 
 from django.test import Client
 from django.test.client import RequestFactory
@@ -109,7 +109,7 @@ class TestInvitationsSendView:
         assert mail.outbox[0].to[0] == 'email@example.com'
         assert 'Invitation to join example.com' in mail.outbox[0].subject
         url = re.search(
-            "(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
+            r"(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
         assert url == reverse(
             'invitations:accept-invite', kwargs={'key': invitation.key})
 
@@ -131,7 +131,7 @@ class TestInvitationsSendView:
         assert mail.outbox[0].to[0] == 'email@example.com'
         assert 'Invitation to join example.com' in mail.outbox[0].subject
         url = re.search(
-            "(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
+            r"(?P<url>/invitations/[^\s]+)", mail.outbox[0].body).group("url")
         assert url == reverse(
             'invitations:accept-invite', kwargs={'key': invitation.key})
 
