@@ -1,7 +1,7 @@
 import datetime
 
 from django.conf import settings
-from django.contrib.sites.models import Site
+from django.contrib.sites.shortcuts import get_current_site
 try:
     from django.urls import reverse
 except ImportError:
@@ -40,7 +40,7 @@ class Invitation(AbstractBaseInvitation):
         return expiration_date <= timezone.now()
 
     def send_invitation(self, request, **kwargs):
-        current_site = kwargs.pop('site', Site.objects.get_current())
+        current_site = get_current_site(request)
         invite_url = reverse('invitations:accept-invite',
                              args=[self.key])
         invite_url = request.build_absolute_uri(invite_url)
