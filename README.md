@@ -25,7 +25,7 @@ pip install django-invitations
 'invitations',
 
 # Append to urls.py
-url(r'^invitations/', include('invitations.urls', namespace='invitations')),
+path("invitations/", include('invitations.urls', namespace='invitations')),
 
 # Run migrations
 
