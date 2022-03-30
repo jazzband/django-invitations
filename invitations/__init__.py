@@ -1,1 +1,1 @@
-default_app_config = 'invitations.apps.Config'
+default_app_config = "invitations.apps.Config"

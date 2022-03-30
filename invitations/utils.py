@@ -11,7 +11,7 @@ except ImportError:
 
 def import_attribute(path):
     assert isinstance(path, str)
-    pkg, attr = path.rsplit('.', 1)
+    pkg, attr = path.rsplit(".", 1)
     ret = getattr(importlib.import_module(pkg), attr)
     return ret
 
@@ -36,11 +36,10 @@ def get_invitation_model():
     try:
         return django_apps.get_model(path)
     except ValueError:
-        raise ImproperlyConfigured(
-            "path must be of the form 'app_label.model_name'"
-        )
+        raise ImproperlyConfigured("path must be of the form 'app_label.model_name'")
     except LookupError:
         raise ImproperlyConfigured(
             "path refers to model '%s' that\
-             has not been installed" % app_settings.INVITATION_MODEL
+             has not been installed"
+            % app_settings.INVITATION_MODEL,
         )

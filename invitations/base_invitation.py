@@ -6,11 +6,15 @@ from .managers import BaseInvitationManager
 
 
 class AbstractBaseInvitation(models.Model):
-    accepted = models.BooleanField(verbose_name=_('accepted'), default=False)
-    key = models.CharField(verbose_name=_('key'), max_length=64, unique=True)
-    sent = models.DateTimeField(verbose_name=_('sent'), null=True)
+    accepted = models.BooleanField(verbose_name=_("accepted"), default=False)
+    key = models.CharField(verbose_name=_("key"), max_length=64, unique=True)
+    sent = models.DateTimeField(verbose_name=_("sent"), null=True)
     inviter = models.ForeignKey(
-        settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.CASCADE)  # noqa
+        settings.AUTH_USER_MODEL,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+    )
 
     objects = BaseInvitationManager()
 
@@ -19,21 +23,13 @@ class AbstractBaseInvitation(models.Model):
 
     @classmethod
     def create(cls, email, inviter=None, **kwargs):
-        raise NotImplementedError(
-            'You should implement the create method class'
-        )
+        raise NotImplementedError("You should implement the create method class")
 
     def key_expired(self):
-        raise NotImplementedError(
-            'You should implement the key_expired method'
-        )
+        raise NotImplementedError("You should implement the key_expired method")
 
     def send_invitation(self, request, **kwargs):
-        raise NotImplementedError(
-            'You should implement the send_invitation method'
-        )
+        raise NotImplementedError("You should implement the send_invitation method")
 
     def __str__(self):
-        raise NotImplementedError(
-            'You should implement the __str__ method'
-        )
+        raise NotImplementedError("You should implement the __str__ method")
