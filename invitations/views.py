@@ -184,8 +184,13 @@ class AcceptInvite(SingleObjectMixin, View):
 def accept_invitation(invitation, request, signal_sender):
     invitation.accepted = True
     invitation.save()
-
-    invite_accepted.send(sender=signal_sender, email=invitation.email)
+    
+    invite_accepted.send(
+        sender=signal_sender,
+        email=invitation.email,
+        request=request,
+        invitation=invitation,
+    )
 
     get_invitations_adapter().add_message(
         request,

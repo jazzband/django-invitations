@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.contrib import messages
-from django.contrib.sites.models import Site
 from django.core.mail import EmailMessage
 from django.core.mail import EmailMultiAlternatives
 from django.template import TemplateDoesNotExist
@@ -21,12 +20,12 @@ class BaseInvitationsAdapter:
         request.session["account_verified_email"] = None
         return ret
 
-    def format_email_subject(self, subject):
+    def format_email_subject(self, subject, context):
         prefix = app_settings.EMAIL_SUBJECT_PREFIX
         if prefix is None:
-            site = Site.objects.get_current()
-            prefix = f"[{site.name}] "
-        return prefix + force_str(subject)
+            site_name = context["site_name"]
+            prefix = "[{name}] ".format(name=site_name)
+        return prefix + force_text(subject)
 
     def render_mail(self, template_prefix, email, context):
         """
@@ -36,7 +35,7 @@ class BaseInvitationsAdapter:
         subject = render_to_string(f"{template_prefix}_subject.txt", context)
         # remove superfluous line breaks
         subject = " ".join(subject.splitlines()).strip()
-        subject = self.format_email_subject(subject)
+        subject = self.format_email_subject(subject, context)
 
         bodies = {}
         for ext in ["html", "txt"]:
