@@ -11,19 +11,29 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
-        ('invitations', '0003_auto_20151126_1523'),
+        ("invitations", "0003_auto_20151126_1523"),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='ExampleSwappableInvitation',
+            name="ExampleSwappableInvitation",
             fields=[
-                ('invitation_ptr', models.OneToOneField(auto_created=True, on_delete=django.db.models.deletion.CASCADE, parent_link=True, primary_key=True, serialize=False, to='invitations.Invitation')),
-                ('additonal_field', models.CharField(blank=True, max_length=255)),
+                (
+                    "invitation_ptr",
+                    models.OneToOneField(
+                        auto_created=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        parent_link=True,
+                        primary_key=True,
+                        serialize=False,
+                        to="invitations.Invitation",
+                    ),
+                ),
+                ("additonal_field", models.CharField(blank=True, max_length=255)),
             ],
             options={
-                'abstract': False,
+                "abstract": False,
             },
-            bases=('invitations.invitation',),
+            bases=("invitations.invitation",),
         ),
     ]
