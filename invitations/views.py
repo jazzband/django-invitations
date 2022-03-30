@@ -7,7 +7,7 @@ from django.core.validators import validate_email
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, View
 from django.views.generic.detail import SingleObjectMixin
 
@@ -177,8 +177,13 @@ class AcceptInvite(SingleObjectMixin, View):
 def accept_invitation(invitation, request, signal_sender):
     invitation.accepted = True
     invitation.save()
-
-    invite_accepted.send(sender=signal_sender, email=invitation.email, invitation=invitation)
+    
+    invite_accepted.send(
+        sender=signal_sender,
+        email=invitation.email,
+        request=request,
+        invitation=invitation,
+    )
 
     get_invitations_adapter().add_message(
         request,
