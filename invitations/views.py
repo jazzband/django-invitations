@@ -7,7 +7,7 @@ from django.core.validators import validate_email
 from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, View
 from django.views.generic.detail import SingleObjectMixin
 
