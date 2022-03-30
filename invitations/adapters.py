@@ -25,7 +25,7 @@ class BaseInvitationsAdapter:
         if prefix is None:
             site_name = context["site_name"]
             prefix = f"[{site_name}] "
-        return prefix + force_text(subject)
+        return prefix + force_str(subject)
 
     def render_mail(self, template_prefix, email, context):
         """
