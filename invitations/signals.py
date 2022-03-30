@@ -8,7 +8,7 @@ invite_accepted = Signal()
 def invite_url_sent(sender, instance, invite_url_sent, inviter, **kwargs):
     pass
 
-@receiver(invite_accepted, sender=auth.models.AnonymousUser)
-def invite_accepted(sender, request, email, **kwargs):
+@receiver(invite_accepted, sender=Invitation)
+def handle_invite_accepted(sender, email, **kwargs):
     pass
 """
