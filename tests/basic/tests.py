@@ -152,7 +152,8 @@ class TestInvitationsAcceptView:
         settings.INVITATIONS_CONFIRM_INVITE_ON_GET = False
         resp = self.client.get(
             reverse(
-                app_settings.CONFIRMATION_URL_NAME, kwargs={"key": invitation_b.key},
+                app_settings.CONFIRMATION_URL_NAME,
+                kwargs={"key": invitation_b.key},
             ),
             follow=True,
         )
