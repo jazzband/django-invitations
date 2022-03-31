@@ -86,6 +86,8 @@ class SendJSONInvite(View):
                 except (UserRegisteredEmail):
                     response["invalid"].append({invitee: "user registered email"})
                 else:
+                    invite.inviter = self.request.user
+                    invite.save()
                     invite.send_invitation(request)
                     response["valid"].append({invitee: "invited"})
 
