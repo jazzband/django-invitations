@@ -97,5 +97,12 @@ class AppSettings:
             "invitations.forms.InvitationAdminChangeForm",
         )
 
+    @property
+    def CONFIRMATION_URL_NAME(self):
+        return self._setting(
+            "CONFIRMATION_URL_NAME",
+            "invitations:accept-invite"
+        )
+
 
 app_settings = AppSettings("INVITATIONS_")
