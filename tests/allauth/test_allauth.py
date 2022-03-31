@@ -1,3 +1,5 @@
+from invitations.app_settings import app_settings
+
 try:
     from django.urls import reverse
 except ImportError:
@@ -37,7 +39,7 @@ class TestAllAuthIntegrationAcceptAfterSignup:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse(
-                "invitations:accept-invite",
+                app_settings.CONFIRMATION_URL_NAME,
                 kwargs={"key": sent_invitation_by_user_a.key},
             ),
             follow=True,
@@ -81,7 +83,7 @@ class TestAllAuthIntegrationAcceptAfterSignup:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse(
-                "invitations:accept-invite",
+                app_settings.CONFIRMATION_URL_NAME,
                 kwargs={"key": sent_invitation_by_user_a.key},
             ),
             follow=True,
@@ -126,7 +128,7 @@ class TestAllAuthIntegration:
         client_with_method = getattr(self.client, method)
         resp = client_with_method(
             reverse(
-                "invitations:accept-invite",
+                app_settings.CONFIRMATION_URL_NAME,
                 kwargs={"key": sent_invitation_by_user_a.key},
             ),
             follow=True,

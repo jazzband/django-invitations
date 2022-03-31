@@ -175,6 +175,10 @@ Bulk invites are supported via JSON.  Post a list of comma separated emails to t
 
     App registry path of the invitation model used in the current project, for customization purposes.
 
+*  `CONFIRMATION_URL_NAME` (default=`invitations:accept-invite`)
+
+    String. Invitation confirmation URL
+
 ### Signals
 
 The following signals are emitted:
