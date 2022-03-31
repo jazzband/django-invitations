@@ -151,7 +151,9 @@ class TestInvitationsAcceptView:
     def test_accept_invite_get_is_404(self, settings, invitation_b):
         settings.INVITATIONS_CONFIRM_INVITE_ON_GET = False
         resp = self.client.get(
-            reverse(app_settings.CONFIRMATION_URL_NAME, kwargs={"key": invitation_b.key}),
+            reverse(
+                app_settings.CONFIRMATION_URL_NAME, kwargs={"key": invitation_b.key},
+            ),
             follow=True,
         )
         assert resp.status_code == 404

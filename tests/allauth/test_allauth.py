@@ -40,7 +40,7 @@ class TestAllAuthIntegrationAcceptAfterSignup:
         resp = client_with_method(
             reverse(
                 app_settings.CONFIRMATION_URL_NAME,
-                kwargs={"key": sent_invitation_by_user_a.key}
+                kwargs={"key": sent_invitation_by_user_a.key},
             ),
             follow=True,
         )
@@ -129,7 +129,7 @@ class TestAllAuthIntegration:
         resp = client_with_method(
             reverse(
                 app_settings.CONFIRMATION_URL_NAME,
-                kwargs={"key": sent_invitation_by_user_a.key}
+                kwargs={"key": sent_invitation_by_user_a.key},
             ),
             follow=True,
         )

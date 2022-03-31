@@ -99,10 +99,7 @@ class AppSettings:
 
     @property
     def CONFIRMATION_URL_NAME(self):
-        return self._setting(
-            "CONFIRMATION_URL_NAME",
-            "invitations:accept-invite"
-        )
+        return self._setting("CONFIRMATION_URL_NAME", "invitations:accept-invite")
 
 
 app_settings = AppSettings("INVITATIONS_")
