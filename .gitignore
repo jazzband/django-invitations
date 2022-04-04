@@ -11,3 +11,4 @@ git-push.bat
 .python-version
 .coverage
 /.idea/
+docs/_build/
