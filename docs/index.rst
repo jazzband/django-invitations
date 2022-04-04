@@ -1,5 +1,5 @@
-django-htmx documentation
-=========================
+django-invitations documentation
+================================
 
 Generic invitations solution with adaptable backend and support for django-allauth.  All emails and messages are fully customisable.
 
