@@ -12,6 +12,7 @@ Originally written as an invitations solution for the excellent `django-allauth 
    installation
    usage
    configuration
+   contributing
    changelog
 
 
