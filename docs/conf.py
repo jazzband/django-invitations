@@ -8,31 +8,31 @@ from __future__ import annotations
 import sys
 from pathlib import Path
 
+import tomlkit
+
 # -- Path setup --------------------------------------------------------------
 
 here = Path(__file__).parent.resolve()
-sys.path.insert(0, str(here / ".." / "src"))
+sys.path.insert(0, str(here / ".."))
 
 # -- Project information -----------------------------------------------------
 
-project = "django-invitations"
+
+def _get_project_meta():
+    with open("../pyproject.toml") as pyproject:
+        file_contents = pyproject.read()
+
+    return tomlkit.parse(file_contents)["tool"]["poetry"]
+
+
+pkg_meta = _get_project_meta()
+project = str(pkg_meta["name"])
 copyright = "-"
 author = "-"
 
-# The version info for the project you're documenting, acts as replacement
-# for |version| and |release|, also used in various other places throughout
-# the built documents.
-
-
-def _get_version() -> str:
-    lines = (here / ".." / "setup.cfg").read_text().splitlines()
-    version_lines = [line.strip() for line in lines if line.startswith("version = ")]
-
-    assert len(version_lines) == 1
-    return version_lines[0].split(" = ")[1]
-
-
-version = _get_version()
+# The short X.Y version
+version = str(pkg_meta["version"])
+# The full version, including alpha/beta/rc tags
 release = version
 
 # -- General configuration ---------------------------------------------------
