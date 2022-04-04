@@ -1,0 +1,52 @@
+[tool.poetry]
+name = "django-invitations"
+version = "1.9.3"
+description = "Generic invitations app with support for django-allauth"
+authors = ["bee-keeper <https://github.com/bee-keeper>"]
+license = "GPL-3.0-only"
+maintainers = ["JazzBand <https://github.com/jazzband>"]
+readme = "README.md"
+keywords=['django', 'invitation', 'django-allauth', 'invite']
+classifiers=[
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Environment :: Web Environment",
+    "Topic :: Internet",
+    "Framework :: Django",
+    "Framework :: Django:: 3.2",
+    "Framework :: Django:: 4.0",
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3.5",
+    "Programming Language :: Python :: 3.6",
+    "Programming Language :: Python :: 3.7",
+    "Programming Language :: Python :: 3.8",
+    "License :: OSI Approved :: GPL-3.0-only",
+]
+packages = [
+    { include= "invitations"},
+    { include= "invitations/management/**/*.py"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.7"
+django = ">=3.2,<4.1"
+
+[tool.poetry.dev-dependencies]
+coverage = "^6.3.2"
+flake8 = "^8.4.0"
+freezegun = "^1.2.1"
+pytest = "^7.1.1"
+pytest-django = "^4.5.2"
+pytest-cov = "^3.0.0"
+tox = "3.14.0"
+black = "^22.1.0"
+
+[tool.black]
+line-length = 88
+target-version = ["py310"]
+extend-exclude = "/migrations/"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
