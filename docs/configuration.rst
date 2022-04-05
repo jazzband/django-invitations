@@ -157,6 +157,45 @@ App registry path of the invitation model used in the current project, for custo
 
 ----
 
+INVITE_FORM
+***********
+
+Setting name: ``INVITATIONS_INVITE_FORM``
+
+Type: String
+
+Default: ``invitations.forms.InviteForm``
+
+Form class used for sending invites outside admin.
+
+----
+
+ADMIN_ADD_FORM
+**************
+
+Setting name: ``INVITATIONS_ADMIN_ADD_FORM``
+
+Type: String
+
+Default: ``invitations.forms.InvitationAdminAddForm``
+
+Form class used for sending invites in admin.
+
+----
+
+ADMIN_CHANGE_FORM
+*****************
+
+Setting name: ``INVITATIONS_ADMIN_CHANGE_FORM``
+
+Type: String
+
+Default: ``invitations.forms.InvitationAdminChangeForm``
+
+Form class used for updating invites in admin.
+
+----
+
 CONFIRMATION_URL_NAME
 *********************
 Setting name: ``INVITATIONS_CONFIRMATION_URL_NAME``
