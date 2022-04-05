@@ -5,6 +5,7 @@
 [![PyPI Python Versions](https://img.shields.io/pypi/pyversions/django-invitations.svg)](https://pypi.python.org/pypi/django-invitations)
 [![Build status](https://github.com/jazzband/django-invitations/actions/workflows/test.yml/badge.svg)](https://github.com/jazzband/django-invitations/actions/workflows/test.yml)
 [![Coverage status](https://codecov.io/gh/jazzband/django-invitations/branch/master/graph/badge.svg?token=xxufPt4r3I)](https://codecov.io/gh/jazzband/django-invitations)
+[![Documentation Status](https://readthedocs.org/projects/django-invitations/badge/?version=latest)](https://django-invitations.readthedocs.io/en/latest/?badge=latest)
 
 ## About
 
