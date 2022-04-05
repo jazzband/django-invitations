@@ -6,8 +6,6 @@ class AppSettings:
         self.prefix = prefix
 
     def _setting(self, name, dflt):
-        from django.conf import settings
-
         return getattr(settings, self.prefix + name, dflt)
 
     @property
@@ -81,10 +79,16 @@ class AppSettings:
 
     @property
     def INVITE_FORM(self):
+        """
+        Form class used for sending invites outside admin.
+        """
         return self._setting("INVITE_FORM", "invitations.forms.InviteForm")
 
     @property
     def ADMIN_ADD_FORM(self):
+        """
+        Form class used for sending invites in admin.
+        """
         return self._setting(
             "ADMIN_ADD_FORM",
             "invitations.forms.InvitationAdminAddForm",
@@ -92,6 +96,9 @@ class AppSettings:
 
     @property
     def ADMIN_CHANGE_FORM(self):
+        """
+        Form class used for updating invitations in admin.
+        """
         return self._setting(
             "ADMIN_CHANGE_FORM",
             "invitations.forms.InvitationAdminChangeForm",

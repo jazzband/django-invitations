@@ -17,14 +17,23 @@ def import_attribute(path):
 
 
 def get_invite_form():
+    """
+    Returns the form for sending an invite.
+    """
     return import_attribute(app_settings.INVITE_FORM)
 
 
 def get_invitation_admin_add_form():
+    """
+    Returns the form for creating a new invitation in admin.
+    """
     return import_attribute(app_settings.ADMIN_ADD_FORM)
 
 
 def get_invitation_admin_change_form():
+    """
+    Returns the form for changing invitations in admin.
+    """
     return import_attribute(app_settings.ADMIN_CHANGE_FORM)
 
 
