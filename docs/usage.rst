@@ -5,7 +5,7 @@ There are two primary ways to use `django-invitations` described below.
 
 Generic Invitation flow:
 
-* Priviledged user invites prospective user by email (via either Django admin, form post, JSON post or programmatically)
+* Privileged user invites prospective user by email (via either Django admin, form post, JSON post or programmatically)
 * User receives invitation email with confirmation link
 * User clicks link and is redirected to a preconfigured url (default is accounts/signup)
 

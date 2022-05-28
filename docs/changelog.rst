@@ -95,7 +95,7 @@ Not available
 
   Refactor as generic invite app
 
-- Removed the dependancy on django-allauth, this package is now a
+- Removed the dependency on django-allauth, this package is now a
   generic invite app. [bee_keeper]
 
 1.4 (2015-11-27)
