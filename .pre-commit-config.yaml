@@ -29,7 +29,7 @@ repos:
           - flake8-tidy-imports
         args: [--max-line-length=88]
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.0.1
+    rev: v3.1.0
     hooks:
       - id: reorder-python-imports
         args:
@@ -37,14 +37,14 @@ repos:
           - --application-directories=.:src
         exclude: migrations/
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.32.0
+    rev: v2.32.1
     hooks:
       - id: pyupgrade
         args:
           - --py37-plus
         exclude: migrations/
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.5.0
+    rev: 1.7.0
     hooks:
       - id: django-upgrade
         args:
@@ -58,6 +58,6 @@ repos:
     hooks:
       -   id: add-trailing-comma
   - repo: https://github.com/hadialqattan/pycln
-    rev: v1.3.1
+    rev: v1.3.3
     hooks:
       -   id: pycln
