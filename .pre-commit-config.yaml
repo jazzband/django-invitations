@@ -20,7 +20,7 @@ repos:
       - id: end-of-file-fixer
       - id: trailing-whitespace
   - repo: https://github.com/pycqa/flake8
-    rev: 4.0.1
+    rev: 5.0.4
     hooks:
       - id: flake8
         additional_dependencies:
@@ -29,7 +29,7 @@ repos:
           - flake8-tidy-imports
         args: [--max-line-length=88]
   - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.3.0
+    rev: v3.8.2
     hooks:
       - id: reorder-python-imports
         args:
@@ -37,7 +37,7 @@ repos:
           - --application-directories=.:src
         exclude: migrations/
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.34.0
+    rev: v2.37.3
     hooks:
       - id: pyupgrade
         args:
@@ -50,7 +50,7 @@ repos:
         args:
           - --target-version=3.2
   - repo: https://github.com/asottile/yesqa
-    rev: v1.3.0
+    rev: v1.4.0
     hooks:
       -   id: yesqa
   - repo: https://github.com/asottile/add-trailing-comma
@@ -58,6 +58,6 @@ repos:
     hooks:
       -   id: add-trailing-comma
   - repo: https://github.com/hadialqattan/pycln
-    rev: v1.3.5
+    rev: v2.1.1
     hooks:
       -   id: pycln
