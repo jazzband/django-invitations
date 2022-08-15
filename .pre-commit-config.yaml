@@ -44,7 +44,7 @@ repos:
           - --py37-plus
         exclude: migrations/
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.7.0
+    rev: 1.8.0
     hooks:
       - id: django-upgrade
         args:
