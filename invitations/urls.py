@@ -1,12 +1,12 @@
-from django.urls import re_path
+from django.urls import path, re_path
 
 from . import views
 
 app_name = "invitations"
 urlpatterns = [
-    re_path(r"^send-invite/$", views.SendInvite.as_view(), name="send-invite"),
-    re_path(
-        r"^send-json-invite/$",
+    path('send-invite/', views.SendInvite.as_view(), name="send-invite"),
+    path(
+        'send-json-invite/',
         views.SendJSONInvite.as_view(),
         name="send-json-invite",
     ),
