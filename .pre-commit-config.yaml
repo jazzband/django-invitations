@@ -3,7 +3,7 @@ default_language_version:
 exclude: ^.*\b(migrations)\b.*$
 repos:
   - repo: https://github.com/psf/black
-    rev: 22.6.0
+    rev: 22.8.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/pre-commit-hooks
@@ -44,7 +44,7 @@ repos:
           - --py37-plus
         exclude: migrations/
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.8.0
+    rev: 1.9.0
     hooks:
       - id: django-upgrade
         args:
