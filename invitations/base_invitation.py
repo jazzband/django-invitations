@@ -11,6 +11,7 @@ class AbstractBaseInvitation(models.Model):
     sent = models.DateTimeField(verbose_name=_("sent"), null=True)
     inviter = models.ForeignKey(
         settings.AUTH_USER_MODEL,
+        verbose_name=_("inviter"),
         null=True,
         blank=True,
         on_delete=models.CASCADE,
