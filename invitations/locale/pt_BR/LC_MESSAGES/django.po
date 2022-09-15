@@ -20,7 +20,7 @@ msgstr ""
 
 #: base_invitation.py:9
 msgid "accepted"
-msgstr "convite aceito"
+msgstr "aceito"
 
 #: base_invitation.py:10
 msgid "key"
