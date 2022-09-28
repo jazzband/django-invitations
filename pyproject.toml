@@ -2,9 +2,9 @@
 name = "django-invitations"
 version = "2.0.0"
 description = "Generic invitations app with support for django-allauth"
-authors = ["bee-keeper <https://github.com/bee-keeper>"]
+authors = ["bee-keeper"]
 license = "GPL-3.0-only"
-maintainers = ["JazzBand <https://github.com/jazzband>"]
+maintainers = ["JazzBand"]
 readme = "README.md"
 keywords=['django', 'invitation', 'django-allauth', 'invite']
 classifiers=[
