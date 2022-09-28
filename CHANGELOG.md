@@ -1,11 +1,20 @@
 Changelog
 =========
 
-x.x (yyyy-mm-dd)
+2.0.0 (2022-09-28)
 ----------------
-(not yet released)
 
-- Added AppConfig.
+- Joined Jazzband
+
+- Removed support for Django versions below 3.2
+
+- Added support for Django 4.0+. Thanks @saschahofmann [#169](https://github.com/jazzband/django-invitations/pull/169)
+
+- Removed support for Python versions below 3.7
+
+- Added documentation
+
+- Set inviter on invitation in SendJSONInvite view. Thanks @rosexi [#151](https://github.com/jazzband/django-invitations/pull/151)
 
 1.9 (2017-02-11)
 ----------------

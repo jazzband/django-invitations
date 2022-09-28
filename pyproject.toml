@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "django-invitations"
-version = "1.9.3"
+version = "2.0.0"
 description = "Generic invitations app with support for django-allauth"
 authors = ["bee-keeper <https://github.com/bee-keeper>"]
 license = "GPL-3.0-only"
@@ -16,16 +16,16 @@ classifiers=[
     "Framework :: Django",
     "Framework :: Django:: 3.2",
     "Framework :: Django:: 4.0",
+    "Framework :: Django:: 4.1",
     "Programming Language :: Python",
-    "Programming Language :: Python :: 3.5",
-    "Programming Language :: Python :: 3.6",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
     "License :: OSI Approved :: GPL-3.0-only",
 ]
 packages = [
-    { include= "invitations"},
-    { include= "invitations/management/**/*.py"},
+    { include = "invitations" }
 ]
 
 [tool.poetry.dependencies]
