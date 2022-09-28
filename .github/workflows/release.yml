@@ -34,3 +34,4 @@ jobs:
         run: |
           poetry config repositories.jazzband https://jazzband.co/projects/django-invitations/upload
           poetry config http-basic.jazzband jazzband ${{ secrets.JAZZBAND_RELEASE_KEY }}
+          poetry publish -r jazzband
