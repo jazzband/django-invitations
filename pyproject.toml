@@ -6,17 +6,17 @@ authors = ["bee-keeper"]
 license = "GPL-3.0-only"
 maintainers = ["JazzBand"]
 readme = "README.md"
-keywords=['django', 'invitation', 'django-allauth', 'invite']
-classifiers=[
+keywords = ['django', 'invitation', 'django-allauth', 'invite']
+classifiers = [
     "Development Status :: 5 - Production/Stable",
     "Intended Audience :: Developers",
     "Topic :: Software Development :: Libraries :: Python Modules",
     "Environment :: Web Environment",
     "Topic :: Internet",
     "Framework :: Django",
-    "Framework :: Django:: 3.2",
-    "Framework :: Django:: 4.0",
-    "Framework :: Django:: 4.1",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.0",
+    "Framework :: Django :: 4.1",
     "Programming Language :: Python",
     "Programming Language :: Python :: 3.7",
     "Programming Language :: Python :: 3.8",
