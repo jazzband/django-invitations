@@ -19,6 +19,11 @@ repos:
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort (python)
   - repo: https://github.com/pycqa/flake8
     rev: 5.0.4
     hooks:
@@ -26,38 +31,23 @@ repos:
         additional_dependencies:
           - flake8-bugbear
           - flake8-comprehensions
-          - flake8-tidy-imports
         args: [--max-line-length=88]
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.8.2
-    hooks:
-      - id: reorder-python-imports
-        args:
-          - --py37-plus
-          - --application-directories=.:src
-        exclude: migrations/
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.37.3
+    rev: v2.38.2
     hooks:
       - id: pyupgrade
         args:
           - --py37-plus
         exclude: migrations/
-  - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.9.0
-    hooks:
-      - id: django-upgrade
-        args:
-          - --target-version=3.2
   - repo: https://github.com/asottile/yesqa
     rev: v1.4.0
     hooks:
-      -   id: yesqa
+      - id: yesqa
   - repo: https://github.com/asottile/add-trailing-comma
-    rev: v2.2.3
+    rev: v2.3.0
     hooks:
-      -   id: add-trailing-comma
+      - id: add-trailing-comma
   - repo: https://github.com/hadialqattan/pycln
     rev: v2.1.1
     hooks:
-      -   id: pycln
+      - id: pycln

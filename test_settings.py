@@ -1,5 +1,3 @@
-import django
-
 SECRET_KEY = "not_empty"
 SITE_ID = 1
 
