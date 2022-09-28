@@ -18,10 +18,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.core import mail
 from freezegun import freeze_time
 
-from invitations.adapters import (
-    BaseInvitationsAdapter,
-    get_invitations_adapter,
-)
+from invitations.adapters import BaseInvitationsAdapter, get_invitations_adapter
 from invitations.app_settings import app_settings
 from invitations.forms import InviteForm
 from invitations.utils import get_invitation_model
