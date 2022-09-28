@@ -4,24 +4,19 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.http import Http404
-from django.http import HttpResponse
+from django.http import Http404, HttpResponse
 from django.shortcuts import redirect
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
-from django.views.generic import FormView
-from django.views.generic import View
+from django.views.generic import FormView, View
 from django.views.generic.detail import SingleObjectMixin
 
 from .adapters import get_invitations_adapter
 from .app_settings import app_settings
-from .exceptions import AlreadyAccepted
-from .exceptions import AlreadyInvited
-from .exceptions import UserRegisteredEmail
+from .exceptions import AlreadyAccepted, AlreadyInvited, UserRegisteredEmail
 from .forms import CleanEmailMixin
 from .signals import invite_accepted
-from .utils import get_invitation_model
-from .utils import get_invite_form
+from .utils import get_invitation_model, get_invite_form
 
 Invitation = get_invitation_model()
 InviteForm = get_invite_form()

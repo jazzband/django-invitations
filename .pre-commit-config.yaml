@@ -1,6 +1,7 @@
 default_language_version:
   python: python3
 exclude: ^.*\b(migrations)\b.*$
+autofix_prs: false
 repos:
   - repo: https://github.com/psf/black
     rev: 22.8.0
@@ -19,6 +20,12 @@ repos:
       - id: check-toml
       - id: end-of-file-fixer
       - id: trailing-whitespace
+  - repo: https://github.com/pycqa/isort
+    rev: 5.10.1
+    hooks:
+      - id: isort
+        name: isort (python)
+        args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/pycqa/flake8
     rev: 5.0.4
     hooks:
@@ -26,18 +33,9 @@ repos:
         additional_dependencies:
           - flake8-bugbear
           - flake8-comprehensions
-          - flake8-tidy-imports
         args: [--max-line-length=88]
-  - repo: https://github.com/asottile/reorder_python_imports
-    rev: v3.8.2
-    hooks:
-      - id: reorder-python-imports
-        args:
-          - --py37-plus
-          - --application-directories=.:src
-        exclude: migrations/
   - repo: https://github.com/asottile/pyupgrade
-    rev: v2.37.3
+    rev: v2.38.2
     hooks:
       - id: pyupgrade
         args:
@@ -52,12 +50,8 @@ repos:
   - repo: https://github.com/asottile/yesqa
     rev: v1.4.0
     hooks:
-      -   id: yesqa
-  - repo: https://github.com/asottile/add-trailing-comma
-    rev: v2.2.3
-    hooks:
-      -   id: add-trailing-comma
+      - id: yesqa
   - repo: https://github.com/hadialqattan/pycln
     rev: v2.1.1
     hooks:
-      -   id: pycln
+      - id: pycln

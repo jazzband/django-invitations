@@ -4,15 +4,15 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from django.test.client import RequestFactory
-from django.test import Client
 
 import pytest
 from allauth.account.models import EmailAddress
+from django.test import Client
+from django.test.client import RequestFactory
 
+from invitations.adapters import get_invitations_adapter
 from invitations.models import InvitationsAdapter
 from invitations.utils import get_invitation_model
-from invitations.adapters import get_invitations_adapter
 
 Invitation = get_invitation_model()
 

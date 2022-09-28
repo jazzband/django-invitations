@@ -3,9 +3,7 @@ from django.contrib.auth import get_user_model
 from django.utils.translation import gettext_lazy as _
 
 from .adapters import get_invitations_adapter
-from .exceptions import AlreadyAccepted
-from .exceptions import AlreadyInvited
-from .exceptions import UserRegisteredEmail
+from .exceptions import AlreadyAccepted, AlreadyInvited, UserRegisteredEmail
 from .utils import get_invitation_model
 
 Invitation = get_invitation_model()

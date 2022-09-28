@@ -12,17 +12,17 @@ try:
     from django.urls import reverse
 except ImportError:
     from django.core.urlresolvers import reverse
-from django.core import mail
-from django.contrib.auth.models import AnonymousUser
 
 import pytest
+from django.contrib.auth.models import AnonymousUser
+from django.core import mail
 from freezegun import freeze_time
 
 from invitations.adapters import BaseInvitationsAdapter, get_invitations_adapter
 from invitations.app_settings import app_settings
-from invitations.views import AcceptInvite, SendJSONInvite
 from invitations.forms import InviteForm
 from invitations.utils import get_invitation_model
+from invitations.views import AcceptInvite, SendJSONInvite
 
 Invitation = get_invitation_model()
 
