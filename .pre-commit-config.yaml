@@ -51,3 +51,7 @@ repos:
     rev: v1.4.0
     hooks:
       - id: yesqa
+  - repo: https://github.com/hadialqattan/pycln
+    rev: v2.1.1
+    hooks:
+      - id: pycln
