@@ -2,7 +2,8 @@ from django.contrib import admin
 
 from .utils import (
     get_invitation_admin_add_form,
-    get_invitation_admin_change_form, get_invitation_model,
+    get_invitation_admin_change_form,
+    get_invitation_model,
 )
 
 Invitation = get_invitation_model()
