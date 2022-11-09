@@ -11,7 +11,8 @@ Generic Invitation flow:
     * This should take the form off
 
 .. code-block:: python
-        re_path(
+
+   re_path(
         r"^accounts/signup/(?P<key>\w+)/?$",
         views.signup,
         name="account_signup",
