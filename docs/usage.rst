@@ -8,6 +8,15 @@ Generic Invitation flow:
 * Privileged user invites prospective user by email (via either Django admin, form post, JSON post or programmatically)
 * User receives invitation email with confirmation link
 * User clicks link and is redirected to a preconfigured url (default is accounts/signup)
+    * This should take the form off 
+
+.. code-block:: python
+        re_path(
+        r"^accounts/signup/(?P<key>\w+)/?$",
+        views.signup,
+        name="account_signup",
+    ),
+    
 
 Allauth Invitation flow:
 
