@@ -72,13 +72,13 @@ class SendJSONInvite(View):
                     invite = Invitation.create(invitee)
                 except (ValueError, KeyError):
                     pass
-                except (ValidationError):
+                except ValidationError:
                     response["invalid"].append({invitee: "invalid email"})
-                except (AlreadyAccepted):
+                except AlreadyAccepted:
                     response["invalid"].append({invitee: "already accepted"})
-                except (AlreadyInvited):
+                except AlreadyInvited:
                     response["invalid"].append({invitee: "pending invite"})
-                except (UserRegisteredEmail):
+                except UserRegisteredEmail:
                     response["invalid"].append({invitee: "user registered email"})
                 else:
                     invite.inviter = self.request.user

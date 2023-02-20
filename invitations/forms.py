@@ -33,17 +33,16 @@ class CleanEmailMixin:
         }
         try:
             self.validate_invitation(email)
-        except (AlreadyInvited):
+        except AlreadyInvited:
             raise forms.ValidationError(errors["already_invited"])
-        except (AlreadyAccepted):
+        except AlreadyAccepted:
             raise forms.ValidationError(errors["already_accepted"])
-        except (UserRegisteredEmail):
+        except UserRegisteredEmail:
             raise forms.ValidationError(errors["email_in_use"])
         return email
 
 
 class InviteForm(forms.Form, CleanEmailMixin):
-
     email = forms.EmailField(
         label=_("E-mail"),
         required=True,
