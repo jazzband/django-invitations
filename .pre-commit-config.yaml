@@ -1,7 +1,8 @@
 default_language_version:
   python: python3
 exclude: ^.*\b(migrations)\b.*$
-autofix_prs: false
+ci:
+  autofix_prs: false
 repos:
   - repo: https://github.com/psf/black
     rev: 23.1.0
