@@ -24,5 +24,3 @@ class InvitationAdmin(admin.ModelAdmin):
             kwargs["form"].user = request.user
             kwargs["form"].request = request
         return super().get_form(request, obj, **kwargs)
-
-
