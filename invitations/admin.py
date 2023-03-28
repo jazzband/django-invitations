@@ -11,6 +11,7 @@ InvitationAdminAddForm = get_invitation_admin_add_form()
 InvitationAdminChangeForm = get_invitation_admin_change_form()
 
 
+@admin.register(Invitation)
 class InvitationAdmin(admin.ModelAdmin):
     list_display = ("email", "sent", "accepted")
     raw_id_fields = ("inviter",)
@@ -25,4 +26,3 @@ class InvitationAdmin(admin.ModelAdmin):
         return super().get_form(request, obj, **kwargs)
 
 
-admin.site.register(Invitation, InvitationAdmin)
