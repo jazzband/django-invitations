@@ -36,14 +36,14 @@ repos:
           - flake8-comprehensions
         args: [--max-line-length=88]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.6.0
+    rev: v3.7.0
     hooks:
       - id: pyupgrade
         args:
           - --py37-plus
         exclude: migrations/
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.13.0
+    rev: 1.14.0
     hooks:
       - id: django-upgrade
         args:
