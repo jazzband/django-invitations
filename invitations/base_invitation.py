@@ -15,6 +15,8 @@ class AbstractBaseInvitation(models.Model):
         null=True,
         blank=True,
         on_delete=models.CASCADE,
+        related_name="%(app_label)s_%(class)ss",
+        related_query_name="%(app_label)s_%(class)s",
     )
 
     objects = BaseInvitationManager()
