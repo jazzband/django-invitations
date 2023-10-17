@@ -210,8 +210,7 @@ class TestAllAuthIntegration:
 
         assert resp.status_code == 302
         assert (
-            resp.url
-            == f"{app_settings.LOGIN_REDIRECT}?{REDIRECT_FIELD_NAME}={next_}"
+            resp.url == f"{app_settings.LOGIN_REDIRECT}?{REDIRECT_FIELD_NAME}={next_}"
         )
 
     def test_fetch_adapter(self):
