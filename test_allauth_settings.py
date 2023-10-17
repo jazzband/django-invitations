@@ -22,3 +22,5 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_ADAPTER = "invitations.models.InvitationsAdapter"
 
 MIDDLEWARE.append("allauth.account.middleware.AccountMiddleware")  # noqa: F405
+
+STATIC_URL = ""

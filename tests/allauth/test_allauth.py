@@ -7,6 +7,7 @@ except ImportError:
 
 import pytest
 from allauth.account.models import EmailAddress
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.test import Client
 from django.test.client import RequestFactory
 
@@ -156,6 +157,62 @@ class TestAllAuthIntegration:
 
         allauth_email_obj = EmailAddress.objects.get(email="email@example.com")
         assert allauth_email_obj.verified is True
+
+    @pytest.mark.django_db
+    @pytest.mark.parametrize(
+        "method",
+        [
+            ("get"),
+            ("post"),
+        ],
+    )
+    def test_accept_invite_with_signup_redirect(
+        self, settings, sent_invitation_by_user_a, method
+    ):
+        client_with_method = getattr(self.client, method)
+        next_ = "/foo/bar"
+        url = reverse(
+            app_settings.CONFIRMATION_URL_NAME,
+            kwargs={
+                "key": sent_invitation_by_user_a.key,
+            },
+        )
+        resp = client_with_method(f"{url}?{REDIRECT_FIELD_NAME}={next_}")
+
+        assert resp.status_code == 302
+        assert (
+            resp.url
+            == f"{reverse(app_settings.SIGNUP_REDIRECT)}?{REDIRECT_FIELD_NAME}={next_}"
+        )
+
+    @pytest.mark.django_db
+    @pytest.mark.parametrize(
+        "method",
+        [
+            ("get"),
+            ("post"),
+        ],
+    )
+    def test_accept_already_accepted_invite_with_login_redirect(
+        self, settings, accepted_invitation, method
+    ):
+        # Disable old behavior (immediately returning a 410 GONE)
+        settings.INVITATIONS_GONE_ON_ACCEPT_ERROR = False
+        client_with_method = getattr(self.client, method)
+        next_ = "/foo/bar"
+        url = reverse(
+            app_settings.CONFIRMATION_URL_NAME,
+            kwargs={
+                "key": accepted_invitation.key,
+            },
+        )
+        resp = client_with_method(f"{url}?{REDIRECT_FIELD_NAME}={next_}")
+
+        assert resp.status_code == 302
+        assert (
+            resp.url
+            == f"{app_settings.LOGIN_REDIRECT}?{REDIRECT_FIELD_NAME}={next_}"
+        )
 
     def test_fetch_adapter(self):
         assert isinstance(self.adapter, InvitationsAdapter)

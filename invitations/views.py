@@ -1,11 +1,13 @@
 import json
 
 from django.contrib import messages
+from django.contrib.auth import REDIRECT_FIELD_NAME
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.http import Http404, HttpResponse
-from django.shortcuts import redirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.urls import reverse
+from django.urls.exceptions import NoReverseMatch
 from django.utils.decorators import method_decorator
 from django.utils.translation import gettext_lazy as _
 from django.views.generic import FormView, View
@@ -100,7 +102,22 @@ class AcceptInvite(SingleObjectMixin, View):
     form_class = InviteForm
 
     def get_signup_redirect(self):
-        return app_settings.SIGNUP_REDIRECT
+        try:
+            signup_redirect = reverse(app_settings.SIGNUP_REDIRECT)
+        except NoReverseMatch:
+            signup_redirect = app_settings.SIGNUP_REDIRECT
+        if next_ := self.request.GET.get(REDIRECT_FIELD_NAME):
+            signup_redirect += f"?{REDIRECT_FIELD_NAME}={next_}"
+        return signup_redirect
+
+    def get_login_redirect(self):
+        try:
+            login_redirect = reverse(app_settings.LOGIN_REDIRECT)
+        except NoReverseMatch:
+            login_redirect = app_settings.LOGIN_REDIRECT
+        if next_ := self.request.GET.get(REDIRECT_FIELD_NAME):
+            login_redirect += f"?{REDIRECT_FIELD_NAME}={next_}"
+        return login_redirect
 
     def get(self, *args, **kwargs):
         if app_settings.CONFIRM_INVITE_ON_GET:
@@ -128,7 +145,7 @@ class AcceptInvite(SingleObjectMixin, View):
                 messages.ERROR,
                 "invitations/messages/invite_invalid.txt",
             )
-            return redirect(app_settings.LOGIN_REDIRECT)
+            return HttpResponseRedirect(self.get_login_redirect())
 
         # The invitation was previously accepted, redirect to the login
         # view.
@@ -140,7 +157,7 @@ class AcceptInvite(SingleObjectMixin, View):
                 {"email": invitation.email},
             )
             # Redirect to login since there's hopefully an account already.
-            return redirect(app_settings.LOGIN_REDIRECT)
+            return HttpResponseRedirect(self.get_login_redirect())
 
         # The key was expired.
         if invitation.key_expired():
@@ -151,7 +168,7 @@ class AcceptInvite(SingleObjectMixin, View):
                 {"email": invitation.email},
             )
             # Redirect to sign-up since they might be able to register anyway.
-            return redirect(self.get_signup_redirect())
+            return HttpResponseRedirect(self.get_signup_redirect())
 
         # The invitation is valid.
         # Mark it as accepted now if ACCEPT_INVITE_AFTER_SIGNUP is False.
@@ -164,7 +181,7 @@ class AcceptInvite(SingleObjectMixin, View):
 
         get_invitations_adapter().stash_verified_email(self.request, invitation.email)
 
-        return redirect(self.get_signup_redirect())
+        return HttpResponseRedirect(self.get_signup_redirect())
 
     def get_object(self, queryset=None):
         if queryset is None:
