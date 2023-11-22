@@ -17,13 +17,12 @@ Installation
 
        python -m pip install django-invitations
 
-2. Add "django.contrib.sites" and "invitations" to INSTALLED_APPS
+2. Add "invitations" to INSTALLED_APPS
 
    .. code-block:: python
 
         INSTALLED_APPS = [
             ...
-            "django.contrib.sites",
             "invitations",
             ...
         ]
@@ -31,15 +30,6 @@ Installation
 .. note:: **Allauth support**
 
    For allauth support ``invitations`` must come after ``allauth`` in the INSTALLED_APPS
-
-
-3. Make sure you have SITE_ID defined in settings:
-
-   .. code-block:: python
-
-        ...
-        SITE_ID = 1
-        ...
 
 3. Add invitations urls to your urlpatterns:
 
