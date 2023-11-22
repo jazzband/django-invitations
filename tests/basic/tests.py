@@ -33,7 +33,7 @@ class TestInvitationModel:
         assert invitation_a.email == "email@example.com"
         assert invitation_a.key
         assert invitation_a.accepted is False
-        assert invitation_a.created == datetime.datetime.now()
+        assert invitation_a.created == timezone.now()
 
     def test_invitation_key_expiry(self, invitation_a):
         invitation_a.sent = timezone.now() - datetime.timedelta(
@@ -106,7 +106,7 @@ class TestInvitationsSendView:
         assert resp.status_code == 200
         assert "success_message" in resp.context_data.keys()
 
-        assert invitation.sent == datetime.datetime.now()
+        assert invitation.sent == timezone.now()
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == "email@example.com"
         assert "Invitation to join example.com" in mail.outbox[0].subject
@@ -131,7 +131,7 @@ class TestInvitationsSendView:
         assert resp.status_code == 200
         assert "success_message" in resp.context_data.keys()
 
-        assert invitation.sent == datetime.datetime.now()
+        assert invitation.sent == timezone.now()
         assert len(mail.outbox) == 1
         assert mail.outbox[0].to[0] == "email@example.com"
         assert "Invitation to join example.com" in mail.outbox[0].subject
