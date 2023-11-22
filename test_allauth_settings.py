@@ -1,4 +1,4 @@
-from test_settings import *  # noqa: F401, F403
+from test_settings import *  # noqa: F403
 
 INSTALLED_APPS = (
     "django.contrib.auth",
@@ -20,3 +20,5 @@ AUTHENTICATION_BACKENDS = (
 )
 
 ACCOUNT_ADAPTER = "invitations.models.InvitationsAdapter"
+
+MIDDLEWARE.append("allauth.account.middleware.AccountMiddleware")  # noqa: F405
