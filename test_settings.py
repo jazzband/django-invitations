@@ -9,7 +9,7 @@ DATABASES = {
 }
 
 ROOT_URLCONF = "test_urls"
-STATIC_URL = '/static/'
+STATIC_URL = "/static/"
 
 TEMPLATES = [
     {
