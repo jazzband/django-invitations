@@ -1,20 +1,43 @@
 Changelog
 =========
 
+2.1.0 (2023-11-22)
+------------------
+
+- French translation `#142 <https://github.com/jazzband/django-invitations/pull/142>`_
+
+- Translation Portuguese (BR) `#193 <https://github.com/jazzband/django-invitations/pull/193>`_
+
+- Update pyproject.toml to include standard urls `#200 <https://github.com/jazzband/django-invitations/pull/200>`_
+
+- Add default_auto_field and migration `#211 <https://github.com/jazzband/django-invitations/pull/211>`_
+
+- Add missing configuration values for test_settings `#235 <https://github.com/jazzband/django-invitations/pull/235>`_
+
+- Remove mention of sites framework from docs `#220 <https://github.com/jazzband/django-invitations/pull/220>`_
+
+Supported versions:
+
+* Django: 3.2, 4.0, 4.1, 4.2, 5.0rc1
+* Python: 3.8, 3.9, 3.10, 3.11, 3.12
+
+`Full Changelog <https://github.com/jazzband/django-invitations/compare/2.0.0...2.1.0>`_
+
+
 2.0.0 (2022-09-28)
-----------------
+------------------
 
 - Joined Jazzband
 
 - Removed support for Django versions below 3.2
 
-- Added support for Django 4.0+. Thanks @saschahofmann [#169](https://github.com/jazzband/django-invitations/pull/169)
+- Added support for Django 4.0+. Thanks @saschahofmann `#169 <https://github.com/jazzband/django-invitations/pull/169>`_
 
 - Removed support for Python versions below 3.7
 
 - Added documentation
 
-- Set inviter on invitation in SendJSONInvite view. Thanks @rosexi [#151](https://github.com/jazzband/django-invitations/pull/151)
+- Set inviter on invitation in SendJSONInvite view. Thanks @rosexi `#151 <https://github.com/jazzband/django-invitations/pull/151>`_
 
 
 1.9 (2017-02-11)
