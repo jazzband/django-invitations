@@ -1,6 +1,29 @@
 Changelog
 =========
 
+2.1.0 (2022-11-22)
+----------------
+
+- French translation https://github.com/jazzband/django-invitations/pull/142
+
+- Translation Portuguese (BR) https://github.com/jazzband/django-invitations/pull/193
+
+- Update pyproject.toml to include standard urls https://github.com/jazzband/django-invitations/pull/200
+
+- Add version 2.0.0 changelog to docs https://github.com/jazzband/django-invitations/pull/201
+
+- Add default_auto_field and migration. https://github.com/jazzband/django-invitations/pull/211
+
+- Add missing configuration values for test_settings. https://github.com/jazzband/django-invitations/pull/235
+
+- Remove mention of sites framework from docs https://github.com/jazzband/django-invitations/pull/220
+
+Supported versions:
+- Django: 3.2, 4.0, 4.1, 4.2, 5.0rc1
+- Python: 3.8, 3.9, 3.10, 3.11, 3.12
+
+**Full Changelog**: https://github.com/jazzband/django-invitations/compare/2.0.0...2.1.0
+
 2.0.0 (2022-09-28)
 ----------------
 
