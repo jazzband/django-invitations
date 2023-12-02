@@ -164,7 +164,7 @@ class AcceptInvite(SingleObjectMixin, View):
 
         get_invitations_adapter().stash_verified_email(self.request, invitation.email)
 
-        return redirect(self.get_signup_redirect())
+        return redirect(self.get_signup_redirect(), key=invitation.key)
 
     def get_object(self, queryset=None):
         if queryset is None:
