@@ -48,6 +48,19 @@ class TestInvitationModel:
         )
         assert invitation_a.key_expired() is False
 
+    def test_invitation_related_name(self, sent_invitation_by_user_a):
+        user = sent_invitation_by_user_a.inviter
+        assert user.invitations_invitations.all()
+        assert user.invitations_invitations.count() == 1
+
+    def test_invitation_related_query_name(self, sent_invitation_by_user_a):
+        assert (
+            Invitation.objects.filter(
+                inviter__invitations_invitation__id=sent_invitation_by_user_a.pk
+            ).count()
+            == 1
+        )
+
 
 class TestInvitationsAdapter:
     def test_fetch_adapter(self):
