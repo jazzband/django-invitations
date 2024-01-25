@@ -76,7 +76,7 @@ msgstr ""
 "\n"
 "Você, (%(email)s), foi convidado a juntar-se a %(site_name)s\n"
 "\n"
-"Se quiser aderir, aceda a %(invite_url)s\n"
+"Se pretender aderir, aceda a %(invite_url)s\n"
 "\n"
 
 #: invitations/templates/invitations/email/email_invite_subject.txt:3
