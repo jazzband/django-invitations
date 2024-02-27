@@ -72,10 +72,14 @@ class SendJSONInvite(View):
                     validate_email(invitee)
                     CleanEmailMixin().validate_invitation(invitee)
                     # ^as a read-only check it does not change old entries as needed:
-                    invalid_invitations = Invitation.objects.all().exclude(pk__in=Invitation.objects.all_valid())
-                    target_invitation = invalid_invitations.filter(email__iexact=invitee)
+                    invalid_invitations = Invitation.objects.all().exclude(
+                        pk__in=Invitation.objects.all_valid()
+                    )
+                    target_invitation = invalid_invitations.filter(
+                        email__iexact=invitee
+                    )
                     if target_invitation:
-                        target_invitation.get().delete() # will work as the email is unique
+                        target_invitation.get().delete()  # email is unique, .get works
                     invite = Invitation.create(invitee)
                 except (ValueError, KeyError):
                     pass
