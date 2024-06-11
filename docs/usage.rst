@@ -15,6 +15,10 @@ Allauth Invitation flow:
 * User clicks link, their email is confirmed and they are redirected to signup
 * The signup URL has the email prefilled and upon signing up the user is logged into the site
 
+The user can enter any email address they wish when they sign up.
+They are not obligated to enter the same email address listed in the invitation.
+If ``allauth`` is being used under its default settings, then two ``EmailAddress`` instances will be created for that user, one for the email address used in the invitation, and one for the email address entered by the user.
+
 Further details can be found in the following sections.
 
 Allauth Integration
