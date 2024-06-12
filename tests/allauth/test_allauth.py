@@ -213,6 +213,30 @@ class TestAllAuthIntegration:
             resp.url == f"{app_settings.LOGIN_REDIRECT}?{REDIRECT_FIELD_NAME}={next_}"
         )
 
+    @pytest.mark.django_db
+    @pytest.mark.parametrize(
+        "method",
+        [
+            ("get"),
+            ("post"),
+        ],
+    )
+    def test_accept_inviter_logged_in(
+        self, settings, sent_invitation_by_user_a, method
+    ):
+        assert self.client.login(username="flibble", password="password")
+        admin_resp = self.client.get(reverse("admin:index"), follow=True)
+        assert admin_resp.wsgi_request.user.is_authenticated
+
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse(
+                app_settings.CONFIRMATION_URL_NAME,
+                kwargs={"key": sent_invitation_by_user_a.key},
+            )
+        )
+        assert not resp.wsgi_request.user.is_authenticated
+
     def test_fetch_adapter(self):
         assert isinstance(self.adapter, InvitationsAdapter)
 

@@ -1,7 +1,7 @@
 import json
 
 from django.contrib import messages
-from django.contrib.auth import REDIRECT_FIELD_NAME
+from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
@@ -150,6 +150,7 @@ class AcceptInvite(SingleObjectMixin, View):
         # The invitation was previously accepted, redirect to the login
         # view.
         if invitation.accepted:
+            logout(self.request)  # prepare for redirection to login page
             get_invitations_adapter().add_message(
                 self.request,
                 messages.ERROR,
@@ -161,6 +162,7 @@ class AcceptInvite(SingleObjectMixin, View):
 
         # The key was expired.
         if invitation.key_expired():
+            logout(self.request)  # prepare for redirection to signup page
             get_invitations_adapter().add_message(
                 self.request,
                 messages.ERROR,
@@ -171,6 +173,12 @@ class AcceptInvite(SingleObjectMixin, View):
             return HttpResponseRedirect(self.get_signup_redirect())
 
         # The invitation is valid.
+
+        # Log out (if logged in) and clear session. Do this in order to prevent
+        # user confusion and to ensure that the sign up page is displayed
+        # correctly
+        logout(self.request)
+
         # Mark it as accepted now if ACCEPT_INVITE_AFTER_SIGNUP is False.
         if not app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
             accept_invitation(
