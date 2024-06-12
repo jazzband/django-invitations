@@ -47,7 +47,7 @@ pytest-django = "^4.5.2"
 pytest-cov = "^3.0.0"
 tox = "3.26.0"
 black = "^22.1.0"
-pre-commit = "^2.20.0"
+pre-commit = "^3.2.0"
 
 [tool.black]
 line-length = 88
