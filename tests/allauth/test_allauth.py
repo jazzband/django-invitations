@@ -3,7 +3,7 @@ from invitations.app_settings import app_settings
 try:
     from django.urls import reverse
 except ImportError:
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
 
 import pytest
 from allauth.account.models import EmailAddress

@@ -11,7 +11,7 @@ from django.utils import timezone
 try:
     from django.urls import reverse
 except ImportError:
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
