@@ -161,7 +161,7 @@ class TestInvitationsSendView:
 class TestInvitationsAcceptView:
     client = Client()
 
-    def test_accept_invite_get_is_404(self, settings, invitation_b):
+    def test_accept_invite_get_is_405(self, settings, invitation_b):
         settings.INVITATIONS_CONFIRM_INVITE_ON_GET = False
         resp = self.client.get(
             reverse(
@@ -170,7 +170,7 @@ class TestInvitationsAcceptView:
             ),
             follow=True,
         )
-        assert resp.status_code == 404
+        assert resp.status_code == 405
 
     @pytest.mark.parametrize(
         "method",
