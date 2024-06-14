@@ -247,7 +247,7 @@ class TestAllAuthIntegration:
         assert self.adapter.is_open_for_signup(signup_request) is True
 
     @pytest.mark.django_db
-    def test_allauth_adapter_invitations_only(self, settings):
+    def test_allauth_adapter_invitation_only(self, settings):
         settings.INVITATIONS_INVITATION_ONLY = True
         signup_request = RequestFactory().get(
             reverse("account_signup", urlconf="allauth.account.urls"),
