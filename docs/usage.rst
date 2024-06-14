@@ -40,20 +40,32 @@ First import the model:
 .. code-block:: python
 
     from invitations.utils import get_invitation_model
-
-Make an instance of the model:
-
-.. code-block:: python
-
     Invitation = get_invitation_model()
 
-Then finally pass the recipient to the model and send.
+In this version of ``django-invitations``, the ``email`` field in the ``Invitation`` model must be unique.
+(Even though email addresses are generally considered case *insensitive*, the unique constraint is case *sensitive*.)
+Because of this constraint, it is not possible to create two invitations to the exact same email address, even if the inviters are different users.
+We need to handle this case in our code.
 
 .. code-block:: python
 
-    # inviter argument is optional
-    invite = Invitation.create('email@example.com', inviter=request.user)
-    invite.send_invitation(request)
+    email_address = "Example@example.com"
+    invitation = (Invitation.objects
+        .filter(email__iexact=email_address)
+        .order_by('created')
+        .last()
+    )
+    if invitation is None:
+        # Do not use Invitation.objects.create or
+        # Invitation.objects.update_or_create, but use Invitation.create
+        # instead, because it sets the key to a secure random value
+        invitation = Invitation.create(email=email_address)
+
+Then finally send the email out.
+
+.. code-block:: python
+
+    invitation.send_invitation()
 
 To send invites via django admin, just add an invite and save.
 
