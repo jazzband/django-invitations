@@ -8,8 +8,8 @@ from django.core.validators import validate_email
 from django.http import (
     Http404,
     HttpResponse,
-    HttpResponseRedirect,
     HttpResponseNotAllowed,
+    HttpResponseRedirect,
 )
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
