@@ -25,6 +25,10 @@ jobs:
           python -m pip install -U pip
           python -m pip install -U poetry
 
+      - name: Update .po and .mo files
+        run: |
+          make po mo
+
       - name: Build package
         run: |
           poetry build

@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-16 18:16+0100\n"
+"POT-Creation-Date: 2024-06-14 06:18-0500\n"
 "PO-Revision-Date: 2020-02-16 18:57+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
 "Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"Last-Translator: \n"
-"Language-Team: \n"
 "X-Generator: Poedit 2.2.1\n"
 
 #: base_invitation.py:9
@@ -30,27 +30,33 @@ msgstr "clef"
 msgid "sent"
 msgstr "envoyée"
 
-#: forms.py:31
+#: base_invitation.py:14
+#, fuzzy
+#| msgid "Invite"
+msgid "inviter"
+msgstr "Inviter"
+
+#: forms.py:28
 msgid "This e-mail address has already been invited."
 msgstr "Cette adresse e-mail a déjà reçu une invitation."
 
-#: forms.py:33
+#: forms.py:30
 msgid "This e-mail address has already accepted an invite."
 msgstr "Cette adresse e-mail a déjà accepté une invitation."
 
-#: forms.py:35
+#: forms.py:32
 msgid "An active user is using this e-mail address"
 msgstr "Un utilisateur actif utilise cette adresse e-mail"
 
-#: forms.py:51 forms.py:62
+#: forms.py:47 forms.py:59
 msgid "E-mail"
 msgstr "E-mail"
 
-#: models.py:21
+#: models.py:25
 msgid "e-mail address"
 msgstr "adresse e-mail"
 
-#: models.py:23
+#: models.py:28
 msgid "created"
 msgstr "créée"
 
@@ -97,7 +103,27 @@ msgstr "Email"
 msgid "Invitation to - %(email)s - has been accepted"
 msgstr "L'invitation envoyée à - %(email)s - a été acceptée"
 
-#: views.py:44
+#: templates/invitations/messages/invite_already_accepted.txt:3
+#, fuzzy, python-format
+#| msgid "Invitation to - %(email)s - has been accepted"
+msgid "The invitation for %(email)s was already accepted."
+msgstr "L'invitation envoyée à - %(email)s - a été acceptée"
+
+#: templates/invitations/messages/invite_expired.txt:3
+#, fuzzy, python-format
+#| msgid "Invitation to - %(email)s - has been accepted"
+msgid "The invitation for %(email)s has expired."
+msgstr "L'invitation envoyée à - %(email)s - a été acceptée"
+
+#: templates/invitations/messages/invite_invalid.txt:3
+msgid "An invalid invitation key was submitted."
+msgstr ""
+
+#: views.py:52
 #, python-format
 msgid "%(email)s has been invited"
 msgstr "%(email)s a été invité·e"
+
+#: views.py:131
+msgid "405 Method Not Allowed"
+msgstr ""
