@@ -5,7 +5,12 @@ from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import (
+    Http404,
+    HttpResponse,
+    HttpResponseRedirect,
+    HttpResponseNotAllowed,
+)
 from django.urls import reverse
 from django.urls.exceptions import NoReverseMatch
 from django.utils.decorators import method_decorator
@@ -123,7 +128,7 @@ class AcceptInvite(SingleObjectMixin, View):
         if app_settings.CONFIRM_INVITE_ON_GET:
             return self.post(*args, **kwargs)
         else:
-            raise Http404()
+            return HttpResponseNotAllowed(["GET"], _("405 Method Not Allowed"))
 
     def post(self, *args, **kwargs):
         self.object = invitation = self.get_object()
