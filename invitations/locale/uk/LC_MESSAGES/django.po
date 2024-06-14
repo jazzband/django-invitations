@@ -98,7 +98,7 @@ msgstr "Email"
 #: templates/invitations/messages/invite_accepted.txt:3
 #, python-format
 msgid "Invitation to - %(email)s - has been accepted"
-msgstr "Запрошення, надіслане на % (email)s, прийнято"
+msgstr "Запрошення, надіслане на %(email)s, прийнято"
 
 #: views.py:44
 msgid "%(email)s has been invited"
