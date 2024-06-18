@@ -21,17 +21,6 @@ If ``allauth`` is being used under its default settings, then two ``EmailAddress
 
 Further details can be found in the following sections.
 
-Allauth Integration
--------------------
-
-As above but note that invitations must come after allauth in the INSTALLED_APPS
-
-Set the allauth ``ACCOUNT_ADAPTER`` setting
-
-.. code-block:: python
-
-    ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
-
 Sending Invites
 ---------------
 
