@@ -75,22 +75,21 @@ class Invitation(AbstractBaseInvitation):
 
 # here for backwards compatibility, historic allauth adapter
 if hasattr(settings, "ACCOUNT_ADAPTER"):
-    if settings.ACCOUNT_ADAPTER == "invitations.models.InvitationsAdapter":
-        from allauth.account.adapter import DefaultAccountAdapter
-        from allauth.account.signals import user_signed_up
+    from allauth.account.adapter import DefaultAccountAdapter
+    from allauth.account.signals import user_signed_up
 
-        class InvitationsAdapter(DefaultAccountAdapter):
-            def is_open_for_signup(self, request):
-                if hasattr(request, "session") and request.session.get(
-                    "account_verified_email",
-                ):
-                    return True
-                elif app_settings.INVITATION_ONLY is True:
-                    # Site is ONLY open for invites
-                    return False
-                else:
-                    # Site is open to signup
-                    return True
+    class InvitationsAdapter(DefaultAccountAdapter):
+        def is_open_for_signup(self, request):
+            if hasattr(request, "session") and request.session.get(
+                "account_verified_email",
+            ):
+                return True
+            elif app_settings.INVITATION_ONLY is True:
+                # Site is ONLY open for invites
+                return False
+            else:
+                # Site is open to signup
+                return True
 
-            def get_user_signed_up_signal(self):
-                return user_signed_up
+        def get_user_signed_up_signal(self):
+            return user_signed_up

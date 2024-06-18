@@ -19,7 +19,7 @@ AUTHENTICATION_BACKENDS = (
     "allauth.account.auth_backends.AuthenticationBackend",
 )
 
-ACCOUNT_ADAPTER = "invitations.models.InvitationsAdapter"
+ACCOUNT_ADAPTER = "test_allauth_adapters.TestInvitationsAdapter"
 
 MIDDLEWARE.append("allauth.account.middleware.AccountMiddleware")  # noqa: F405
 
