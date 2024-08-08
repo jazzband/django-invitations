@@ -14,7 +14,7 @@ InvitationAdminChangeForm = get_invitation_admin_change_form()
 @admin.register(Invitation)
 class InvitationAdmin(admin.ModelAdmin):
     list_display = ("email", "sent", "accepted")
-    raw_id_fields = ("inviter",)
+    autocomplete_fields = ["question"]
 
     def get_form(self, request, obj=None, **kwargs):
         if obj:
