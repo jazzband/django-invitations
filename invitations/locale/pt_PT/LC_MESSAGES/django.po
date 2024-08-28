@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-01-25 21:22+0000\n"
+"PO-Revision-Date: 2024-01-25 21:30+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: pt_PT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 3.4.2\n"
+
+#: invitations/base_invitation.py:9
+msgid "accepted"
+msgstr "aceite"
+
+#: invitations/base_invitation.py:10
+msgid "key"
+msgstr "chave"
+
+#: invitations/base_invitation.py:11
+msgid "sent"
+msgstr "enviado"
+
+#: invitations/base_invitation.py:14
+msgid "inviter"
+msgstr "convidante"
+
+#: invitations/forms.py:28
+msgid "This e-mail address has already been invited."
+msgstr "Este endereço de email já foi convidado."
+
+#: invitations/forms.py:30
+msgid "This e-mail address has already accepted an invite."
+msgstr "Este endereço de email já aceitou um convite."
+
+#: invitations/forms.py:32
+msgid "An active user is using this e-mail address"
+msgstr "Um utilizador ativo já se encontra a usar este endereço de email"
+
+#: invitations/forms.py:47 invitations/forms.py:59
+msgid "E-mail"
+msgstr "Email"
+
+#: invitations/models.py:25
+msgid "e-mail address"
+msgstr "endereço de email"
+
+#: invitations/models.py:28
+msgid "created"
+msgstr "criado"
+
+#: invitations/templates/invitations/email/email_invite_message.txt:3
+#, python-format
+msgid ""
+"\n"
+"\n"
+"Hello,\n"
+"\n"
+"You (%(email)s) have been invited to join %(site_name)s\n"
+"\n"
+"If you'd like to join, please go to %(invite_url)s\n"
+"\n"
+msgstr ""
+"\n"
+"\n"
+"Olá,\n"
+"\n"
+"Você, (%(email)s), foi convidado a juntar-se a %(site_name)s\n"
+"\n"
+"Se pretender aderir, aceda a %(invite_url)s\n"
+"\n"
+
+#: invitations/templates/invitations/email/email_invite_subject.txt:3
+#, python-format
+msgid "Invitation to join %(site_name)s"
+msgstr "Convite para juntar-se a %(site_name)s"
+
+#: invitations/templates/invitations/forms/_invite.html:3
+msgid "Invite"
+msgstr "Convidar"
+
+#: invitations/templates/invitations/forms/_invite.html:4
+msgid "Please add an email below. The user will receive an email with instructions."
+msgstr "Adicione um e-mail abaixo. O utilizador receberá um e-mail com instruções."
+
+#: invitations/templates/invitations/forms/_invite.html:9
+msgid "Email"
+msgstr "Email"
+
+#: invitations/templates/invitations/messages/invite_accepted.txt:3
+#, python-format
+msgid "Invitation to - %(email)s - has been accepted"
+msgstr "O convite para - %(email)s - foi aceite"
+
+#: invitations/templates/invitations/messages/invite_already_accepted.txt:3
+#, python-format
+msgid "The invitation for %(email)s was already accepted."
+msgstr "O convite para %(email)s já foi aceite."
+
+#: invitations/templates/invitations/messages/invite_expired.txt:3
+#, python-format
+msgid "The invitation for %(email)s has expired."
+msgstr "O convite para %(email)s expirou."
+
+#: invitations/templates/invitations/messages/invite_invalid.txt:3
+msgid "An invalid invitation key was submitted."
+msgstr "Foi submetida uma chave de convite inválida."
+
+#: invitations/views.py:45
+#, python-format
+msgid "%(email)s has been invited"
+msgstr "%(email)s foi convidado"
