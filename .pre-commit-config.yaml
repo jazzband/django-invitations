@@ -5,11 +5,11 @@ ci:
   autofix_prs: false
 repos:
   - repo: https://github.com/psf/black
-    rev: 24.4.2
+    rev: 24.10.0
     hooks:
       - id: black
   - repo: https://github.com/pre-commit/pre-commit-hooks
-    rev: v4.6.0
+    rev: v5.0.0
     hooks:
       - id: check-ast
       - id: check-merge-conflict
@@ -28,7 +28,7 @@ repos:
         name: isort (python)
         args: ["--profile", "black", "--filter-files"]
   - repo: https://github.com/pycqa/flake8
-    rev: 7.0.0
+    rev: 7.1.1
     hooks:
       - id: flake8
         additional_dependencies:
@@ -36,14 +36,14 @@ repos:
           - flake8-comprehensions
         args: [--max-line-length=88]
   - repo: https://github.com/asottile/pyupgrade
-    rev: v3.16.0
+    rev: v3.18.0
     hooks:
       - id: pyupgrade
         args:
           - --py37-plus
         exclude: migrations/
   - repo: https://github.com/adamchainz/django-upgrade
-    rev: 1.18.0
+    rev: 1.22.1
     hooks:
       - id: django-upgrade
         args:
