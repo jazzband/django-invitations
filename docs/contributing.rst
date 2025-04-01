@@ -3,7 +3,7 @@ Contributing
 
 JazzBand project
 ----------------
-As we are members of a [JazzBand project](https://jazzband.co/projects), `django-invitations` contributors should adhere to the [Contributor Code of Conduct](https://jazzband.co/about/conduct).
+As we are members of a `JazzBand project <https://jazzband.co/projects>`_, `django-invitations` contributors should adhere to the `Contributor Code of Conduct <https://jazzband.co/about/conduct>`_.
 
 
 Testing
