@@ -1,5 +1,6 @@
 import json
 
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
@@ -227,16 +228,20 @@ def accept_invitation(invitation, request, signal_sender):
     )
 
 
-def accept_invite_after_signup(sender, request, user, **kwargs):
+def signed_up_callback(sender, request, user, **kwargs):
     invitation = Invitation.objects.filter(email__iexact=user.email).first()
-    if invitation:
-        accept_invitation(
-            invitation=invitation,
-            request=request,
-            signal_sender=Invitation,
-        )
+    if app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
+        if invitation:
+            accept_invitation(
+                invitation=invitation,
+                request=request,
+                signal_sender=Invitation,
+            )
+    assert user is not None
+    invitation.invitee = user
+    invitation.save(update_fields=['invitee'])
 
 
-if app_settings.ACCEPT_INVITE_AFTER_SIGNUP:
+if 'allauth' in settings.INSTALLED_APPS:
     signed_up_signal = get_invitations_adapter().get_user_signed_up_signal()
-    signed_up_signal.connect(accept_invite_after_signup)
+    signed_up_signal.connect(signed_up_callback)

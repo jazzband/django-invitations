@@ -65,6 +65,8 @@ class TestAllAuthIntegrationAcceptAfterSignup:
         )
         invite = Invitation.objects.get(email="email@example.com")
         assert invite.accepted is True
+        assert invite.invitee.email == 'email@example.com'
+        assert invite.invitee.username == 'username'
 
     @pytest.mark.parametrize(
         "method",
@@ -106,6 +108,8 @@ class TestAllAuthIntegrationAcceptAfterSignup:
         )
         invite = Invitation.objects.get(email="email@example.com")
         assert invite.accepted is True
+        assert invite.invitee.email == 'email@example.com'
+        assert invite.invitee.username == 'username'
 
 
 class TestAllAuthIntegration:

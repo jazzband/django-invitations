@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-14 06:18-0500\n"
+"POT-Creation-Date: 2025-04-07 09:49-0500\n"
 "PO-Revision-Date: 2018-01-07 18:53+0500\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -34,6 +34,12 @@ msgstr "отправлено"
 #, fuzzy
 #| msgid "Invite"
 msgid "inviter"
+msgstr "Приглашение"
+
+#: base_invitation.py:27
+#, fuzzy
+#| msgid "Invite"
+msgid "invitee"
 msgstr "Приглашение"
 
 #: forms.py:28
@@ -119,11 +125,11 @@ msgstr "Приглашение, отправленное на %(email)s, при�
 msgid "An invalid invitation key was submitted."
 msgstr ""
 
-#: views.py:52
+#: views.py:53
 #, python-format
 msgid "%(email)s has been invited"
 msgstr "Приглашение отправлено на %(email)s"
 
-#: views.py:131
+#: views.py:132
 msgid "405 Method Not Allowed"
 msgstr ""

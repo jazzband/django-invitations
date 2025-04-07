@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-06-14 06:18-0500\n"
+"POT-Creation-Date: 2025-04-07 09:49-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -32,6 +32,12 @@ msgstr "enviado"
 
 #: base_invitation.py:14
 msgid "inviter"
+msgstr "Convidador"
+
+#: base_invitation.py:27
+#, fuzzy
+#| msgid "inviter"
+msgid "invitee"
 msgstr "Convidador"
 
 #: forms.py:28
@@ -115,11 +121,11 @@ msgstr "O convite para %(email)s expirou."
 msgid "An invalid invitation key was submitted."
 msgstr "Uma chave de convite inválida foi enviada."
 
-#: views.py:52
+#: views.py:53
 #, python-format
 msgid "%(email)s has been invited"
 msgstr "%(email)s foi convidado"
 
-#: views.py:131
+#: views.py:132
 msgid "405 Method Not Allowed"
 msgstr ""
