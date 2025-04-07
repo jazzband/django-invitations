@@ -19,6 +19,18 @@ class AbstractBaseInvitation(models.Model):
         related_query_name="%(app_label)s_%(class)s",
     )
 
+    # The invitee field is initially set to None. If allauth is enabled, this
+    # field will be changed after signup to be the user that accepted the
+    # invitation.
+    invitee = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        verbose_name=_("invitee"),
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL,
+        related_name="+",
+    )
+
     objects = BaseInvitationManager()
 
     class Meta:

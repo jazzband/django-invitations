@@ -317,6 +317,7 @@ class TestInvitationsAcceptView:
         invite = Invitation.objects.get(email="email@example.com")
         assert invite.accepted is True
         assert invite.inviter == user_a
+        assert invite.invitee is None
         assert resp.request["PATH_INFO"] == "/non-existent-url/"
 
     @pytest.mark.parametrize(
@@ -582,5 +583,5 @@ class TestInvitationsAdmin:
 
         assert response.status_code == 200
         fields = list(response.context_data["adminform"].form.fields.keys())
-        expected_fields = ["accepted", "key", "sent", "inviter", "email", "created"]
+        expected_fields = ["accepted", "key", "sent", "inviter", "invitee", "email", "created"]
         assert fields == expected_fields
