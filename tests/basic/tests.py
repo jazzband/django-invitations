@@ -11,7 +11,7 @@ from django.utils import timezone
 try:
     from django.urls import reverse
 except ImportError:
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
 
 import pytest
 from django.contrib.auth.models import AnonymousUser
@@ -161,7 +161,7 @@ class TestInvitationsSendView:
 class TestInvitationsAcceptView:
     client = Client()
 
-    def test_accept_invite_get_is_404(self, settings, invitation_b):
+    def test_accept_invite_get_is_405(self, settings, invitation_b):
         settings.INVITATIONS_CONFIRM_INVITE_ON_GET = False
         resp = self.client.get(
             reverse(
@@ -170,7 +170,7 @@ class TestInvitationsAcceptView:
             ),
             follow=True,
         )
-        assert resp.status_code == 404
+        assert resp.status_code == 405
 
     @pytest.mark.parametrize(
         "method",
@@ -318,6 +318,31 @@ class TestInvitationsAcceptView:
         assert invite.accepted is True
         assert invite.inviter == user_a
         assert resp.request["PATH_INFO"] == "/non-existent-url/"
+
+    @pytest.mark.parametrize(
+        "method",
+        [
+            ("get"),
+            ("post"),
+        ],
+    )
+    def test_accept_invite_when_logged_in(
+        self, settings, sent_invitation_by_user_a, method
+    ):
+        assert self.client.login(username="flibble", password="password")
+        admin_resp = self.client.get(reverse("admin:index"), follow=True)
+        assert admin_resp.wsgi_request.user.is_authenticated
+
+        settings.INVITATIONS_SIGNUP_REDIRECT = "/non-existent-url/"
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse(
+                app_settings.CONFIRMATION_URL_NAME,
+                kwargs={"key": sent_invitation_by_user_a.key},
+            ),
+            follow=True,
+        )
+        assert not resp.wsgi_request.user.is_authenticated
 
     def test_signup_redirect(self, settings, sent_invitation_by_user_a):
         settings.INVITATIONS_SIGNUP_REDIRECT = "/non-existent-url/"

@@ -15,6 +15,8 @@ Generic invitations solution with adaptable backend and support for django-allau
 
 As we are members of a [JazzBand project](https://jazzband.co/projects), `django-invitations` contributors should adhere to the [Contributor Code of Conduct](https://jazzband.co/about/conduct).
 
+Get started contributing by reading [CONTRIBUTING.md](CONTRIBUTING.md).
+
 ### Documentation
 
 Documentation can be found at https://django-invitations.readthedocs.io/

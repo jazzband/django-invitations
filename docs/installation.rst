@@ -4,20 +4,20 @@ Installation
 Requirements
 ------------
 
-Python 3.7 to 3.10 supported.
+Python 3.8 to 3.12 supported.
 
-Django 3.2 to 4.0 supported.
+Django 3.2 to 5.0 supported.
 
 Installation
 ------------
 
-1. Install with **pip**:
+1. Install with `pip <https://pip.pypa.io/>`_:
 
    .. code-block:: sh
 
        python -m pip install django-invitations
 
-2. Add "invitations" to INSTALLED_APPS
+2. Add ``"invitations"`` to ``INSTALLED_APPS``:
 
    .. code-block:: python
 
@@ -27,13 +27,25 @@ Installation
             ...
         ]
 
-.. note:: **Allauth support**
+.. note:: **django-allauth support**
 
-   For allauth support ``invitations`` must come after ``allauth`` in the INSTALLED_APPS
+   For django-allauth support, ``"invitations"`` must come after ``"allauth"`` in the ``INSTALLED_APPS`` list.
 
-3. Add invitations urls to your urlpatterns:
+3. If using `django-allauth <https://docs.allauth.org/>`_, then add this configuration to your ``settings.py`` file:
+
+    .. code-block:: python
+
+        # django-allauth configuration:
+        ACCOUNT_ADAPTER = "invitations.models.InvitationsAdapter"
+
+        # django-invitations configuration:
+        INVITATIONS_ADAPTER = ACCOUNT_ADAPTER
+
+4. Add invitations URLs to your ``urlpatterns``:
 
    .. code-block:: python
+
+        from django.urls import include, path
 
         urlpatterns = [
             ...
@@ -41,7 +53,7 @@ Installation
             ...
         ]
 
-4. Run migrations
+5. Run migrations:
 
     .. code-block:: sh
 

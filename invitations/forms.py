@@ -25,9 +25,9 @@ class CleanEmailMixin:
         email = get_invitations_adapter().clean_email(email)
 
         errors = {
-            "already_invited": _("This e-mail address has already been" " invited."),
+            "already_invited": _("This e-mail address has already been invited."),
             "already_accepted": _(
-                "This e-mail address has already" " accepted an invite.",
+                "This e-mail address has already accepted an invite.",
             ),
             "email_in_use": _("An active user is using this e-mail address"),
         }

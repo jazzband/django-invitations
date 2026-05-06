@@ -3,7 +3,7 @@ from invitations.app_settings import app_settings
 try:
     from django.urls import reverse
 except ImportError:
-    from django.core.urlresolvers import reverse
+    from django.urls import reverse
 
 import pytest
 from allauth.account.models import EmailAddress
@@ -213,6 +213,30 @@ class TestAllAuthIntegration:
             resp.url == f"{app_settings.LOGIN_REDIRECT}?{REDIRECT_FIELD_NAME}={next_}"
         )
 
+    @pytest.mark.django_db
+    @pytest.mark.parametrize(
+        "method",
+        [
+            ("get"),
+            ("post"),
+        ],
+    )
+    def test_accept_inviter_logged_in(
+        self, settings, sent_invitation_by_user_a, method
+    ):
+        assert self.client.login(username="flibble", password="password")
+        admin_resp = self.client.get(reverse("admin:index"), follow=True)
+        assert admin_resp.wsgi_request.user.is_authenticated
+
+        client_with_method = getattr(self.client, method)
+        resp = client_with_method(
+            reverse(
+                app_settings.CONFIRMATION_URL_NAME,
+                kwargs={"key": sent_invitation_by_user_a.key},
+            )
+        )
+        assert not resp.wsgi_request.user.is_authenticated
+
     def test_fetch_adapter(self):
         assert isinstance(self.adapter, InvitationsAdapter)
 
@@ -223,7 +247,7 @@ class TestAllAuthIntegration:
         assert self.adapter.is_open_for_signup(signup_request) is True
 
     @pytest.mark.django_db
-    def test_allauth_adapter_invitations_only(self, settings):
+    def test_allauth_adapter_invitation_only(self, settings):
         settings.INVITATIONS_INVITATION_ONLY = True
         signup_request = RequestFactory().get(
             reverse("account_signup", urlconf="allauth.account.urls"),
