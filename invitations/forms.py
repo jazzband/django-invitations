@@ -50,7 +50,9 @@ class InviteForm(forms.Form, CleanEmailMixin):
         initial="",
     )
 
-    def save(self, email):
+    def save(self, email=None):
+        if email is None:
+            email = self.cleaned_data["email"]
         return Invitation.create(email=email)
 
 
@@ -62,14 +64,13 @@ class InvitationAdminAddForm(forms.ModelForm, CleanEmailMixin):
     )
 
     def save(self, *args, **kwargs):
-        cleaned_data = super().clean()
+        cleaned_data = self.cleaned_data
         email = cleaned_data.get("email")
         params = {"email": email}
         if cleaned_data.get("inviter"):
             params["inviter"] = cleaned_data.get("inviter")
         instance = Invitation.create(**params)
         instance.send_invitation(self.request)
-        super().save(*args, **kwargs)
         return instance
 
     class Meta:
