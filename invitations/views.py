@@ -3,6 +3,12 @@ import json
 from django.contrib import messages
 from django.contrib.auth import REDIRECT_FIELD_NAME, logout
 from django.contrib.auth.decorators import login_required
+
+try:
+    from django.contrib.auth.decorators import login_not_required
+except ImportError:
+    def login_not_required(view_func):
+        return view_func
 from django.core.exceptions import ValidationError
 from django.core.validators import validate_email
 from django.http import (
@@ -103,6 +109,7 @@ class SendJSONInvite(View):
         )
 
 
+@method_decorator(login_not_required, name="dispatch")
 class AcceptInvite(SingleObjectMixin, View):
     form_class = InviteForm
 
