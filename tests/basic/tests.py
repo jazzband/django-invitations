@@ -357,6 +357,45 @@ class TestInvitationsAcceptView:
         assert invite.accepted is True
         assert resp.request["PATH_INFO"] == "/non-existent-url/"
 
+    def test_accept_invite_login_not_required(self):
+        view = AcceptInvite.as_view()
+        try:
+            from django.contrib.auth.decorators import (  # noqa: F401
+                login_not_required,
+            )
+
+            assert getattr(view, "login_required", None) is False
+        except ImportError:
+            pass
+
+    def test_accept_invite_with_login_required_middleware(
+        self, settings, sent_invitation_by_user_a
+    ):
+        try:
+            import django.contrib.auth.middleware
+
+            if not hasattr(
+                django.contrib.auth.middleware, "LoginRequiredMiddleware"
+            ):
+                pytest.skip("LoginRequiredMiddleware requires Django >= 5.1")
+        except ImportError:
+            pytest.skip("django.contrib.auth.middleware not available")
+
+        settings.MIDDLEWARE = list(settings.MIDDLEWARE) + [
+            "django.contrib.auth.middleware.LoginRequiredMiddleware"
+        ]
+        settings.INVITATIONS_SIGNUP_REDIRECT = "/non-existent-url/"
+        resp = self.client.post(
+            reverse(
+                app_settings.CONFIRMATION_URL_NAME,
+                kwargs={"key": sent_invitation_by_user_a.key},
+            ),
+            follow=True,
+        )
+        invite = Invitation.objects.get(email="email@example.com")
+        assert invite.accepted is True
+        assert resp.request["PATH_INFO"] == "/non-existent-url/"
+
 
 class TestInvitationSignals:
     client = Client()
