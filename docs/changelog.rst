@@ -1,6 +1,11 @@
 Changelog
 =========
 
+Unreleased
+----------
+
+- Switched to trusted publisher release process with Django Commons
+
 2.1.0 (2023-11-22)
 ------------------
 
