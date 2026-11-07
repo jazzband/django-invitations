@@ -1,9 +1,9 @@
 Contributing
 ============
 
-JazzBand project
-----------------
-As we are members of a [JazzBand project](https://jazzband.co/projects), `django-invitations` contributors should adhere to the [Contributor Code of Conduct](https://jazzband.co/about/conduct).
+Django Commons project
+----------------------
+As members of `Django Commons <https://github.com/django-commons>`_, ``django-invitations`` contributors should adhere to the `Django Commons Code of Conduct <https://github.com/django-commons/membership/blob/main/CODE_OF_CONDUCT.md>`_.
 
 
 Testing
