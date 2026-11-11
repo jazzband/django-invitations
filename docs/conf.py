@@ -70,7 +70,7 @@ latex_documents = [
         "index",
         "django-invitations.tex",
         "django-invitations Documentation",
-        "Jazzband",
+        "Django Commons",
         "manual",
     ),
 ]
