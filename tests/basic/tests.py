@@ -118,6 +118,8 @@ class TestInvitationsSendView:
 
         assert resp.status_code == 200
         assert "success_message" in resp.context_data.keys()
+        assert resp.context_data["form"].is_valid()
+        assert b"This e-mail address has already been invited." not in resp.content
 
         assert invitation.sent == timezone.now()
         assert len(mail.outbox) == 1
@@ -143,6 +145,8 @@ class TestInvitationsSendView:
 
         assert resp.status_code == 200
         assert "success_message" in resp.context_data.keys()
+        assert resp.context_data["form"].is_valid()
+        assert b"This e-mail address has already been invited." not in resp.content
 
         assert invitation.sent == timezone.now()
         assert len(mail.outbox) == 1
